@@ -15,7 +15,7 @@ set pagesize 300
 column  sql_id                    format  a13
 column  event                     format  a40
 column  wait_class                format  a15
-column  session_state             format  a10   heading "session|  state"
+column  session_state             format  a10     heading "session|  state"
 column  blocking_session          format  999999  heading "blocking|session"
 column  blocking_session_serial#  format  9999999 heading "blocking|session|serial#"
 
