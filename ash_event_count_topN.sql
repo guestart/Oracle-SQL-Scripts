@@ -12,7 +12,6 @@ rem
 set linesize 400
 set pagesize 300
 
-column  sql_id                    format  a13
 column  event                     format  a40
 column  wait_class                format  a15
 column  session_state             format  a10     heading "session|  state"
@@ -42,35 +41,6 @@ where rownum <= &num;
 
 -- The following is an example when you execute it on your oracle db server.
 
-SQL> set linesize 400
-SQL> set pagesize 300
-SQL> 
-SQL> column  sql_id                    format  a13
-SQL> column  event                     format  a40
-SQL> column  wait_class                format  a15
-SQL> column  session_state             format  a10   heading "session|  state"
-SQL> column  blocking_session          format  999999  heading "blocking|session"
-SQL> column  blocking_session_serial#  format  9999999 heading "blocking|session|serial#"
-SQL> 
-SQL> select *
-  2  from
-  3  ( select event
-  4           , wait_class
-  5           , session_state
-  6           , blocking_session
-  7           , blocking_session_serial#
-  8           , count(*)
-  9    from v$active_session_history
- 10    where sample_time between to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
- 11          and to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
- 12    group by event
- 13             , wait_class
- 14             , session_state
- 15             , blocking_session
- 16             , blocking_session_serial#
- 17    order by count(*) desc, event
- 18  )
- 19  where rownum <= &num;
 Enter value for start_time: 2018-04-24 12:00:00
 old  10:   where sample_time between to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
 new  10:   where sample_time between to_date('2018-04-24 12:00:00','yyyy-mm-dd hh24:mi:ss')
