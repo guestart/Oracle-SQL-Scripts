@@ -1,7 +1,7 @@
 rem
 rem     Script:        ash_event_count_topN_2.sql
 rem     Author:        Quanwen Zhao
-rem     Dated:         Apr 28,2018
+rem     Dated:         Apr 28, 2018
 rem
 rem     Purpose:   
 rem       This sql script usually statistics wait events' Top-N counts 
