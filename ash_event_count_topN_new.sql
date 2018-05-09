@@ -12,16 +12,16 @@ rem     Modified:      May 08, 2018 - adding the justify center to the column "s
 rem                                   for running nicely; at the same time, also adding some interactive and friendly prompts when inputing 3 
 rem                                   parameters.
 
-set linesize 400
-set pagesize 300
+SET LINESIZE 400
+SET PAGESIZE 300
 
-set verify off
+SET verify OFF
 
-column  event                     format  a40
-column  wait_class                format  a15
-column  session_state             heading "session|state"             format  a15       justify  center
-column  blocking_session          heading "blocking|session"          format  99999999  justify  center
-column  blocking_session_serial#  heading "blocking|session|serial#"  format  99999999  justify  center
+COLUMN  event                     FORMAT  a40
+COLUMN  wait_class                FORMAT  a15
+COLUMN  session_state             HEADING  "session|state"             FORMAT  a15       JUSTIFY  center
+COLUMN  blocking_session          HEADING  "blocking|session"          FORMAT  99999999  JUSTIFY  center
+COLUMN  blocking_session_serial#  HEADING  "blocking|session|serial#"  FORMAT  99999999  JUSTIFY  center
 
 prompt Enter begin time ([YYYY-MM-DD HH24:MI:SS]):
 prompt Examples: 2018-03-13 11:20:00
@@ -33,22 +33,24 @@ prompt Enter nums of Top-N ROWNUM:
 prompt Examples: 15, 25 or 35 ...
 prompt 
 
-select *
-from
-( select event
+SELECT *
+FROM
+( SELECT event
          , wait_class
          , session_state
          , blocking_session
          , blocking_session_serial#
          , count(*)
-  from v$active_session_history
-  where sample_time between to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
-        and to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
-  group by event
+  FROM v$active_session_history
+  WHERE sample_time BETWEEN to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
+        AND to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
+  GROUP BY event
            , wait_class
            , session_state
            , blocking_session
            , blocking_session_serial#
-  order by count(*) desc, event
+  ORDER BY count(*) DESC
+           , event
 )
-where rownum <= &num;
+WHERE rownum <= &num
+;
