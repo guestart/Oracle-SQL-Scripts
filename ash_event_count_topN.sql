@@ -9,47 +9,47 @@ rem     and when it runs you can only input 3 parameters - start_time you want t
 rem     end_time and num that is Top ROWNUM.
 rem
 
-set linesize 400
-set pagesize 300
+SET LINESIZE 400
+SET PAGESIZE 300
 
-column  event                     format  a40
-column  wait_class                format  a15
-column  session_state             format  a10     heading "session|  state"
-column  blocking_session          format  999999  heading "blocking|session"
-column  blocking_session_serial#  format  9999999 heading "blocking|session|serial#"
+COLUMN  event                     FORMAT  a40
+COLUMN  wait_class                FORMAT  a15
+COLUMN  session_state             FORMAT  a10     HEADING "session|  state"
+COLUMN  blocking_session          FORMAT  999999  HEADING "blocking|session"
+COLUMN  blocking_session_serial#  FORMAT  9999999 HEADING "blocking|session|serial#"
 
-select *
-from
-( select event
+SELECT *
+FROM
+( SELECT event
          , wait_class
          , session_state
          , blocking_session
          , blocking_session_serial#
          , count(*)
-  from v$active_session_history
-  where sample_time between to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
-        and to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
-  group by event
+  FROM v$active_session_history
+  WHERE sample_time BETWEEN to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
+        AND to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
+  GROUP BY event
            , wait_class
            , session_state
            , blocking_session
            , blocking_session_serial#
-  order by count(*) desc, event
+  ORDER BY count(*) DESC, event
 )
-where rownum <= &num;
+WHERE rownum <= &num;
 
 
 -- The following is an example when you execute it on your oracle db server.
 
 Enter value for start_time: 2018-04-24 12:00:00
-old  10:   where sample_time between to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
-new  10:   where sample_time between to_date('2018-04-24 12:00:00','yyyy-mm-dd hh24:mi:ss')
+old  10:   WHERE sample_time BETWEEN to_date('&start_time','yyyy-mm-dd hh24:mi:ss')
+new  10:   WHERE sample_time BETWEEN to_date('2018-04-24 12:00:00','yyyy-mm-dd hh24:mi:ss')
 Enter value for end_time: 2018-04-24 13:00:00
-old  11:         and to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
-new  11:         and to_date('2018-04-24 13:00:00','yyyy-mm-dd hh24:mi:ss')
+old  11:         AND to_date('&end_time','yyyy-mm-dd hh24:mi:ss')
+new  11:         AND to_date('2018-04-24 13:00:00','yyyy-mm-dd hh24:mi:ss')
 Enter value for num: 20
-old  19: where rownum <= &num
-new  19: where rownum <= 20
+old  19: WHERE rownum <= &num
+new  19: WHERE rownum <= 20
 
                                                                              blocking
                                                          session    blocking  session
