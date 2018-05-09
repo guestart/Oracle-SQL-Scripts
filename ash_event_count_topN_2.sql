@@ -1,58 +1,58 @@
-rem
-rem     Script:        ash_event_count_topN_2.sql
-rem     Author:        Quanwen Zhao
-rem     Dated:         Apr 28, 2018
-rem
-rem     Purpose:   
-rem       This sql script usually statistics wait events' Top-N counts 
-rem       during a period of time when you have found performance problem,
-rem       If you runs it and can only input 3 parameters, they're as follows
-rem       in order:
-rem        (1) BEGIN_TIME you want to begin,
-rem        (2) END_TIME you want to end,
-rem        (3) NUMS that comes from Top ROWNUM.
-rem
+REM
+REM     Script:        ash_event_count_topN_2.sql
+REM     Author:        Quanwen Zhao
+REM     Dated:         Apr 28, 2018
+REM
+REM     Purpose:   
+REM       This sql script usually statistics wait events' Top-N counts 
+REM       during a period of time when you have found performance problem,
+REM       If you runs it and can only input 3 parameters, they're as follows
+REM       in order:
+REM        (1) BEGIN_TIME you want to begin,
+REM        (2) END_TIME you want to end,
+REM        (3) NUMS that comes from Top ROWNUM.
+REM
 
-set linesize 400
-set pagesize 300
+SET LINESIZE 400
+SET PAGESIZE 300
 
 -- whether displaying the statement which substitute variables have been replaced before and after 
-set verify off
+SET verify OFF
 
 -- First, show the oldest and the latest ASH samples available
-define   ash_time_format = 'yyyy-mm-dd hh24:mi:ss';
-variable oldest_sample   varchar2(30);
-variable latest_sample   varchar2(30);
+DEFINE   ash_time_format = 'yyyy-mm-dd hh24:mi:ss';
+VARIABLE oldest_sample   varchar2(30);
+VARIABLE latest_sample   varchar2(30);
 
-whenever sqlerror exit;
-declare
+WHENEVER sqlerror EXIT;
+DECLARE
   oldest_mem     date := NULL;
   latest_mem     date := NULL;
 
-begin
+BEGIN
 
-  select min(sample_time), max(sample_time)
-  into   oldest_mem, latest_mem
-  from v$active_session_history;
+  SELECT min(sample_time), max(sample_time)
+  INTO   oldest_mem, latest_mem
+  FROM v$active_session_history;
 
-  if (oldest_mem is null OR latest_mem is null) then
+  IF (oldest_mem is null OR latest_mem is null) THEN
     raise_application_error(-20200,
       'No ASH sample exist for Oracle Database');
-  end if;
+  END IF;
   
   :oldest_sample := to_char(oldest_mem, '&&ash_time_format');
   :latest_sample := to_char(latest_mem, '&&ash_time_format');
   
-end;
+END;
 /
-whenever sqlerror continue;
+WHENEVER sqlerror continue;
 
-prompt
-prompt
-prompt Statistics wait events' Top-N counts from ASH Samples
-prompt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-set heading off
-select 'Oldest ASH sample available: ' 
+PROMPT
+PROMPT
+PROMPT Statistics wait events' Top-N counts from ASH Samples
+PROMPT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SET heading OFF
+SELECT 'Oldest ASH sample available: ' 
        || :oldest_sample 
        || ' [' 
        || (to_char((sysdate - to_date(:oldest_sample, '&&ash_time_format'))*1440,'99999')) 
@@ -64,57 +64,57 @@ select 'Oldest ASH sample available: '
        || ' [' 
        || (to_char((sysdate - to_date(:latest_sample, '&&ash_time_format'))*1440,'99999')) 
        || ' mins in the past ]'
-from   dual;
-set heading on
+FROM   dual;
+SET heading ON
 
-prompt
-prompt Specify the periods of time for statisticing wait events' Top-N counts
-prompt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PROMPT
+PROMPT Specify the periods of time for statisticing wait events' Top-N counts
+PROMPT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Set up the binds for b_time, e_time and num
 -- variable b_time varchar2(30);
 -- variable e_time varchar2(30); 
 -- variable num number;
 
-rem
-rem Get begin_time
-rem ==============
-prompt Enter begin time for ASH sample:
-prompt
-prompt --    Valid input formats:
-prompt --      To specify absolute begin time:
-prompt --        [YYYY-MM-DD HH24:MI:SS]
-prompt --        Examples: 2018-03-13 11:20:00
-prompt
-prompt Report begin time specified: &&begin_time
-prompt
+REM
+REM Get begin_time
+REM ==============
+PROMPT Enter begin time for ASH sample:
+PROMPT
+PROMPT --    Valid input formats:
+PROMPT --      To specify absolute begin time:
+PROMPT --        [YYYY-MM-DD HH24:MI:SS]
+PROMPT --        Examples: 2018-03-13 11:20:00
+PROMPT
+PROMPT Report begin time specified: &&begin_time
+PROMPT
 
-rem
-rem Get end_time
-rem ============
-prompt Enter end time for ASH sample:
-prompt
-prompt --    Valid input formats:
-prompt --      To specify absolute end time:
-prompt --        [YYYY-MM-DD HH24:MI:SS]
-prompt --        Examples: 2018-03-13 11:30:00
-prompt
-prompt Report end time specified: &&end_time
-prompt
+REM
+REM Get end_time
+REM ============
+PROMPT Enter end time for ASH sample:
+PROMPT
+PROMPT --    Valid input formats:
+PROMPT --      To specify absolute end time:
+PROMPT --        [YYYY-MM-DD HH24:MI:SS]
+PROMPT --        Examples: 2018-03-13 11:30:00
+PROMPT
+PROMPT Report end time specified: &&end_time
+PROMPT
 
-rem
-rem Get nums of Top-N ROWNUM
-rem ========================
-prompt Enter nums of Top-N ROWNUM for ASH query:
-prompt
-prompt --    Valid input formats:
-prompt --        Examples: 25
-prompt --    Recommendation: 
-prompt --      You only need input two digit and its range is from [00] to [99],
-prompt --      please trying to input less than 50 that is ok.
-prompt
-prompt Report Top-Number specified: &nums
-prompt
+REM
+REM Get nums of Top-N ROWNUM
+REM ========================
+PROMPT Enter nums of Top-N ROWNUM for ASH query:
+PROMPT
+PROMPT --    Valid input formats:
+PROMPT --        Examples: 25
+PROMPT --    Recommendation: 
+PROMPT --      You only need input two digit and its range is from [00] to [99],
+PROMPT --      please trying to input less than 50 that is ok.
+PROMPT
+PROMPT Report Top-Number specified: &nums
+PROMPT
 
 -- exec :b_time := &begin_time;
 -- exec :e_time := &end_time;
@@ -123,35 +123,35 @@ prompt
 -- setting the separators of the title column
 -- set colsep   '|'
 
-column  event                     format  a40
-column  wait_class                format  a15
-column  session_state             heading "session|state"             format  a15       justify  center
-column  blocking_session          heading "blocking|session"          format  99999999  justify  center
-column  blocking_session_serial#  heading "blocking|session|serial#"  format  99999999  justify  center
+COLUMN  event                     FORMAT  a40
+COLUMN  wait_class                FORMAT  a15
+COLUMN  session_state             HEADING  "session|state"             FORMAT  a15       JUSTIFY  center
+COLUMN  blocking_session          HEADING  "blocking|session"          FORMAT  99999999  JUSTIFY  center
+COLUMN  blocking_session_serial#  HEADING  "blocking|session|serial#"  FORMAT  99999999  JUSTIFY  center
 
-select *
-from
-( select event
+SELECT *
+FROM
+( SELECT event
          , wait_class
          , session_state
          , blocking_session
          , blocking_session_serial#
          , count(*)
-  from v$active_session_history
-  where sample_time between to_date('&&begin_time','yyyy-mm-dd hh24:mi:ss')
-        and to_date('&&end_time','yyyy-mm-dd hh24:mi:ss')
-  group by event
+  FROM v$active_session_history
+  WHERE sample_time BETWEEN to_date('&&begin_time','yyyy-mm-dd hh24:mi:ss')
+        AND to_date('&&end_time','yyyy-mm-dd hh24:mi:ss')
+  GROUP BY event
            , wait_class
            , session_state
            , blocking_session
            , blocking_session_serial#
-  order by count(*) desc, event
+  ORDER BY count(*) DESC
+           , event
 )
-where rownum <= &&nums;
-
+WHERE rownum <= &&nums
+;
 
 -- Execution Results output as follows:
-
 
 Statistics wait events' Top-N counts from ASH Samples
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
