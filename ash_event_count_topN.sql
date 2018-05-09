@@ -1,22 +1,22 @@
-rem
-rem     Script:        ash_event_count_topN.sql
-rem     Author:        Quanwen Zhao
-rem     Dated:         Apr 25,2018
-rem
-rem     Purpose:  
-rem     This sql script usually statistics Top-N event counts,
-rem     and when it runs you can only input 3 parameters - start_time you want to appoint,
-rem     end_time and num that is Top ROWNUM.
-rem
+REM
+REM     Script:        ash_event_count_topN.sql
+REM     Author:        Quanwen Zhao
+REM     Dated:         Apr 25,2018
+REM
+REM     Purpose:  
+REM       This sql script usually statistics Top-N event counts,
+REM       and when it runs you can only input 3 parameters - start_time you want to appoint,
+REM       end_time and num that is Top ROWNUM.
+REM
 
 SET LINESIZE 400
 SET PAGESIZE 300
 
 COLUMN  event                     FORMAT  a40
 COLUMN  wait_class                FORMAT  a15
-COLUMN  session_state             FORMAT  a10     HEADING "session|  state"
-COLUMN  blocking_session          FORMAT  999999  HEADING "blocking|session"
-COLUMN  blocking_session_serial#  FORMAT  9999999 HEADING "blocking|session|serial#"
+COLUMN  session_state             FORMAT  a10      HEADING  "session|  state"
+COLUMN  blocking_session          FORMAT  999999   HEADING  "blocking|session"
+COLUMN  blocking_session_serial#  FORMAT  9999999  HEADING  "blocking|session|serial#"
 
 SELECT *
 FROM
@@ -36,8 +36,8 @@ FROM
            , blocking_session_serial#
   ORDER BY count(*) DESC, event
 )
-WHERE rownum <= &num;
-
+WHERE rownum <= &num
+;
 
 -- The following is an example when you execute it on your oracle db server.
 
