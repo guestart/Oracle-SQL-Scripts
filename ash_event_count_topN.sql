@@ -1,13 +1,15 @@
 REM
 REM     Script:        ash_event_count_topN.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         Apr 25,2018
+REM     Dated:         Apr 25, 2018
 REM
 REM     Purpose:  
 REM       This sql script usually statistics Top-N event counts,
 REM       and when it runs you can only input 3 parameters - start_time you want to appoint,
 REM       end_time and num that is Top ROWNUM.
 REM
+REM     Modified:      May 09, 2018 - Replace all of keywords (whatever SQL*Plus or SQL exclusive use) with uppercase.
+
 
 SET LINESIZE 400
 SET PAGESIZE 300
