@@ -8,7 +8,7 @@ REM       This sql script usually statistics Top-N event counts,
 REM       and when it runs you can only input 3 parameters - start_time you want to appoint,
 REM       end_time and num that is Top ROWNUM.
 REM
-REM     Modified:      May 09, 2018 - Replace all of keywords (whatever SQL*Plus or SQL exclusive use) with uppercase.
+REM     Modified:      May 09, 2018 - replace all of keywords (whatever SQL*Plus or SQL exclusive use) with uppercase.
 REM
 
 SET LINESIZE 400
