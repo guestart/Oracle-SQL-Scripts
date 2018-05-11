@@ -12,12 +12,18 @@ REM        (1) BEGIN_TIME you want to begin,
 REM        (2) END_TIME you want to end,
 REM        (3) NUMS that comes from Top ROWNUM.
 REM
+REM     Modified:      May 09, 2018 - replace all of keywords (whatever SQL*Plus or SQL exclusive use) with uppercase.
+REM                    May 11, 2018 - adding "set feedback off" for no displaying "PL/SQL procedure successfully completed." when script is running.
+REM
 
 SET LINESIZE 400
 SET PAGESIZE 300
 
--- whether displaying the statement which substitute variables have been replaced before and after 
-SET verify OFF
+-- don't displaying the statement which substitute variables have been replaced before and after 
+SET VERIFY OFF
+
+-- don't displaying "PL/SQL procedure successfully completed." when script is running
+SET FEEDBACK OFF
 
 -- First, show the oldest and the latest ASH samples available
 DEFINE   ash_time_format = 'yyyy-mm-dd hh24:mi:ss';
