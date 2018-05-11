@@ -119,7 +119,7 @@ PROMPT --    Recommendation:
 PROMPT --      You only need input two digit and its range is from [00] to [99],
 PROMPT --      please trying to input less than 50 that is ok.
 PROMPT
-PROMPT Report Top-Number specified: &nums
+PROMPT Report Top-Number specified: &&nums
 PROMPT
 
 -- exec :b_time := &begin_time;
