@@ -25,6 +25,7 @@ COLUMN  session_state             HEADING  "session|state"             FORMAT  a
 COLUMN  blocking_session          HEADING  "blocking|session"          FORMAT  99999999  JUSTIFY  center
 COLUMN  blocking_session_serial#  HEADING  "blocking|session|serial#"  FORMAT  99999999  JUSTIFY  center
 
+PROMPT
 PROMPT Enter begin time ([YYYY-MM-DD HH24:MI:SS]):
 PROMPT Examples: 2018-03-13 11:20:00
 PROMPT 
