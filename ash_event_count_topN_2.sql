@@ -157,6 +157,9 @@ FROM
 WHERE rownum <= &&nums
 ;
 
+SET FEEDBACK ON
+SET VERIFY ON
+
 -- Execution Results output as follows:
 
 Statistics wait events' Top-N counts from ASH Samples
