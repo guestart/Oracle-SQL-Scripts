@@ -57,3 +57,5 @@ FROM
 )
 WHERE rownum <= &num
 ;
+
+SET VERIFY ON
