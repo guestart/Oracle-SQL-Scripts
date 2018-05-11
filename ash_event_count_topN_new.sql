@@ -11,12 +11,13 @@ REM
 REM     Modified:      May 08, 2018 - adding the justify center to the column "session_state", "blocking_session" and "blocking_session_serial#" 
 REM                                   for running nicely; at the same time, also adding some interactive and friendly prompts when inputing 3 
 REM                                   parameters.
+REM                    May 09, 2018 - replace all of keywords (whatever SQL*Plus or SQL exclusive use) with uppercase.
 REM
 
 SET LINESIZE 400
 SET PAGESIZE 300
 
-SET verify OFF
+SET VERIFY OFF
 
 COLUMN  event                     FORMAT  a40
 COLUMN  wait_class                FORMAT  a15
