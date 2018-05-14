@@ -5,7 +5,7 @@ REM     Dated:         May 14, 2018
 REM
 REM     Purpose:  
 REM       This sql script usually views information of stats for all of tables on all of
-REM       procduction user. These stats columns include "table_name", "num_rows", "blocks"
+REM       procduction users. These stats columns include "table_name", "num_rows", "blocks"
 REM       "sample_time", "last_analyzed" and "stale_stats".
 REM
 
@@ -60,7 +60,7 @@ WHERE owner NOT IN (
                     )
 AND table_name NOT LIKE 'BIN$%'
 ORDER BY owner
-         , stale_stats desc
-         , last_analyzed desc
+         , stale_stats DESC
+         , last_analyzed DESC
          , table_name
 ;
