@@ -9,6 +9,9 @@ REM       which need to input manually as the parameter of substitution variable
 REM       columns include "table_name", "num_rows", "blocks", "sample_time", "last_analyzed" and "stale_stats".
 REM
 
+SET VERIFY   OFF
+SET FEEDBACK OFF
+
 SET LINESIZE 300
 SET PAGESIZE 300
 
@@ -24,9 +27,16 @@ SELECT owner
        , last_analyzed
        , stale_stats
 FROM dba_tab_statistics
-WHERE owner = '&&username'
-AND table_name = '&&tablename'
+WHERE owner = UPPER('&username')
+AND ( table_name = UPPER('&tablename') 
+      AND table_name NOT LIKE 'BIN$%'
+    )
+ORDER BY stale_stats DESC
+         , last_analyzed DESC
+         , table_name
 ;
+
+PROMPT
 
 SELECT owner
        , table_name
@@ -36,8 +46,14 @@ SELECT owner
        , last_analyzed
        , stale_stats
 FROM dba_tab_statistics
-WHERE owner = '&&username'
+WHERE owner = UPPER('&username')
+AND table_name NOT LIKE 'BIN$%'
 ORDER BY stale_stats DESC
          , last_analyzed DESC
          , table_name
 ;
+
+PROMPT
+
+SET VERIFY   ON
+SET FEEDBACK ON
