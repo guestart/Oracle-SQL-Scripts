@@ -1,0 +1,43 @@
+REM
+REM     Script:        table_stats_on_proc_user.sql
+REM     Author:        Quanwen Zhao
+REM     Dated:         May 14, 2018
+REM
+REM     Purpose:  
+REM       This sql script usually views information of stats for username and tablename (or only username) 
+REM       which need to input manually as the parameter of substitution variable on SQL*Plus. These stats 
+REM       columns include "table_name", "num_rows", "blocks", "sample_time", "last_analyzed" and "stale_stats".
+REM
+
+SET LINESIZE 300
+SET PAGESIZE 300
+
+COLUMN owner       FORMAT a20
+COLUMN table_name  FORMAT a35
+COLUMN stale_stats FORMAT a11
+
+SELECT owner
+       , table_name
+       , num_rows
+       , blocks
+       , sample_size
+       , last_analyzed
+       , stale_stats
+FROM dba_tab_statistics
+WHERE owner = '&&username'
+AND table_name = '&&tablename'
+;
+
+SELECT owner
+       , table_name
+       , num_rows
+       , blocks
+       , sample_size
+       , last_analyzed
+       , stale_stats
+FROM dba_tab_statistics
+WHERE owner = '&&username'
+ORDER BY stale_stats DESC
+         , last_analyzed DESC
+         , table_name
+;
