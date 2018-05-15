@@ -11,7 +11,8 @@ ash_event_count_topN_2.sql - The improved version of "ash_event_count_topN_new.s
 all_tables_stats_on_all_proc_users.sql - Check statistics of all of tables from all of production users
 
 all_tables_mods_on_all_proc_users.sql - Check modifications (DML, such as, "INSERTS"|"UPDATES"|"DELETES"|"TRUNCATED") of all of tables   
-                                        from all of production users
+
+from all of production users
 
 table_stats_on_proc_user.sql - Only check statistics of table or user which has been appointed
 
