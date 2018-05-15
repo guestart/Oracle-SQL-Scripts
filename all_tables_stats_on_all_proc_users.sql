@@ -6,7 +6,7 @@ REM
 REM     Purpose:  
 REM       This sql script usually views information of stats for all of tables on all of
 REM       procduction users. These stats columns include "table_name", "num_rows", "blocks"
-REM       "sample_time", "last_analyzed" and "stale_stats".
+REM       "sample_size", "last_analyzed" and "stale_stats".
 REM
 
 SET LINESIZE 300
