@@ -6,7 +6,7 @@ REM
 REM     Purpose:  
 REM       This sql script usually views information of stats for username and tablename (or only username) 
 REM       which need to input manually as the parameter of substitution variable on SQL*Plus. These stats 
-REM       columns include "table_name", "num_rows", "blocks", "sample_time", "last_analyzed" and "stale_stats".
+REM       columns include "table_name", "num_rows", "blocks", "sample_size", "last_analyzed" and "stale_stats".
 REM
 
 SET VERIFY   OFF
