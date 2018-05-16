@@ -1,5 +1,3 @@
-# oracle-sql-libs
-
 ## ASH
 
 ash_event_count_topN.sql - View the Top-N event counts from ASH
