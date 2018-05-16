@@ -1,4 +1,4 @@
-### ASH
+### ASH:
 
     ash_event_count_topN.sql - View the Top-N event counts from ASH
     
@@ -6,7 +6,7 @@
     
     ash_event_count_topN_2.sql - The improved version of 'ash_event_count_topN_new.sql'`
 
-### Statistics Info
+### STATISTICS INFO:
     all_tables_stats_on_all_proc_users.sql - Check statistics of all of tables from all of production users`
 
     all_tables_mods_on_all_proc_users.sql - Check modifications (DML) of all of tables from all of production users
