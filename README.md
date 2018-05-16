@@ -8,10 +8,10 @@
 
 ## Statistics Info
 
-`all_tables_stats_on_all_proc_users.sql - Check statistics of all of tables from all of production users`
+    all_tables_stats_on_all_proc_users.sql - Check statistics of all of tables from all of production users`
 
-all_tables_mods_on_all_proc_users.sql - Check modifications (DML) of all of tables from all of production users
+    all_tables_mods_on_all_proc_users.sql - Check modifications (DML) of all of tables from all of production users
 
-table_stats_on_proc_user.sql - Only check statistics of table or user which has been appointed
+    table_stats_on_proc_user.sql - Only check statistics of table or user which has been appointed
 
-table_mods_on_proc_user.sql - Only check modifications of table or user which has been appointed
+    table_mods_on_proc_user.sql - Only check modifications of table or user which has been appointed
