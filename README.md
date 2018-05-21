@@ -1,13 +1,9 @@
 <html>
   <h1> Oracle SQL Libs </h1>
   <h3>ASH:</h3>
-  <pre>
-  <code>
-  <a href="https://github.com/guestart/oracle-sql-libs/blob/master/ash_event_count_topN.sql">ash_event_count_topN.sql</a> - View the Top-N event counts from ASH
+  <pre><code><a href="https://github.com/guestart/oracle-sql-libs/blob/master/ash_event_count_topN.sql">ash_event_count_topN.sql</a> - View the Top-N event counts from ASH
   <a href="https://github.com/guestart/oracle-sql-libs/blob/master/ash_event_count_topN_new.sql">ash_event_count_topN_new.sql</a> - The improved version of "ash_event_count_topN.sql"
-  <a href="https://github.com/guestart/oracle-sql-libs/blob/master/ash_event_count_topN_2.sql">ash_event_count_topN_2.sql</a> - The improved version of "ash_event_count_topN_new.sql"
-  </code>
-  </pre>
+  <a href="https://github.com/guestart/oracle-sql-libs/blob/master/ash_event_count_topN_2.sql">ash_event_count_topN_2.sql</a> - The improved version of "ash_event_count_topN_new.sql"</code></pre>
   <h3>STATISTICS INFO:</h3>
   <pre>
   <code>
