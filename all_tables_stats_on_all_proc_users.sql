@@ -10,6 +10,7 @@ REM       "sample_size", "last_analyzed" and "stale_stats".
 REM
 REM     Modified:      May 21, 2018 - according to Jared Still (from Pythian, and his github is "https://github.com/jkstill")'s nice advice,  
 REM                                   replace that manual list about all of the name of production user with simple SQL he has provided to me
+REM
 
 SET LINESIZE 300
 SET PAGESIZE 300
@@ -26,7 +27,7 @@ SELECT owner
        , last_analyzed
        , stale_stats
 FROM dba_tab_statistics
-WHERE owner NOT IN (
+-- WHERE owner NOT IN (
 --                    'ANONYMOUS'
 --                    , 'APEX_030200'
 --                    , 'APEX_PUBLIC_USER'
@@ -59,10 +60,13 @@ WHERE owner NOT IN (
 --                    , 'WMSYS'
 --                    , 'XDB'
 --                    , 'XS$NULL'
+--                    )
+WHERE owner NOT IN (
                       SELECT name schema_to_exclude
                       FROM system.LOGSTDBY$SKIP_SUPPORT
                       WHERE action = 0
                       ORDER BY schema_to_exclude
+                      ;
                    )
 AND owner NOT IN (
                       'SQLTXADMIN'
