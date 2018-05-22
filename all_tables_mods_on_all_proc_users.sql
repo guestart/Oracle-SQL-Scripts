@@ -27,7 +27,7 @@ SELECT table_owner
        , timestamp
        , truncated
        , drop_segments
-FROM dba_tab_modifications
+FROM dba_tab_modifications dtm
 WHERE table_owner NOT IN (
 --                          'ANONYMOUS'
 --                          , 'APEX_030200'
@@ -62,13 +62,16 @@ WHERE table_owner NOT IN (
 --                          , 'XDB'
 --                          , 'XS$NULL'
                           SELECT name schema_to_exclude
-                          FROM system.LOGSTDBY$SKIP_SUPPORT
+                          FROM system.LOGSTDBY$SKIP_SUPPORT lss
                           WHERE action = 0
-                          ORDER BY schema_to_exclude
-                          )
+--                          ORDER BY schema_to_exclude
+                          AND lss.name = dtm.table_owner
+                         )
 AND table_owner NOT IN (
                         'SQLTXADMIN'
                         , 'SQLTXPLAIN'
+                        , 'SCOTT'
+                        , 'FLOWS_FILES'
                        )                      
 AND table_name NOT LIKE 'BIN$%'
 ORDER BY timestamp DESC
