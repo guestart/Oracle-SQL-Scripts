@@ -26,7 +26,7 @@ SELECT owner
        , sample_size
        , last_analyzed
        , stale_stats
-FROM dba_tab_statistics
+FROM dba_tab_statistics dts
 WHERE owner NOT IN (
 --                    'ANONYMOUS'
 --                    , 'APEX_030200'
@@ -61,13 +61,16 @@ WHERE owner NOT IN (
 --                    , 'XDB'
 --                    , 'XS$NULL'
                     SELECT name schema_to_exclude
-                    FROM system.LOGSTDBY$SKIP_SUPPORT
+                    FROM system.LOGSTDBY$SKIP_SUPPORT lss
                     WHERE action = 0
-                    ORDER BY schema_to_exclude
-                    )
+--                    ORDER BY schema_to_exclude
+                    AND lss.name = dts.owner
+                   )
 AND owner NOT IN (
                    'SQLTXADMIN'
                    , 'SQLTXPLAIN'
+                   , 'SCOTT'
+                   , 'FLOWS_FILES'
                  )
 AND table_name NOT LIKE 'BIN$%'
 ORDER BY owner
