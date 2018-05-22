@@ -28,7 +28,7 @@ SELECT table_owner
        , truncated
        , drop_segments
 FROM dba_tab_modifications
-WHERE table_owner NOT IN
+WHERE table_owner NOT IN (
 --                          'ANONYMOUS'
 --                          , 'APEX_030200'
 --                          , 'APEX_PUBLIC_USER'
@@ -61,12 +61,11 @@ WHERE table_owner NOT IN
 --                          , 'WMSYS'
 --                          , 'XDB'
 --                          , 'XS$NULL'
-(
-  SELECT name schema_to_exclude
-  FROM system.LOGSTDBY$SKIP_SUPPORT
-  WHERE action = 0
-  ORDER BY schema_to_exclude
-)
+                          SELECT name schema_to_exclude
+                          FROM system.LOGSTDBY$SKIP_SUPPORT
+                          WHERE action = 0
+                          ORDER BY schema_to_exclude
+                          )
 AND table_owner NOT IN (
                         'SQLTXADMIN'
                         , 'SQLTXPLAIN'
