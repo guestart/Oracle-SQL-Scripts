@@ -13,6 +13,7 @@
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/all_tables_mods_on_all_proc_users.sql">all_tables_mods_on_all_proc_users.sql</a> - Check DML of all of tables from all of production users
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/table_stats_on_proc_user.sql">table_stats_on_proc_user.sql</a> - Only check statistics of table or user which has been appointed
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/table_mods_on_proc_user.sql">table_mods_on_proc_user.sql</a> - Only check modifications of table or user which has been appointed
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/table_column_statistics.sql">table_column_statistics.sql</a> - Check some related statistics of column of table
 </pre>
 </body>
 </html>
