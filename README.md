@@ -15,5 +15,12 @@
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/table_mods_on_proc_user.sql">table_mods_on_proc_user.sql</a> - Only check modifications of table or user which has been appointed
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/table_column_statistics.sql">table_column_statistics.sql</a> - Check some related statistics of column of table
 </pre>
+<h3>SQL TUNING:</h3>
+<pre>
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/check_data_dictionary_tables_and_views.sql">check_data_dictionary_tables_and_views.sql</a> - Check data dictionary tables and views of Oracle
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/check_sql_multiple_execution_plans.sql">check_sql_multiple_execution_plans.sql</a> - Check SQL multiple execution plans
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/check_sql_multiple_execution_plans_2.sql">check_sql_multiple_execution_plans_2.sql</a> - Check SQL multiple execution plans-2
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/check_sql_execution_plan_table.sql">check_sql_execution_plan_table.sql</a> - Check the SQL statement's execution plan
+</pre>
 </body>
 </html>
