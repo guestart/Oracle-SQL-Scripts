@@ -6,7 +6,7 @@ REM
 REM     Last tested
 REM             11.2.0.4
 REM     Purpose:  
-REM       This sql script usually checks the statistics of column of table.
+REM             This sql script usually checks the statistics of column of table.
 REM
 
 SET LINESIZE 200
