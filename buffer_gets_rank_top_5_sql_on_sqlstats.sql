@@ -15,7 +15,6 @@ from (select sql_id, sql_text, buffer_gets,
       from v$sqlstats
       where buffer_gets > 1000000
      )
-where buffer_gets_rank <= 5
+where buffer_gets_rank <= 5;
 set linesize 80
 set pagesize 14
-/
