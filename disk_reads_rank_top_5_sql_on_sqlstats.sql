@@ -15,7 +15,6 @@ from (select sql_id, sql_text, disk_reads,
       from v$sql
       where disk_reads > 100000
      )
-where disk_reads_rank <= 5
+where disk_reads_rank <= 5;
 set linesize 80
 set pagesize 14
-/
