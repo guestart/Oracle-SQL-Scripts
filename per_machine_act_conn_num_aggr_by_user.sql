@@ -11,6 +11,7 @@ REM
 REM     Script:        per_machine_act_conn_num_aggr_by_user.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         May 11, 2019
+REM     Updated:       May 15, 2019                                                   
 REM
 REM     Purpose:  
 REM       This sql script shows per machine's active connect numbers after aggregating by username on v$session,
@@ -21,8 +22,8 @@ SET LINESIZE 200
 SET PAGESIZE 200
 COLUMN username    FORMAT a25
 COLUMN machine     FORMAT a20
-COLUMN client_info FORMAT a20
-COLUMN program     FORMAT a28
+COLUMN client_info FORMAT a15
+COLUMN program     FORMAT a16
 COLUMN status      FORMAT a8
 
 SELECT username
@@ -33,7 +34,8 @@ SELECT username
        , count(*)
 FROM v$session
 WHERE username IS NOT NULL
-AND   status = 'ACTIVE'
+--AND   status = 'ACTIVE'
+AND program = 'JDBC Thin Client'
 GROUP BY username
          , machine
          , client_info
