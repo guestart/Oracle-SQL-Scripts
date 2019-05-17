@@ -29,5 +29,12 @@
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/poor_parsing_applications_rank_top_5_sql_on_sqlstats.sql">poor_parsing_applications_rank_top_5_sql_on_sqlstats.sql</a> - Ranking Top 5 SQL for poor parsing applications (parse_calls/executions) on "v$sqlstats" of Oracle
 <a href="https://github.com/guestart/oracle-sql-libs/blob/master/shared_memory_rank_top_5_sql_on_sqlstats.sql">shared_memory_rank_top_5_sql_on_sqlstats.sql</a> - Ranking Top 5 SQL for shared memory (Memory hogs) on "v$sqlstats" of Oracle
 </pre>
+<h3> Routine Inspection:</h3>
+<pre>
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/all_prod_user.sql">all_prod_user.sql</a> - Listing all of production users by dba_users (excluding sys related users)
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/per_machine_act_conn_num_aggr_by_user.sql">per_machine_act_conn_num_aggr_by_user.sql</a> - Showing per machine's active connect numbers after aggregating by username on v$session, meanwhile showing column client_info, that's to say, client's ip address
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/top_10_segment_on_system_tbs.sql">top_10_segment_on_system_tbs.sql</a> - Showing top 10 segment objects on system tablespace
+<a href="https://github.com/guestart/oracle-sql-libs/blob/master/top_10_segment_on_sysaux_tbs.sql">top_10_segment_on_sysaux_tbs.sql</a> - Showing top 10 segment objects on sysaux tablespace
+</pre>
 </body>
 </html>
