@@ -19,7 +19,7 @@ SELECT *
 FROM (SELECT sql_id
              , sql_text
              , buffer_gets
-             , dense_rank() over (order by buffer_gets desc) buffer_gets_rank
+             , DENSE_RANK() OVER (ORDER BY buffer_gets DESC) AS buffer_gets_rank
       FROM v$sqlstats
       WHERE buffer_gets > 1000000
      )
