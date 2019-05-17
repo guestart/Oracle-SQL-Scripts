@@ -1,20 +1,30 @@
 ====================================================================
+-- Script: buffer_gets_rank_top_5_sql_on_sqlstats.sql
+-- Author: Quanwen Zhao
+-- Updated: May 17, 2019
 -- Ranking Top 5 SQL for buffer_gets (High CPU) on v$sqlstats
 -- Number of buffer gets for all cursors with this SQL text and plan
 -- Trying not to check v$sql, as you can see Connor's this blog post
 -- https://connor-mcdonald.com/2019/03/04/less-slamming-vsql/
 ====================================================================
-set linesize 32767
-set pagesize 50000
-col sql_id for a13
-col sql_text for a60
-col buffer_gets for 999,999,999,999,999
-select *
-from (select sql_id, sql_text, buffer_gets,
-             dense_rank() over (order by buffer_gets desc) buffer_gets_rank
-      from v$sqlstats
-      where buffer_gets > 1000000
+
+SET LINESIZE 32767
+SET PAGESIZE 50000
+
+COLUMN sql_id FORMAT a13
+COLUMN sql_text FORMAT a60
+COLUMN buffer_gets FORMAT 999,999,999,999,999
+
+SELECT *
+FROM (SELECT sql_id
+             , sql_text
+             , buffer_gets
+             , dense_rank() over (order by buffer_gets desc) buffer_gets_rank
+      FROM v$sqlstats
+      WHERE buffer_gets > 1000000
      )
-where buffer_gets_rank <= 5;
-set linesize 80
-set pagesize 14
+WHERE buffer_gets_rank <= 5
+/
+
+SET LINESIZE 80
+SET PAGESIZE 14
