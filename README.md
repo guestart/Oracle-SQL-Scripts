@@ -1,5 +1,5 @@
 <html>
-<h1> Oracle SQL Libs </h1>
+<h1> Oracle SQL Scripts </h1>
 <body>
 <h3>ASH:</h3>
 <pre>
