@@ -1,6 +1,6 @@
 -- +------------------------------------------------------------------+
 -- |                                                                  |
--- | File Name    : ~/rman_backup_check_2.sql                         |
+-- | File Name    : ~/rman_backup_check_3.sql                         |
 -- |                                                                  |
 -- | Author       : Quanwen Zhao                                      |
 -- |                                                                  |
@@ -8,7 +8,7 @@
 -- |                                                                  |
 -- | Requirements : Access to the v$rman_backup_job_details view.     |
 -- |                                                                  |
--- | Call Syntax  : @rman_backup_check_2                              |
+-- | Call Syntax  : @rman_backup_check_3                              |
 -- |                                                                  |
 -- | Last Modified: 24/08/2016 (dd/mm/yyyy)                           |
 -- |                                                                  |
