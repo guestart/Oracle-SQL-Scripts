@@ -43,22 +43,23 @@ SET PAGESIZE 250
 -- do not use column alias, otherwise prompt ORA-00923: "FROM keyword not found where expected"
 
 SELECT
-     (SELECT host_name FROM v$instance) || ', ' ||
-     (SELECT value FROM v$parameter WHERE name = 'db_unique_name') || ', ' ||
-     (SELECT
-      start_time || ', ' ||
-      end_time || ', ' ||
-      output_device_type || ', ' ||
-      status || ', ' ||
-      input_type || ', ' ||
-      ltrim(input_bytes_display) || ', ' ||
-      ltrim(output_bytes_display) || ', ' ||
-      ltrim(input_bytes_per_sec_display) || ', ' ||
-      ltrim(output_bytes_per_sec_display) || ', ' ||
-      time_taken_display
-FROM  v$rman_backup_job_details
-WHERE output_device_type = 'DISK'
-AND To_Char(start_time,'dd-mm-yy') = To_Char(sysdate - 1,'dd-mm-yy'))
+       (SELECT host_name FROM v$instance) || ', ' ||
+       (SELECT value FROM v$parameter WHERE name = 'db_unique_name') || ', ' ||
+       (SELECT
+               start_time || ', ' ||
+               end_time || ', ' ||
+               output_device_type || ', ' ||
+               status || ', ' ||
+               input_type || ', ' ||
+               ltrim(input_bytes_display) || ', ' ||
+               ltrim(output_bytes_display) || ', ' ||
+               ltrim(input_bytes_per_sec_display) || ', ' ||
+               ltrim(output_bytes_per_sec_display) || ', ' ||
+               time_taken_display
+        FROM  v$rman_backup_job_details
+        WHERE output_device_type = 'DISK'
+        AND To_Char(start_time,'dd-mm-yy') = To_Char(sysdate - 1,'dd-mm-yy')
+       )
 FROM dual
 /
 
