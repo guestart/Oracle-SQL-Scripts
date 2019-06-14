@@ -6,7 +6,13 @@
 -- |                                                                  |
 -- | Description  : Display backup situation for oracle database.     |
 -- |                                                                  |
--- | Requirements : Access to the v$rman_backup_job_details views.    |
+-- | Requirements : Access to the following 3 number of views.        |
+-- |                                                                  |
+-- |                (1) v$instance                                    |
+-- |                                                                  |
+-- |                (2) v$parameter                                   |
+-- |                                                                  |
+-- |                (3) v$rman_backup_job_details                     |
 -- |                                                                  |
 -- | Call Syntax  : @rman_backup_check                                |
 -- |                                                                  |
