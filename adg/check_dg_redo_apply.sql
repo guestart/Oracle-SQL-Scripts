@@ -1,6 +1,5 @@
-check_dg_redo_apply.sql
-
 -- -----------------------------------------------------------------
+--
 --  FileName    : check_dg_redo_apply.sql
 --
 --  Description : This sql script used to check redo data apply on
