@@ -34,5 +34,5 @@ FROM v$backup_piece_details p
 WHERE p.bs_key = s.bs_key
 AND p.status = 'A'
 AND p.device_type = 'DISK'
-ORDER BY 1 DESC;
+ORDER BY 1 DESC
 /
