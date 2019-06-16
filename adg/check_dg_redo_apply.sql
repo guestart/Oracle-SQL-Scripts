@@ -4,7 +4,7 @@
 --
 --  Description : This sql script used to check redo data apply on
 --
---                Oracle DataGuard physical standby database.
+--                Oracle Data Guard physical standby database.
 --
 --  Author      : Quanwen Zhao
 --
