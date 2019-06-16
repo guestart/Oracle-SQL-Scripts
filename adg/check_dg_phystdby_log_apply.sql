@@ -1,7 +1,7 @@
 -- My standby database ARCHIVE LOG LIST shows 0 but standby sync run successful without issues,
 -- So do not use  ARCHIVE LOG LIST on standby side.
  
--- Use following query on primary / standby to make sure it sync upto date.
+-- Use following query on primary / standby to make sure it sync up to date.
  
 -- Primary:
  
