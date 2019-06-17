@@ -43,8 +43,10 @@ SET PAGESIZE 250
 -- do not use column alias, otherwise prompt ORA-00923: "FROM keyword not found where expected"
 
 SELECT
-       (SELECT host_name FROM v$instance) || ', ' ||
-       (SELECT value FROM v$parameter WHERE name = 'db_unique_name') || ', ' ||
+       (SELECT host_name FROM v$instance)
+       || ', ' ||
+       (SELECT value FROM v$parameter WHERE name = 'db_unique_name')
+       || ', ' ||
        (SELECT
                start_time || ', ' ||
                end_time || ', ' ||
