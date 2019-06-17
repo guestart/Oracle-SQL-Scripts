@@ -46,15 +46,14 @@ SELECT
       || ', ' ||
       (SELECT value FROM v$parameter WHERE name = 'db_unique_name')
       || ', ' ||
---    (SELECT Round((1 - Sum(Decode(name,'physical reads',value,0)) / 
---     (Sum(Decode(name,'db block gets',value,0)) 
---      + 
---      Sum(Decode(name,'consistent gets',value,0))) ),4) * 100 
---      || '%' hit_ratio 
---     FROM v$sysstat)
-      (SELECT Round((1-(physical_reads/(db_block_gets+consistent_gets))),4) * 100 
-       || '%' hit_ratio
-       FROM v$buffer_pool_statistics)
+--    (SELECT ROUND((1 - SUM(DECODE(name, 'physical reads', value, 0)) / (SUM(DECODE(name, 'db block gets', value, 0)) 
+--     + 
+--     SUM(DECODE(name, 'consistent gets', value, 0))) ), 4) * 100 || '%' AS hit_ratio 
+--     FROM v$sysstat
+--    )
+      (SELECT ROUND((1 - (physical_reads / (db_block_gets+consistent_gets))), 4) * 100 || '%' AS hit_ratio
+       FROM v$buffer_pool_statistics
+      )
 FROM dual
 /
 
