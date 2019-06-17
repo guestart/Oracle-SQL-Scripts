@@ -44,9 +44,7 @@ SELECT
       || ', ' ||
       (SELECT value FROM v$parameter WHERE name = 'db_name')
       || ', ' ||
-      (SELECT ROUND((1 - SUM(DECODE(name, 'physical reads', value, 0))
-       /
-       (SUM(DECODE(name, 'db block gets', value, 0))
+      (SELECT ROUND((1 - SUM(DECODE(name, 'physical reads', value, 0)) / (SUM(DECODE(name, 'db block gets', value, 0))
        +
        SUM(DECODE(name, 'consistent gets', value, 0))) ), 4) *100 || '%' AS hit_ratio
        FROM v$sysstat
