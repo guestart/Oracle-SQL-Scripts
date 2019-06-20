@@ -6,7 +6,9 @@
 -- |                                                                  |
 -- | Description  : Display backup situation for oracle database by   |
 -- |                                                                  |
--- |                calling common explicit cursor on PL/SQL code.    |
+-- |                calling common explicit cursor (open,fetch,close) |
+-- |                                                                  |
+-- |                on PL/SQL code.                                   |
 -- |                                                                  |
 -- | Requirements : Access to the following 3 number of views.        |
 -- |                                                                  |
