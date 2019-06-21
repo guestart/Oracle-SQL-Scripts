@@ -4,11 +4,11 @@
 -- |                                                                  |
 -- | Author       : Quanwen Zhao                                      |
 -- |                                                                  |
--- | Description  : Display backup situation for oracle database by   |
+-- | Description  : Display rman backup situation for oracle database |
 -- |                                                                  |
--- |                calling common explicit cursor (open,fetch,close) |
+-- |                by calling common explicit cursor (open, fetch,   |
 -- |                                                                  |
--- |                on PL/SQL code.                                   |
+-- |                close) on PL/SQL code.                            |
 -- |                                                                  |
 -- | Requirements : Access to the following 3 number of views.        |
 -- |                                                                  |
@@ -34,15 +34,15 @@ DECLARE
 --  v_rbjd_table varchar2(4000);
   CURSOR c_rbjd_table IS
   SELECT start_time
-	       , end_time
-	       , output_device_type AS odt
-	       , status
-	       , input_type
-	       , ltrim(input_bytes_display) AS ibd
-	       , ltrim(output_bytes_display) AS obd
-	       , ltrim(input_bytes_per_sec_display) AS ibpd
-	       , ltrim(output_bytes_per_sec_display) AS obpd
-	       , time_taken_display AS ttd
+	 , end_time
+	 , output_device_type AS odt
+	 , status
+	 , input_type
+	 , ltrim(input_bytes_display) AS ibd
+	 , ltrim(output_bytes_display) AS obd
+	 , ltrim(input_bytes_per_sec_display) AS ibpd
+	 , ltrim(output_bytes_per_sec_display) AS obpd
+	 , time_taken_display AS ttd
   FROM  v$rman_backup_job_details
   WHERE output_device_type = 'DISK';
   
