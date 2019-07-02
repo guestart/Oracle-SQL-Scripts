@@ -6,10 +6,10 @@ REM
 REM     Purpose:
 REM         This SQL script file (the 2nd version of 'bth_grt_sel.sql' you can see
 REM         here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bth_grt_sel.sql) also uses to
-REM         batch grant (only) select privilege on specific user's all of tables to a new user qwz, but this time I
-REM         use a relatively simple PL/SQL code snippet to achieve the same intention.
+REM         batch grant (only) select privilege on specific user's all of tables to a new user qwz, this time I use
+REM         a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
- 
+
 DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
