@@ -37,7 +37,7 @@
 </pre>
 <h3> Revoke: </h3>
 <pre>
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql">bth_rvk_sel.sql</a> - Batch revoke (only) select privilege on specific user's all of tables from a new user 'qwz'
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql">bth_rvk_sel.sql</a> - Batch revoke (only) select privilege on specific user's all of tables from a new user 'qwz' whom if being granted to
 </pre>
 <h3> Routine Inspection: </h3>
 <pre>
