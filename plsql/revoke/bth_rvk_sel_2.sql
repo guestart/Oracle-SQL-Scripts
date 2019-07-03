@@ -6,8 +6,8 @@ REM
 REM     Purpose:
 REM         This SQL script file (the 2nd version of 'bth_rvk_sel.sql' you can see
 REM         here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql) also uses to
-REM         batch revoke (only) select privilege on specific user's all of tables from a new user qwz whom if being
-REM         granted to, this time I use a relatively simple PL/SQL code snippet to achieve the same intention.
+REM         batch revoke (only) select privilege on specific user (prod)'s all of tables from a new user qwz to whom if
+REM         (once) being granted, this time I use a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
  
 DROP USER qwz;
