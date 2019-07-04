@@ -24,34 +24,31 @@ SET trimspool ON
 DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
-GRANT create synonym TO qwz;
+
 CREATE ROLE prod_sel;
 
--- switching to specific schema "prod", BTW I use Oracle Security External Pasword Store to achieve the intention
+GRANT create public synonym TO prod;
+GRANT drop public synonym TO prod;
+
+-- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Pasword Store) to achieve the intention
 -- saving password of schema "prod".
 CONN /@prod;
 
-SPOOL gen_bgs_role.sql
+SPOOL gen_bgs_role_syn.sql
 SELECT 'GRANT SELECT ON '
---     || owner
---     || '.'
        || table_name
        || ' TO prod_sel;'
--- FROM dba_tables
 FROM user_tables
--- WHERE owner = 'PROD'
 ORDER BY table_name
 /
-SPOOL off
 
--- switching to new schema "qwz"
-CONN qwz/qwz;
-
-SPOOL gen_bgs_role_syn.sql
-SELECT 'CREATE SYNONYM '
+SELECT 'CREATE PUBLIC SYNONYM '
        || table_name
        || ' FOR '
-       || prod.table_name
+       || table_name
+       || ';'
+FROM user_tables
+ORDER BY table_name
 /
 SPOOL off
 
