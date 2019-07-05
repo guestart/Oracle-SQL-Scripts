@@ -36,3 +36,5 @@ WHERE owner = 'PROD'
 ORDER BY table_name
 /
 SPOOL off
+
+@gen_bth_grt_sel.sql;
