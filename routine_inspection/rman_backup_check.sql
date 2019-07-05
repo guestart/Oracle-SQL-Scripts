@@ -48,19 +48,19 @@ SELECT
        (SELECT value FROM v$parameter WHERE name = 'db_unique_name')
        || ', ' ||
        (SELECT
-               start_time || ', ' ||
-               end_time || ', ' ||
-               output_device_type || ', ' ||
-               status || ', ' ||
-               input_type || ', ' ||
-               ltrim(input_bytes_display) || ', ' ||
-               ltrim(output_bytes_display) || ', ' ||
-               ltrim(input_bytes_per_sec_display) || ', ' ||
-               ltrim(output_bytes_per_sec_display) || ', ' ||
-               time_taken_display
+               start_time
+               || ', ' || end_time
+               || ', ' || output_device_type
+               || ', ' || status
+               || ', ' || input_type
+               || ', ' || LTRIM(input_bytes_display)
+               || ', ' || LTRIM(output_bytes_display)
+               || ', ' || LTRIM(input_bytes_per_sec_display)
+               || ', ' || LTRIM(output_bytes_per_sec_display)
+               || ', ' || time_taken_display
         FROM  v$rman_backup_job_details
         WHERE output_device_type = 'DISK'
-        AND To_Char(start_time,'dd-mm-yy') = To_Char(sysdate - 1,'dd-mm-yy')
+        AND TO_CHAR(start_time, 'dd-mm-yy') = TO_CHAR(SYSDATE - 1, 'dd-mm-yy')
        )
 FROM dual
 /
