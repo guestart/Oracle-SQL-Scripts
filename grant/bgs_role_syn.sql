@@ -1,12 +1,16 @@
 REM
-REM     Script:    bgs_role_syn(bth_grt_sel).sql
+REM     Script:    bgs_role_syn.sql
 REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 03, 2019
 REM
 REM     Purpose:
 REM         This SQL script uses to batch grant (only) select privilege on specific user (prod)'s all of tables to
-REM         a new user (qwz), and then execute SPOOL sql file 'gen_bgs_role.sql' and 'gen_bgs_role_syn.sql' to achieve
-REM         the function of 'batch grant select'.
+REM         a new role (prod) and also batch create the name of public synonym by original table name on schema 'PROD', 
+REM         next grant new role (prod) to new user (qwz) on schema 'SYS', finally execute SPOOL sql file 'gen_bgs_role_syn.sql'
+REM         on schema 'PROD' to achieve the function of 'batch grant select'.
+REM
+REM         The advantage and convenience of this approach is that it could not only grant more than one user but also just 
+REM         revoke role when revoking.
 REM
 
 SET long     10000
@@ -21,23 +25,32 @@ SET verify    OFF
 SET trimout   ON
 SET trimspool ON
 
+PROMPT =========================
+PROMPT Executing on <SYS> schema
+PROMPT =========================
+
 DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
 
-CREATE ROLE prod_sel;
+CREATE ROLE prod;
 
 GRANT create public synonym TO prod;
 GRANT drop public synonym TO prod;
 
+PROMPT ==========================
+PROMPT Executing on <PROD> schema
+PROMPT ==========================
+
 -- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Pasword Store) to achieve the intention
 -- saving password of schema "prod".
+
 CONN /@prod;
 
 SPOOL gen_bgs_role_syn.sql
 SELECT 'GRANT SELECT ON '
        || table_name
-       || ' TO prod_sel;'
+       || ' TO prod;'
 FROM user_tables
 ORDER BY table_name
 /
@@ -52,5 +65,16 @@ ORDER BY table_name
 /
 SPOOL off
 
+PROMPT =========================
+PROMPT Executing on <SYS> schema
+PROMPT =========================
+
 CONN / as sysdba;
-GRANT prod_sel TO qwz;
+GRANT prod TO qwz;
+
+PROMPT ==========================
+PROMPT Executing on <PROD> schema
+PROMPT ==========================
+
+CONN /@prod;
+@gen_bgs_role_syn.sql
