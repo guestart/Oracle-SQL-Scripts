@@ -36,3 +36,7 @@ WHERE owner = 'PROD'
 ORDER BY table_name
 /
 SPOOL off
+
+-- Inserting new line on Jul 05, 2019.
+-- Next directly running the previous batch generated SQL statement of "revoke select".
+@gen_bth_rvk_sel.sql;
