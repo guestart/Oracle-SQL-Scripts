@@ -4,8 +4,8 @@ REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 03, 2019
 REM
 REM     Purpose:
-REM         This SQL script uses to batch grant (only) select privilege on specific user (prod)'s all of tables to
-REM         a new role (prod) and also batch create the name of public synonym by original table name on schema 'PROD', 
+REM         This SQL script uses to batch generate "grant (only) select privilege on specific user (prod)'s all of tables to
+REM         a new role (prod)" and also batch generate "create the name of public synonym for original table name" on schema 'PROD', 
 REM         next grant new role (prod) to new user (qwz) on schema 'SYS', finally execute SPOOL sql file 'gen_bgs_role_syn.sql'
 REM         on schema 'PROD' to achieve the function of 'batch grant select'.
 REM
@@ -65,16 +65,11 @@ ORDER BY table_name
 /
 SPOOL off
 
+@gen_bgs_role_syn.sql;
+
 PROMPT =========================
 PROMPT Executing on <SYS> schema
 PROMPT =========================
 
 CONN / as sysdba;
 GRANT prod TO qwz;
-
-PROMPT ==========================
-PROMPT Executing on <PROD> schema
-PROMPT ==========================
-
-CONN /@prod;
-@gen_bgs_role_syn.sql
