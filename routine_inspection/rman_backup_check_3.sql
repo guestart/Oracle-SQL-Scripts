@@ -38,12 +38,12 @@ SELECT
       , output_device_type AS odt
       , status
       , input_type
-      , ltrim(input_bytes_display) AS ibd
-      , ltrim(output_bytes_display) AS obd
-      , ltrim(input_bytes_per_sec_display) AS ibpsd
-      , ltrim(output_bytes_per_sec_display) AS obpsd
+      , LTRIM(input_bytes_display) AS ibd
+      , LTRIM(output_bytes_display) AS obd
+      , LTRIM(input_bytes_per_sec_display) AS ibpsd
+      , LTRIM(output_bytes_per_sec_display) AS obpsd
       , time_taken_display AS ttd
 FROM  v$rman_backup_job_details
 WHERE output_device_type = 'DISK'
-AND To_Char(start_time,'dd-mm-yy') = To_Char(sysdate - 1,'dd-mm-yy')
+AND TO_CHAR(start_time, 'dd-mm-yy') = TO_CHAR(SYSDATE - 1, 'dd-mm-yy')
 /
