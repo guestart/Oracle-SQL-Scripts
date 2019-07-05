@@ -4,8 +4,8 @@ REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 02, 2019
 REM
 REM     Purpose:
-REM         This SQL script uses to batch revoke (only) select privilege on specific user (prod)'s all of tables from
-REM         a new user (qwz) to whom if (once) being granted, and then execute SPOOL sql file 'gen_bth_rvk_sel.sql' to
+REM         This SQL script uses to batch generate "revoke (only) select privilege on specific user (prod)'s all of tables from
+REM         a new user (qwz)" to whom if (once) being granted, and then execute SPOOL sql file 'gen_bth_rvk_sel.sql' to
 REM         achieve the function of 'batch revoke select'.
 REM
  
