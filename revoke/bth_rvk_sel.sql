@@ -9,9 +9,9 @@ REM         a new user (qwz) to whom if (once) being granted, and then execute S
 REM         achieve the function of 'batch revoke select'.
 REM
  
-DROP USER qwz;
-CREATE USER qwz IDENTIFIED BY qwz;
-GRANT connect, resource TO qwz;
+-- DROP USER qwz;
+-- CREATE USER qwz IDENTIFIED BY qwz;
+-- GRANT connect, resource TO qwz;
  
 SET long     10000
 SET linesize 300
