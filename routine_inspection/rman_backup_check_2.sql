@@ -46,19 +46,19 @@ SELECT
        (SELECT host_name FROM v$instance) || ', ' ||
        (SELECT value FROM v$parameter WHERE name = 'db_unique_name') || ', ' ||
        (SELECT
-               start_time || ', ' ||
-               end_time || ', ' ||
-               output_device_type || ', ' ||
-               status || ', ' ||
-               input_type || ', ' ||
-               ltrim(input_bytes_display) || ', ' ||
-               ltrim(output_bytes_display) || ', ' ||
-               ltrim(input_bytes_per_sec_display) || ', ' ||
-               ltrim(output_bytes_per_sec_display) || ', ' ||
-               time_taken_display
+               start_time
+               || ', ' || end_time
+               || ', ' || output_device_type
+               || ', ' || status
+               || ', ' || input_type
+               || ', ' || LTRIM(input_bytes_display)
+               || ', ' || LTRIM(output_bytes_display)
+               || ', ' || LTRIM(input_bytes_per_sec_display)
+               || ', ' || LTRIM(output_bytes_per_sec_display)
+               || ', ' || time_taken_display
         FROM  v$rman_backup_job_details
         WHERE output_device_type = 'DISK'
-        -- AND To_Char(start_time,'dd-mm-yy') = To_Char(sysdate - 1,'dd-mm-yy')
+     -- AND TO_CHAR(start_time, 'dd-mm-yy') = TO_CHAR(SYSDATE - 1, 'dd-mm-yy')
        )
 FROM dual
 /
@@ -71,21 +71,22 @@ ORA-01427: single-row subquery returns more than one row
 -- SET FEEDBACK  ON
 -- SET VERIFY    ON
 
-SELECT i.host_name || ', ' || 
-       p.value || ', ' || 
-       rbjd.start_time || ', ' || 
-       rbjd.end_time || ', ' || 
-       rbjd.output_device_type || ', ' || 
-       rbjd.status || ', ' || 
-       rbjd.input_type || ', ' || 
-       ltrim(rbjd.input_bytes_display) || ', ' || 
-       ltrim(rbjd.output_bytes_display) || ', ' || 
-       ltrim(rbjd.input_bytes_per_sec_display) || ', ' || 
-       ltrim(rbjd.output_bytes_per_sec_display) || ', ' || 
-       rbjd.time_taken_display 
+SELECT i.host_name
+       || ', ' || p.value
+       || ', ' || rbjd.start_time
+       || ', ' || rbjd.end_time
+       || ', ' || rbjd.output_device_type
+       || ', ' || rbjd.status
+       || ', ' || rbjd.input_type
+       || ', ' || LTRIM(rbjd.input_bytes_display)
+       || ', ' || LTRIM(rbjd.output_bytes_display)
+       || ', ' || LTRIM(rbjd.input_bytes_per_sec_display)
+       || ', ' || LTRIM(rbjd.output_bytes_per_sec_display)
+       || ', ' || rbjd.time_taken_display 
 FROM v$instance i
 JOIN v$parameter p ON p.name = 'db_unique_name'
-LEFT JOIN v$rman_backup_job_details rbjd ON rbjd.output_device_type = 'DISK';
+LEFT JOIN v$rman_backup_job_details rbjd ON rbjd.output_device_type = 'DISK'
+/
 
 -- Normally output:
 
