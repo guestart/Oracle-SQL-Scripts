@@ -7,7 +7,7 @@ REM     Purpose:
 REM         This SQL script file (the 2nd version of 'bgs_role_syn.sql' you can see
 REM         here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql) also uses to
 REM         batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and grant
-REM         this new role to new user (qwz). This time I use a relatively simple PL/SQL code snippet to achieve the same intention.        
+REM         this new role to new user (qwz). This time I use a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
 
 SET serveroutput ON
