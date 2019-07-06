@@ -9,14 +9,14 @@ REM         here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/re
 REM         batch revoke (only) select privilege on specific user (prod)'s all of tables from a new user (qwz) to whom
 REM         if (once) being granted, this time I use a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
- 
+
+SET serveroutput ON
+SET linesize 300
+
 DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
- 
-SET serveroutput ON
-SET linesize 300
- 
+
 BEGIN
   DBMS_OUTPUT.enable(1000000);
   FOR r IN (
