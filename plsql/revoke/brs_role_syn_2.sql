@@ -9,9 +9,6 @@ REM         here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/re
 REM         this time I use a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
 
-SET serveroutput ON
-SET linesize 300
-
 PROMPT =========================
 PROMPT Executing on <SYS> schema
 PROMPT =========================
@@ -26,6 +23,9 @@ PROMPT ==========================
 -- saving password of schema "prod".
 
 CONN /@prod;
+
+SET serveroutput ON
+SET linesize 300
 
 BEGIN
   DBMS_OUTPUT.enable(1000000);
@@ -60,8 +60,8 @@ DROP ROLE prod;
 REVOKE drop public synonym FROM prod;
 REVOKE create public synonym FROM prod;
 
--- REVOKE connect, resource FROM qwz;
--- DROP USER qwz;
+REVOKE connect, resource FROM qwz;
+DROP USER qwz;
 
 -- Or just revoke role_name from new user_name.
 -- REVOKE prod FROM qwz;
