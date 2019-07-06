@@ -11,9 +11,9 @@ REM
 REM         (1) Batch generate "revoke (only) select privilege on specific user (prod)'s all of tables from a new role (prod)" on schema 'PROD';
 REM         (2) Also batch generate "drop the name of public synonym for original table name" on schema 'PROD';
 REM         (3) Execute SPOOL sql file 'gen_brs_role_syn.sql' on schema 'PROD';
-REM         (4) Revoke 'drop public synonym' from schema 'PROD' on schema 'SYS';
-REM         (5) Revoke 'create publicc synonym' from schema 'PROD' on schema 'SYS';
-REM         (6) Drop role 'prod';
+REM         (4) Drop role 'prod' on schema 'SYS';
+REM         (5) Revoke 'drop public synonym' from schema 'PROD' on schema 'SYS';
+REM         (6) Revoke 'create publicc synonym' from schema 'PROD' on schema 'SYS';
 REM
 REM         The advantage and convenience of this approach is that it could not only revoke more than one user but also just revoke role.
 REM
@@ -71,13 +71,12 @@ PROMPT =========================
 
 CONN / as sysdba;
 
+DROP ROLE prod;
+
 REVOKE drop public synonym FROM prod;
 REVOKE create public synonym FROM prod;
 
-DROP ROLE prod;
-
 -- REVOKE connect, resource FROM qwz;
-
 -- DROP USER qwz;
 
 -- Or just revoke role_name from new user_name.
