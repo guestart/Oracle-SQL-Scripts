@@ -11,9 +11,6 @@ REM         this new role to new user (qwz). This time I use a relatively compli
 REM         Although code has a bit more final output is pretty readable and friendly.
 REM
 
-SET serveroutput ON
-SET linesize 300
-
 PROMPT =========================
 PROMPT Executing on <SYS> schema
 PROMPT =========================
@@ -35,6 +32,9 @@ PROMPT ==========================
 -- saving password of schema "prod".
 
 CONN /@prod;
+
+SET serveroutput ON
+SET linesize 300
 
 DECLARE
   v_cnt   number;
