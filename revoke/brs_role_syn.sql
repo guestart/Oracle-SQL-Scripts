@@ -4,13 +4,18 @@ REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 05, 2019
 REM
 REM     Purpose:
-REM         This SQL script uses to batch generate "revoke (only) select privilege on specific user (prod)'s all of tables from
-REM         a new role (prod)" and also batch generate "drop the name of public synonym for original table name" on schema 'PROD', 
-REM         next revoke new role (prod) from new user (qwz) on schema 'SYS', finally execute SPOOL sql file 'gen_brs_role_syn.sql'
-REM         on schema 'PROD' to achieve the function of 'batch revoke select'.
+REM         This SQL script uses to revoke new role (prod) from new user (qwz) to whom if (once) being granted on schema 'SYS'.
 REM
-REM         The advantage and convenience of this approach is that it could not only revoke more than one user but also just 
-REM         revoke role when revoking.
+REM         If you wanna furthermore revoke select privilege on new role (prod) and drop this role you can do the following steps:
+REM
+REM         (1) Batch generate "revoke (only) select privilege on specific user (prod)'s all of tables from a new role (prod)" on schema 'PROD';
+REM         (2) Also batch generate "drop the name of public synonym for original table name" on schema 'PROD';
+REM         (3) Execute SPOOL sql file 'gen_brs_role_syn.sql' on schema 'PROD';
+REM         (4) Revoke 'drop public synonym' from schema 'PROD' on schema 'SYS';
+REM         (5) Revoke 'create publicc synonym' from schema 'PROD' on schema 'SYS';
+REM         (6) Drop role 'prod';
+REM
+REM         The advantage and convenience of this approach is that it could not only revoke more than one user but also just revoke role.
 REM
 
 SET long     10000
@@ -71,9 +76,9 @@ REVOKE create public synonym FROM prod;
 
 DROP ROLE prod;
 
-REVOKE connect, resource FROM qwz;
+-- REVOKE connect, resource FROM qwz;
 
-DROP USER qwz;
+-- DROP USER qwz;
 
 -- Or just revoke role_name from new user_name.
 -- REVOKE prod FROM qwz;
