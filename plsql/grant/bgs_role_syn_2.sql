@@ -50,6 +50,7 @@ BEGIN
     EXCEPTION
       WHEN OTHERS THEN
         DBMS_OUTPUT.put_line(SUBSTR(r.x_sql, 1, 255));
+        DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
         DBMS_OUTPUT.put_line(SQLCODE || ':' || SQLERRM);
     END;
   END LOOP;
