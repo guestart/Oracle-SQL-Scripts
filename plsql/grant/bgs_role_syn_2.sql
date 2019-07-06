@@ -10,9 +10,6 @@ REM         batch grant (only) select privilege on specific user (prod)'s all of
 REM         this new role to new user (qwz). This time I use a relatively simple PL/SQL code snippet to achieve the same intention.
 REM
 
-SET serveroutput ON
-SET linesize 300
-
 PROMPT =========================
 PROMPT Executing on <SYS> schema
 PROMPT =========================
@@ -34,6 +31,9 @@ PROMPT ==========================
 -- saving password of schema "prod".
 
 CONN /@prod;
+
+SET serveroutput ON
+SET linesize 300
 
 BEGIN
   DBMS_OUTPUT.enable(1000000);
