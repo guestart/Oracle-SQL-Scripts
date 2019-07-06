@@ -76,8 +76,8 @@ DROP ROLE prod;
 REVOKE drop public synonym FROM prod;
 REVOKE create public synonym FROM prod;
 
--- REVOKE connect, resource FROM qwz;
--- DROP USER qwz;
+REVOKE connect, resource FROM qwz;
+DROP USER qwz;
 
 -- Or just revoke role_name from new user_name.
 -- REVOKE prod FROM qwz;
