@@ -31,7 +31,7 @@ BEGIN
   DBMS_OUTPUT.enable(1000000);
   FOR r IN (
   SELECT 'REVOKE SELECT ON ' || t.table_name || ' FROM prod' x_sql,
-         'DROP PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
+         'DROP PUBLIC SYNONYM ' || t.table_name y_sql
   FROM user_tables t
   ORDER BY t.table_name
   )
