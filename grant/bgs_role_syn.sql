@@ -8,8 +8,8 @@ REM         This SQL script uses to batch grant (only) select privilege on speci
 REM         a new role (prod) and then grant this role to new user (qwz). The order of executing steps are as follws:
 REM
 REM         (1) Create new user 'qwz' and grant connect, resource to it on schema 'SYS';
-REM         (2) Create new role 'prod' on schema 'SYS';
-REM         (3) Grant create and drop public synonym to schema 'PROD' on schema 'SYS';
+REM         (2) Grant create and drop public synonym to schema 'PROD' on schema 'SYS';
+REM         (3) Create new role 'prod' on schema 'SYS';
 REM         (4) Batch generate "grant (only) select privilege on schema (prod)'s all of tables to a new role (prod)" on schema 'PROD';
 REM         (5) Also batch generate "create the name of public synonym for original table name" on schema 'PROD';
 REM         (6) Execute SPOOL sql file 'gen_bgs_role_syn.sql' on schema 'PROD';
@@ -38,10 +38,10 @@ DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
 
-CREATE ROLE prod;
-
 GRANT create public synonym TO prod;
 GRANT drop public synonym TO prod;
+
+CREATE ROLE prod;
 
 PROMPT ==========================
 PROMPT Executing on <PROD> schema
