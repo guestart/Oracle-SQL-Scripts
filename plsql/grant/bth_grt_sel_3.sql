@@ -10,14 +10,14 @@ REM         batch grant (only) select privilege on specific user (prod)'s all of
 REM         I use a relatively complicated PL/SQL code to achieve the same intention. Although code has a bit more final
 REM         output is pretty readable and friendly.
 REM
- 
+
+SET serveroutput ON
+SET linesize 300
+
 DROP USER qwz;
 CREATE USER qwz IDENTIFIED BY qwz;
 GRANT connect, resource TO qwz;
- 
-SET serveroutput ON
-SET linesize 300
- 
+
 DECLARE
   v_cnt  number;
   v_flag number;
