@@ -10,9 +10,6 @@ REM         this time I use a relatively complicated PL/SQL code snippet to achi
 REM         Although code has a bit more final output is pretty readable and friendly.
 REM
 
-SET serveroutput ON
-SET linesize 300
-
 PROMPT =========================
 PROMPT Executing on <SYS> schema
 PROMPT =========================
@@ -27,6 +24,9 @@ PROMPT ==========================
 -- saving password of schema "prod".
 
 CONN /@prod;
+
+SET serveroutput ON
+SET linesize 300
 
 DECLARE
   v_cnt   number;
@@ -79,8 +79,8 @@ DROP ROLE prod;
 REVOKE drop public synonym FROM prod;
 REVOKE create public synonym FROM prod;
 
--- REVOKE connect, resource FROM qwz;
--- DROP USER qwz;
+REVOKE connect, resource FROM qwz;
+DROP USER qwz;
 
 -- Or just revoke role_name from new user_name.
 -- REVOKE prod FROM qwz;
