@@ -14,9 +14,9 @@ REM
 SET serveroutput ON
 SET linesize 300
 
-DROP USER qwz;
-CREATE USER qwz IDENTIFIED BY qwz;
-GRANT connect, resource TO qwz;
+-- DROP USER qwz;
+-- CREATE USER qwz IDENTIFIED BY qwz;
+-- GRANT connect, resource TO qwz;
 
 DECLARE
   v_cnt  number;
