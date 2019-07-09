@@ -11,7 +11,7 @@ REM         this new role to new user (qwz). This time I use a relatively simple
 REM
 
 PROMPT =========================
-PROMPT Executing on <SYS> schema
+PROMPT Executing on "SYS" schema
 PROMPT =========================
 
 DROP USER qwz;
@@ -24,7 +24,7 @@ GRANT drop public synonym TO prod;
 CREATE ROLE prod;
 
 PROMPT ==========================
-PROMPT Executing on <PROD> schema
+PROMPT Executing on "PROD" schema
 PROMPT ==========================
 
 -- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Pasword Store) to achieve the intention
@@ -58,7 +58,7 @@ END;
 /
 
 PROMPT =========================
-PROMPT Executing on <SYS> schema
+PROMPT Executing on "SYS" schema
 PROMPT =========================
 
 CONN / as sysdba;
