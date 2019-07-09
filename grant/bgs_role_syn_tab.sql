@@ -19,7 +19,7 @@ REM           (07) Create public synonym usr_tables for usr_tables on schema 'PR
 REM           (08) Batch generate "grant (only) select privilege on schema (prod)'s all of tables to a new role (prod)" on schema 'PROD';
 REM           (09) Also batch generate "create the name of public synonym for original table name" on schema 'PROD';
 REM           (10) Execute SPOOL sql file 'gen_bgs_role_syn.sql' on schema 'PROD';
-REM           (11) grant new role (prod) to new user (qwz) on schema 'SYS';
+REM           (11) Grant new role (prod) to new user (qwz) on schema 'SYS';
 REM
 REM         The advantage and convenience of this approach is that it could not only grant more than one user but also just revoke role.
 REM
