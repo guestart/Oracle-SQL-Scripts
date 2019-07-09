@@ -11,7 +11,7 @@ REM           (01) Batch generate "revoke (only) select privilege on specific us
 REM           (02) Also batch generate "drop the name of public synonym for original table name" on schema 'PROD';
 REM           (03) Execute SPOOL sql file 'gen_brs_role_syn.sql' on schema 'PROD';
 REM           (04) Drop public synonym usr_tables on schema 'PROD';
-REM           (05) Revoke 'select on usr_tables' from role 'PROD' on schema 'PROD';
+REM           (05) Revoke 'select on usr_tables' from role 'prod' on schema 'PROD';
 REM           (06) Drop view 'usr_tables' on schema 'PROD';
 REM           (07) Drop role 'prod' on schema 'SYS';
 REM           (08) Revoke 'drop any view' from schema 'PROD' on schema 'SYS';
