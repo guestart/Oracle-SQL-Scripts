@@ -13,6 +13,7 @@ REM           (3) Execute SPOOL sql file 'gen_brs_role_syn.sql' on schema 'PROD'
 REM           (4) Drop role 'prod' on schema 'SYS';
 REM           (5) Revoke 'drop public synonym' from schema 'PROD' on schema 'SYS';
 REM           (6) Revoke 'create publicc synonym' from schema 'PROD' on schema 'SYS';
+REM           (7) Drop user 'qwz' on schema 'SYS';
 REM
 REM         The advantage and convenience of this approach is that it could not only revoke more than one user but also just revoke role.
 REM
