@@ -27,7 +27,7 @@ PROMPT ==========================
 PROMPT Executing on "PROD" schema
 PROMPT ==========================
 
--- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Pasword Store) to achieve the intention
+-- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Password Store) to achieve the intention
 -- saving password of schema "prod".
 
 CONN /@prod;
