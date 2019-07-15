@@ -9,7 +9,7 @@ REM
 REM         If you wanna furthermore revoke select privilege on new role (prod) and drop this role you can do the following steps:
 REM           (01) Batch generate "revoke (only) select privilege on specific user (prod)'s all of tables from a new role (prod)" on schema 'PROD';
 REM           (02) Also batch generate "drop the name of public synonym for original table name" on schema 'PROD';
-REM           (03) Execute SPOOL sql file 'gen_brs_role_syn.sql' on schema 'PROD';
+REM           (03) Execute SPOOL sql file 'gen_brs_role_syn_tab.sql' on schema 'PROD';
 REM           (04) Drop public synonym usr_tables on schema 'PROD';
 REM           (05) Revoke 'select on usr_tables' from role 'prod' on schema 'PROD';
 REM           (06) Drop view 'usr_tables' on schema 'PROD';
@@ -50,7 +50,7 @@ PROMPT ==========================
 
 CONN /@prod;
 
-SPOOL gen_brs_role_syn.sql
+SPOOL gen_brs_role_syn_tab.sql
 SELECT 'REVOKE SELECT ON '
        || table_name
        || ' FROM prod;'
@@ -68,7 +68,7 @@ ORDER BY table_name
 /
 SPOOL off
 
-@gen_brs_role_syn.sql;
+@gen_brs_role_syn_tab.sql;
 
 DROP PUBLIC SYNONYM usr_tables;
 REVOKE SELECT ON usr_tables FROM prod;
