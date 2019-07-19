@@ -54,9 +54,9 @@ GRANT on commit refresh TO prod;
 
 CREATE ROLE bbs;
 
-PROMPT ================================
+PROMPT ==========================
 PROMPT Executing on "PROD" schema
-PROMPT ================================
+PROMPT ==========================
 
 -- switching to specific schema "prod", BTW I use Oracle SEPS (Security External Password Store) to achieve the intention
 -- saving password of schema "prod".
