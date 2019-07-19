@@ -27,6 +27,8 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql">bgs_role_syn.sql</a> - Batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and then grant this role to new user (qwz)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab.sql">bgs_role_syn_tab.sql</a> - Batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and then grant this role to new user (qwz), at the same time it could also query out schema (prod)'s all of table names on schema (qwz)
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_2.sql">bgs_role_syn_tab_2.sql</a> - The 2nd version of 'bgs_role_syn_tab.sql', which use a materialized view 'u_tables' to accomplish the same function
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_3.sql">bgs_role_syn_tab_3.sql</a> - Grant (only) select privilege on specific user (prod)'s tables T1 to a new role (bbs) and then grant this role to new user (qwz). At the same time it could also query out table T1's latest data on schema (qwz).
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bth_grt_sel.sql">bth_grt_sel.sql</a> - Batch grant (only) select privilege on specific user's all of tables to a new user 'qwz'
 </pre>
 <h3> Migration Compare: </h3>
@@ -49,6 +51,8 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn.sql">brs_role_syn.sql</a> - Revoke new role (prod) from new user (qwz) to whom if (once) being granted on schema 'SYS'
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn_tab.sql">brs_role_syn_tab.sql</a> - Revoke new role (prod) from new user (qwz) to whom if (once) being granted on schema 'SYS', furthermore revoke select privilege on new role (prod) and drop this role
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn_tab_2.sql">brs_role_syn_tab_2.sql</a> - The 2nd version of 'brs_role_syn_tab.sql'
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn_tab_3.sql">brs_role_syn_tab_3.sql</a> - The 3rd version of 'brs_role_syn_tab.sql'
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql">bth_rvk_sel.sql</a> - Batch revoke (only) select privilege on specific user's all of tables from a new user 'qwz' whom if being granted to
 </pre>
 <h3> Routine Inspection: </h3>
