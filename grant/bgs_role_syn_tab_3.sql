@@ -2,6 +2,8 @@ REM
 REM     Script:    bgs_role_syn_tab_3.sql
 REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 18, 2019
+REM     Updated:   Jul 24, 2019
+REM                add 'DROP ROLE bbs' in front of 'CREATE ROLE bbs'.
 REM
 REM     Purpose:
 REM         This SQL script uses to grant (only) select privilege on specific user (prod)'s tables T1 to
@@ -117,6 +119,7 @@ GRANT create any materialized view TO prod;
 GRANT drop any materialized view TO prod;
 GRANT on commit refresh TO prod;
 
+DROP ROLE bbs;
 CREATE ROLE bbs;
 
 PROMPT ==========================
