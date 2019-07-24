@@ -2,6 +2,9 @@ REM
 REM     Script:    bgs_role_syn_tab_2.sql
 REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 15, 2019
+REM     Updated:   Jul 24, 2019
+REM                eliminate query column 'num_rows' on creating materialized view 'u_tables'.
+REM                add 'DROP ROLE bbs' in front of 'CREATE ROLE bbs'.
 REM
 REM     Purpose:
 REM         This SQL script uses to batch grant (only) select privilege on specific user (prod)'s all of tables to
@@ -52,6 +55,7 @@ GRANT create any materialized view TO prod;
 GRANT drop any materialized view TO prod;
 GRANT on commit refresh TO prod;
 
+DROP ROLE bbs;
 CREATE ROLE bbs;
 
 PROMPT ==========================
@@ -71,7 +75,7 @@ CREATE MATERIALIZED VIEW u_tables
 REFRESH COMPLETE ON DEMAND
 AS
    SELECT table_name
-          , num_rows
+--        , num_rows
           , partitioned
    FROM all_tables
    WHERE owner = 'PROD'
@@ -108,7 +112,7 @@ PROMPT =========================
 CONN / as sysdba;
 GRANT bbs TO qwz;
 
--- The following is a demo of how to use this SQL script (grantor schema is 'SZD_BBS_V2' and grantee schema is 'QWZ').
+-- The following is a demo (running on Jul 15, 2019) of how to use this SQL script (grantor schema is 'SZD_BBS_V2' and grantee schema is 'QWZ').
 
 -- SYS@xxxx> @bgs_role_syn_tab_2.sql;
 -- SYS@xxxx> 
