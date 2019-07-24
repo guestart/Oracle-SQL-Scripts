@@ -2,6 +2,9 @@ REM
 REM     Script:    bgs_role_syn_tab.sql
 REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 09, 2019
+REM     Updated:   Jul 24, 2019
+REM                eliminate query column 'num_rows' on creating or replacing view 'usr_tables'.
+REM                add 'DROP ROLE prod' in front of 'CREATE ROLE prod'.
 REM
 REM     Purpose:
 REM         This SQL script uses to batch grant (only) select privilege on specific user (prod)'s all of tables to
@@ -50,6 +53,7 @@ GRANT drop public synonym TO prod;
 GRANT create view TO prod;
 GRANT drop any view TO prod;
 
+DROP ROLE prod;
 CREATE ROLE prod;
 
 PROMPT ==========================
@@ -64,7 +68,7 @@ CONN /@prod;
 CREATE OR REPLACE VIEW usr_tables
 AS
 SELECT table_name
-       , num_rows
+--     , num_rows
        , partitioned
 FROM all_tables
 WHERE owner = 'PROD'
