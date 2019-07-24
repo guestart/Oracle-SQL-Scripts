@@ -22,8 +22,12 @@ BEGIN
   DBMS_SCHEDULER.create_job (
      job_name           =>  'BRST_JOB',
      job_type           =>  'STORED_PROCEDURE',
-     job_action         =>  'brgs_role_syn_tab;',
-     start_date         =>  '23-JUL-2019 10:00:00 AM China/Beijing',
+  -- job_action         =>  'brgs_role_syn_tab;', using this parameter, return ORA-27452: brgs_role_syn_tab; is an invalid name for a database object.
+     job_action         =>  'brgs_role_syn_tab', -- when eliminating semi-colon that is at the end of value, it's okay
+  -- start_date         =>  '23-JUL-2019 10:00:00 AM China/Beijing',  using this parameter, return ORA-01882: timezone region not found
+  -- start_date         =>  TO_DATE('2019-07-23 10:00:00', 'yyyy-mm-dd hh24:mi:ss'), using this parameter, it's okay
+  -- start_date         =>  SYSDATE, using this parameter, it's okay
+     start_date         =>  SYSTIMESTAMP, -- using this parameter, it's okay
      repeat_interval    =>  'FREQ=HOURLY; INTERVAL=5;',
      end_date           =>  NULL,
      auto_drop          =>  false,
