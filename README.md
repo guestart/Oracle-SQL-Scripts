@@ -28,7 +28,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql">bgs_role_syn.sql</a> - Batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and then grant this role to new user (qwz)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab.sql">bgs_role_syn_tab.sql</a> - Batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and then grant this role to new user (qwz), at the same time it could also query out schema (prod)'s all of table names on schema (qwz)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_2.sql">bgs_role_syn_tab_2.sql</a> - The 2nd version of 'bgs_role_syn_tab.sql', which use a materialized view 'u_tables' to accomplish the same function
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_3.sql">bgs_role_syn_tab_3.sql</a> - Grant (only) select privilege on specific user (prod)'s tables T1 to a new role (bbs) and then grant this role to new user (qwz). At the same time it could also query out table T1's latest data on schema (qwz).
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_3.sql">bgs_role_syn_tab_3.sql</a> - Grant (only) select privilege on specific user (prod)'s tables T1 to a new role (bbs) and then grant this role to new user (qwz). At the same time it could also query out table T1's latest data on schema (qwz)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bth_grt_sel.sql">bth_grt_sel.sql</a> - Batch grant (only) select privilege on specific user's all of tables to a new user 'qwz'
 </pre>
 <h3> Migration Compare: </h3>
@@ -37,7 +37,6 @@
 </pre>
 <h3> PLSQL: </h3>
 <pre>
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/switch_redo_log_for_recycle.sql">switch_redo_log_for_recycle.sql</a> - Switching all of online redo log for a recycle on oracle database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/grant/bgs_role_syn_2.sql">bgs_role_syn_2.sql</a> - The 2nd version of 'bgs_role_syn.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/grant">grant</a> subdir
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/grant/bgs_role_syn_3.sql">bgs_role_syn_3.sql</a> - The 3rd version of 'bgs_role_syn.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/grant">grant</a> subdir
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/grant/bth_grt_sel_2.sql">bth_grt_sel_2.sql</a> - The 2nd version of 'bth_grt_sel.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bth_grt_sel.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/grant">grant</a> subdir
@@ -46,6 +45,11 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/revoke/brs_role_syn_3.sql">brs_role_syn_3.sql</a> - The 3rd version of 'brs_role_syn.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/revoke">revoke</a> subdir
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/revoke/bth_rvk_sel_2.sql">bth_rvk_sel_2.sql</a> - The 2nd version of 'bth_rvk_sel.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/revoke">revoke</a> subdir
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/revoke/bth_rvk_sel_3.sql">bth_rvk_sel_3.sql</a> - The 3rd version of 'bth_rvk_sel.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/bth_rvk_sel.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/revoke">revoke</a> subdir
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/brgs_role_syn_tab.sql">brgs_role_syn_tab.sql</a> - Creating or replacing a user-defined procedure 'brgs_role_syn_tab' on schema SZD_BBS_V2
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/brgs_role_syn_tab_2.sql">brgs_role_syn_tab_2.sql</a> - The 2nd version of 'brgs_role_syn_tab.sql', on this version I simplify my user-defined procedure 'brgs_role_syn_tab_2' based on 'brgs_role_syn_tab' on schema SZD_BBS_V2
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/brst2_scheduler.sql">brst2_scheduler.sql</a> - Creating a user-defined job 'BRST2_JOB' on schema SZD_BBS_V2, the primary intention is it could regularly/periodically execute my procedure 'brgs_role_syn_tab_2' on schema SZD_BBS_V2
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/brst_scheduler.sql">brst_scheduler.sql</a> - Creating a user-defined job 'BRST_JOB' on schema SZD_BBS_V2, the primary intention is it could regularly/periodically execute my procedure 'brgs_role_syn_tab' on schema SZD_BBS_V2
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/switch_redo_log_for_recycle.sql">switch_redo_log_for_recycle.sql</a> - Switching all of online redo log for a recycle on oracle database
 </pre>
 <h3> Revoke: </h3>
 <pre>
