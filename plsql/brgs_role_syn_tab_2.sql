@@ -79,37 +79,37 @@ IS
   -- v_utp_number  NUMBER;        -- utp is the first letter abbreviation of view "user_tab_privs"
   -- v_ds_number   NUMBER;        -- ds is the first letter abbreviation of view "dba_synonyms"
 BEGIN
-	v_usr_tables := 'CREATE OR REPLACE VIEW usr_tables'
-	                || ' AS SELECT table_name, partitioned FROM all_tables'
-	                || ' WHERE owner = ''SZD_BBS_V2'''
-	                || ' ORDER BY table_name'
-	                || ' WITH READ ONLY';
-	v_gs_usr_tables := 'GRANT SELECT ON usr_tables TO bbs';
-	v_cps_usr_tables := 'CREATE OR REPLACE PUBLIC SYNONYM usr_tables FOR usr_tables';             
-	EXECUTE IMMEDIATE v_usr_tables;
-	EXECUTE IMMEDIATE v_gs_usr_tables;
-	EXECUTE IMMEDIATE v_cps_usr_tables;
-	-- v_usr_tab_privs := 'SELECT table_name, grantor, privilege FROM user_tab_privs WHERE grantee = ''BBS''';
-	-- SELECT COUNT(*) INTO v_utp_number FROM user_tab_privs WHERE grantee = 'BBS';
-	-- SELECT COUNT(*) INTO v_ds_number FROM dba_synonyms WHERE table_owner = 'SZD_BBS_V2';
-	DBMS_OUTPUT.enable(1000000);
-	FOR r IN (
-	SELECT 'GRANT SELECT ON ' || t.table_name || ' TO bbs' x_sql,
-	       'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
-	FROM user_tables t
-	ORDER BY t.table_name
-	)
-	LOOP
-	  BEGIN
-	    EXECUTE IMMEDIATE r.x_sql;
-	    EXECUTE IMMEDIATE r.y_sql;
-	  -- EXECEPTION
-	  EXCEPTION
-	    WHEN OTHERS THEN
-	      DBMS_OUTPUT.put_line(SUBSTR(r.x_sql, 1, 255));
-	      DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
-	      DBMS_OUTPUT.put_line(SQLCODE || ':' || SQLERRM);
-	  END;
-	END LOOP;
+  v_usr_tables := 'CREATE OR REPLACE VIEW usr_tables'
+                  || ' AS SELECT table_name, partitioned FROM all_tables'
+		  || ' WHERE owner = ''SZD_BBS_V2'''
+		  || ' ORDER BY table_name'
+		  || ' WITH READ ONLY';
+  v_gs_usr_tables := 'GRANT SELECT ON usr_tables TO bbs';
+  v_cps_usr_tables := 'CREATE OR REPLACE PUBLIC SYNONYM usr_tables FOR usr_tables';
+  EXECUTE IMMEDIATE v_usr_tables;
+  EXECUTE IMMEDIATE v_gs_usr_tables;
+  EXECUTE IMMEDIATE v_cps_usr_tables;
+  -- v_usr_tab_privs := 'SELECT table_name, grantor, privilege FROM user_tab_privs WHERE grantee = ''BBS''';
+  -- SELECT COUNT(*) INTO v_utp_number FROM user_tab_privs WHERE grantee = 'BBS';
+  -- SELECT COUNT(*) INTO v_ds_number FROM dba_synonyms WHERE table_owner = 'SZD_BBS_V2';
+  DBMS_OUTPUT.enable(1000000);
+  FOR r IN (
+  SELECT 'GRANT SELECT ON ' || t.table_name || ' TO bbs' x_sql,
+	 'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
+  FROM user_tables t
+  ORDER BY t.table_name
+  )
+  LOOP
+    BEGIN
+      EXECUTE IMMEDIATE r.x_sql;
+      EXECUTE IMMEDIATE r.y_sql;
+    -- EXECEPTION
+    EXCEPTION
+      WHEN OTHERS THEN
+        DBMS_OUTPUT.put_line(SUBSTR(r.x_sql, 1, 255));
+	DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
+        DBMS_OUTPUT.put_line(SQLCODE || ':' || SQLERRM);
+    END;
+  END LOOP;
 END;
 /
