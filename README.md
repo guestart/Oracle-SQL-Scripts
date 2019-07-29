@@ -29,6 +29,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab.sql">bgs_role_syn_tab.sql</a> - Batch grant (only) select privilege on specific user (prod)'s all of tables to a new role (prod) and then grant this role to new user (qwz), at the same time it could also query out schema (prod)'s all of table names on schema (qwz)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_2.sql">bgs_role_syn_tab_2.sql</a> - The 2nd version of 'bgs_role_syn_tab.sql', which use a materialized view 'u_tables' to accomplish the same function
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn_tab_3.sql">bgs_role_syn_tab_3.sql</a> - Grant (only) select privilege on specific user (prod)'s tables T1 to a new role (bbs) and then grant this role to new user (qwz). At the same time it could also query out table T1's latest data on schema (qwz)
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_scheduler.sql">bgs_scheduler.sql</a> - Regularly refresh view "u_tables" being created via running SQL script "bgs_role_syn_tab_2.sql"
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bth_grt_sel.sql">bth_grt_sel.sql</a> - Batch grant (only) select privilege on specific user's all of tables to a new user 'qwz'
 </pre>
 <h3> Migration Compare: </h3>
