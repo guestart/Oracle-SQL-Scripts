@@ -5,7 +5,7 @@ REM     Dated:      Jul 30, 2019
 REM
 REM     Purpose:
 REM         This SQL script uses to regularly refresh MView "u_tables" created by procedure "brgs_role_syn_tab_3"
-REM         via the SQL script "brgs_role_syn_tab_3.sql".
+REM         from the SQL script "brgs_role_syn_tab_3.sql".
 REM
 
 PROMPT ================================
@@ -21,7 +21,7 @@ BEGIN
   DBMS_OUTPUT.enable(1000000);
   FOR r IN (
   SELECT 'GRANT SELECT ON ' || t.table_name || ' TO bbs' x_sql,
-	       'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
+	 'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
   FROM user_tables t
   ORDER BY t.table_name
   )
@@ -32,7 +32,7 @@ BEGIN
     EXCEPTION
       WHEN OTHERS THEN
         DBMS_OUTPUT.put_line(SUBSTR(r.x_sql, 1, 255));
-	      DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
+	DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
         DBMS_OUTPUT.put_line(SQLCODE || ':' || SQLERRM);
     END;
   END LOOP;
