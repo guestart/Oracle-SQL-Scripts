@@ -45,8 +45,8 @@ BEGIN
   v_u_tables := 'CREATE MATERIALIZED VIEW u_tables'
                 || ' REFRESH COMPLETE ON DEMAND'
                 || ' AS SELECT table_name, partitioned FROM all_tables'
-		            || ' WHERE owner = ''SZD_BBS_V2'''
-		            || ' ORDER BY table_name';
+		|| ' WHERE owner = ''SZD_BBS_V2'''
+		|| ' ORDER BY table_name';
   v_gs_u_tables := 'GRANT SELECT ON u_tables TO bbs';
   v_cps_u_tables := 'CREATE OR REPLACE PUBLIC SYNONYM u_tables FOR u_tables';
   EXECUTE IMMEDIATE v_u_tables;
@@ -55,7 +55,7 @@ BEGIN
   DBMS_OUTPUT.enable(1000000);
   FOR r IN (
   SELECT 'GRANT SELECT ON ' || t.table_name || ' TO bbs' x_sql,
-	       'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
+	 'CREATE OR REPLACE PUBLIC SYNONYM ' || t.table_name || ' FOR ' || t.table_name y_sql
   FROM user_tables t
   ORDER BY t.table_name
   )
@@ -66,7 +66,7 @@ BEGIN
     EXCEPTION
       WHEN OTHERS THEN
         DBMS_OUTPUT.put_line(SUBSTR(r.x_sql, 1, 255));
-	      DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
+	DBMS_OUTPUT.put_line(SUBSTR(r.y_sql, 1, 255));
         DBMS_OUTPUT.put_line(SQLCODE || ':' || SQLERRM);
     END;
   END LOOP;
