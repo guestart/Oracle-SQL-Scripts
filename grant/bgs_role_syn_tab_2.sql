@@ -6,7 +6,7 @@ REM     Updated:   Jul 24, 2019
 REM                (1) Eliminating query column 'num_rows' on creating materialized view 'u_tables';
 REM                (2) Adding 'DROP ROLE bbs' in front of 'CREATE ROLE bbs'.
 REM     Updated:   Jul 31, 2019
-REM                (1) Adding keyword "or replace" on those two SQL statements of "create public synonym",
+REM                (1) Adding keyword "or replace" within those two SQL statements of "create public synonym ...",
 REM                    like this, "create or replace public synonym ...".
 REM
 REM     Purpose:
