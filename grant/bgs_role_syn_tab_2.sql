@@ -3,8 +3,11 @@ REM     Script:    bgs_role_syn_tab_2.sql
 REM     Author:    Quanwen Zhao
 REM     Dated:     Jul 15, 2019
 REM     Updated:   Jul 24, 2019
-REM                eliminate query column 'num_rows' on creating materialized view 'u_tables'.
-REM                add 'DROP ROLE bbs' in front of 'CREATE ROLE bbs'.
+REM                (1) Eliminating query column 'num_rows' on creating materialized view 'u_tables';
+REM                (2) Adding 'DROP ROLE bbs' in front of 'CREATE ROLE bbs'.
+REM     Updated:   Jul 31, 2019
+REM                (1) Adding keyword "or replace" on those two SQL statements of "create public synonym",
+REM                    like this, "create or replace public synonym ...".
 REM
 REM     Purpose:
 REM         This SQL script uses to batch grant (only) select privilege on specific user (prod)'s all of tables to
@@ -83,21 +86,23 @@ AS
 ;
 
 GRANT SELECT ON u_tables TO bbs;
-CREATE PUBLIC SYNONYM u_tables FOR u_tables;
+-- CREATE PUBLIC SYNONYM u_tables FOR u_tables;
+CREATE OR REPLACE PUBLIC SYNONYM u_tables FOR u_tables;
 
 SPOOL gen_bgs_role_syn_tab_2.sql
 SELECT 'GRANT SELECT ON '
-        || table_name
-        || ' TO bbs;'
+       || table_name
+       || ' TO bbs;'
 FROM user_tables
 ORDER BY table_name
 /
 
-SELECT 'CREATE PUBLIC SYNONYM '
-        || table_name
-        || ' FOR '
-        || table_name
-        || ';'
+-- SELECT 'CREATE PUBLIC SYNONYM '
+SELECT 'CREATE OR REPLACE PUBLIC SYNONYM '
+       || table_name
+       || ' FOR '
+       || table_name
+       || ';'
 FROM user_tables
 ORDER BY table_name
 /
