@@ -2,6 +2,10 @@ REM
 REM     Script:     brgs_role_syn_tab_3.sql
 REM     Author:     Quanwen Zhao
 REM     Dated:      Jul 30, 2019
+REM     Updated:    Jul 31, 2019
+REM                 (1) Adding "v_drp_u_tables  VARCHAR2(200);" on DECLARE section
+REM                     and "v_drp_u_tables := 'DROP MATERIALIZED VIEW u_tables';" on BEGIN section;
+REM                 (2) Also adding important keyword "AUTHID CURRENT_USER" when creating or replacing procedure "brgs_role_syn_tab_3".
 REM
 REM     Purpose:
 REM         This is the 3rd version of 'brgs_role_syn_tab.sql'. On this version I create a materiralzed view 
@@ -37,11 +41,14 @@ PROMPT ================================
 CONN /@szd_bbs_v2;
 
 CREATE OR REPLACE PROCEDURE brgs_role_syn_tab_3
+AUTHID CURRENT_USER  -- new adding this important keyword, otherwise return error "ORA-01031: insufficient privileges" when executing procedure "brgs_role_syn_tab_3" on schema "SZD_BBS_V2"
 IS
+  v_drp_u_tables  VARCHAR2(200);
   v_u_tables      VARCHAR2(200);
   v_gs_u_tables   VARCHAR2(200);  -- gs is the first letter abbreviation of "grant select"
   v_cps_u_tables  VARCHAR2(200);  -- cps is the first letter abbreviation of "create public synonym"
 BEGIN
+  v_drp_u_tables := 'DROP MATERIALIZED VIEW u_tables';
   v_u_tables := 'CREATE MATERIALIZED VIEW u_tables'
                 || ' REFRESH COMPLETE ON DEMAND'
                 || ' AS SELECT table_name, partitioned FROM all_tables'
@@ -49,6 +56,7 @@ BEGIN
 		|| ' ORDER BY table_name';
   v_gs_u_tables := 'GRANT SELECT ON u_tables TO bbs';
   v_cps_u_tables := 'CREATE OR REPLACE PUBLIC SYNONYM u_tables FOR u_tables';
+  EXECUTE IMMEDIATE v_drp_u_tables;
   EXECUTE IMMEDIATE v_u_tables;
   EXECUTE IMMEDIATE v_gs_u_tables;
   EXECUTE IMMEDIATE v_cps_u_tables;
