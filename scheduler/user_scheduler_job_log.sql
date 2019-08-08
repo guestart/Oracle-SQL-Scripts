@@ -29,7 +29,7 @@ WHERE job_name = 'RTS_JOB'
 ORDER BY log_date
 /
 
--- A demo of situation.
+-- A detailed demo.
 -- 
 -- TEST@xxxx> select log_id, log_date, owner, status from user_scheduler_job_log where job_name = 'RTS_JOB' order by 2;
 -- 
