@@ -38,7 +38,7 @@
 </pre>
 <h3> Materialized View: </h3>
 <pre>
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/mview/materialized_view_demo.sql">materialized_view_demo.sql</a> - creating a demo of oracle materialized view on 'TEST' schema, by the way guiding you how to periodically (via using an oracle job) and manually refresh it
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/mview/materialized_view_demo.sql">materialized_view_demo.sql</a> - Creating a demo of oracle materialized view on 'TEST' schema, by the way guiding you how to periodically (via using an oracle job) and manually refresh it
 </pre>
 <h3> PLSQL: </h3>
 <pre>
