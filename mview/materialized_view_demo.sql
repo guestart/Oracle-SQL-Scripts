@@ -132,9 +132,9 @@ SELECT log_owner
 FROM user_mview_logs
 /
 
-LOG_OWNE MASTER   LOG_TABL PRIMARY_KEY INCLUDE_NEW_VALUES
--------- -------- -------- ----------- ------------------
-TEST     T        MLOG$_T  YES         YES
+-- LOG_OWNE MASTER   LOG_TABL PRIMARY_KEY INCLUDE_NEW_VALUES
+-- -------- -------- -------- ----------- ------------------
+-- TEST     T        MLOG$_T  YES         YES
 
 INSERT INTO t VALUES (t_id.nextval, 'Mark Powell');
 INSERT INTO t VALUES (t_id.nextval, 'Andrew Sayer');
@@ -373,7 +373,7 @@ COLUMN state       FORMAT a11
 -- -------------------------------------- ------------ ----------- ---------- ----------
 -- 06-AUG-19 04.36.09.000000 PM +08:00    TEST         COMPLETED            5
 
--- The next day I check materialized view "mv_t" and those two number of data has been shown.
+-- The next day I check materialized view "mv_t" and those two line of data has been shown.
 -- 
 -- TEST@xxxx> select * from mv_t;
 -- 
