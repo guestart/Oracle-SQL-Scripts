@@ -36,6 +36,10 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/migration_compare/migration_before_and_after_compare.sql">migration_before_and_after_compare.sql</a> - Comparing all of tables' total numbers (before and after migration) on all of production users
 </pre>
+<h3> Materialized View: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/mview/materialized_view_demo.sql">materialized_view_demo.sql</a> - creating a demo of oracle materialized view on 'TEST' schema, by the way guiding you how to periodically (via using an oracle job) and manually refresh it
+</pre>
 <h3> PLSQL: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/grant/bgs_role_syn_2.sql">bgs_role_syn_2.sql</a> - The 2nd version of 'bgs_role_syn.sql' you can see here - https://github.com/guestart/Oracle-SQL-Scripts/blob/master/grant/bgs_role_syn.sql on <a href="https://github.com/guestart/Oracle-SQL-Scripts/tree/master/plsql/grant">grant</a> subdir
@@ -86,6 +90,8 @@
 <h3> Scheduler: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/scheduler/scheduler_demo.sql">scheduler_demo.sql</a> - Check running situation of oracle scheduler/job
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/scheduler/user_scheduler_job_log.sql">user_scheduler_job_log.sql</a> - Check the executing/running situation of the oracle scheduer/job log on 'TEST' schema
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/scheduler/user_scheduler_jobs.sql">user_scheduler_jobs.sql</a> - Checking the some information of the oracle scheduer/job on 'TEST' schema
 </pre>
 <h3> SQL Tuning: </h3>
 <pre>
