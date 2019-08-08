@@ -25,13 +25,13 @@ SELECT log_id
        , owner
        , status
 FROM user_scheduler_job_log
-WHERE job_name = 'RTS_JOB'
+-- WHERE job_name = 'RTS_JOB'
 ORDER BY log_date
 /
 
 -- A detailed demo.
 -- 
--- TEST@xxxx> select log_id, log_date, owner, status from user_scheduler_job_log where job_name = 'RTS_JOB' order by 2;
+-- TEST@xxxx> select log_id, log_date, owner, status from user_scheduler_job_log order by 2;
 -- 
 --     LOG_ID LOG_DATE                            OWNER        STATUS
 -- ---------- ----------------------------------- ------------ ------------
