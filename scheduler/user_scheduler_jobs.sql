@@ -26,12 +26,12 @@ SELECT start_date
        , run_count
        , max_runs
 FROM user_scheduler_jobs
-WHERE job_name = 'RTS_JOB'
+-- WHERE job_name = 'RTS_JOB'
 /
 
 -- A detailed demo.
 -- 
--- TEST@xxxx> select start_date, job_creator, state, run_count, max_runs from user_scheduler_jobs where job_name = 'RTS_JOB';
+-- TEST@xxxx> select start_date, job_creator, state, run_count, max_runs from user_scheduler_jobs;
 -- 
 -- START_DATE                             JOB_CREATOR  STATE        RUN_COUNT   MAX_RUNS
 -- -------------------------------------- ------------ ----------- ---------- ----------
