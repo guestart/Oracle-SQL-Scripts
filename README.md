@@ -19,6 +19,10 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_new.sql">ash_event_count_topN_new.sql</a> - The improved version of "ash_event_count_topN.sql"
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_2.sql">ash_event_count_topN_2.sql</a> - The improved version of "ash_event_count_topN_new.sql"
 </pre>
+<h3> Dig listener log: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_listener_log_xml/dig_ip_from_lsnr_log_xml.sql">dig_ip_from_lsnr_log_xml.sql</a> - Digging real IP Address from the "XML" format of listener log file "log.xml"
+</pre>
 <h3> Expdp: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/expdp/expdp_exclude_stats.sql">expdp_exclude_stats.sql</a> - Simulate the circumstance of adding this parameter "statistics=none" or "exclude=statistics" at the end of a usual EXPDP command
