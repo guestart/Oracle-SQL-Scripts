@@ -1,5 +1,5 @@
 REM
-REM        Script:        dig_ip_from_lsnr_log_xml.sql
+REM        Script:        dig_ip_via_listener_log_xml.sql
 REM        Author:        Quanwen Zhao
 REM        Dated:         Aug 14, 2019
 REM
