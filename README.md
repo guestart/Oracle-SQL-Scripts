@@ -21,7 +21,7 @@
 </pre>
 <h3> Dig listener log: </h3>
 <pre>
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_listener_log_xml/dig_ip_from_lsnr_log_xml.sql">dig_ip_from_lsnr_log_xml.sql</a> - Digging real IP Address from the "XML" format of listener log file "log.xml"
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_listener_log_xml/dig_ip_via_listener_log_xml.sql">dig_ip_via_listener_log_xml.sql</a> - Digging real IP Address from the "XML" format of listener log file "log.xml"
 </pre>
 <h3> Expdp: </h3>
 <pre>
