@@ -30,6 +30,7 @@
 <h3> Dig listener log: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_listener_log_xml/dig_ip_via_listener_log_xml.sql">dig_ip_via_listener_log_xml.sql</a> - Digging real IP Address from the "XML" format of listener log file "log.xml"
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_listener_log_xml/dig_ip_via_listener_log_xml_2.sql">dig_ip_via_listener_log_xml_2.sql</a> - The 2nd version of the prior SQL script "dig_ip_via_listener_log_xml.sql", the sole distinguish is this time I use "*" (using "NEWLINE" on 1st version) as a record delimited character when I create that external table
 </pre>
 <h3> Expdp: </h3>
 <pre>
