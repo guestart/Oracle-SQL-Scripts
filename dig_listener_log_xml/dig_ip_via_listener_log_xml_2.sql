@@ -16,7 +16,7 @@ PROMPT =========================
 PROMPT Executing on "SYS" schema
 PROMPT =========================
 
-CREATE OR REPLACE DIRECTORY xmldir AS '/u01/app/oracle/diag/tnslsnr/xxxx/listener/alert/';
+CREATE OR REPLACE DIRECTORY xmldir AS '/u01/app/oracle/diag/tnslsnr/xxxx/listener/alert';
 
 DROP TABLE listener_log_xml;
 
@@ -44,7 +44,7 @@ REJECT LIMIT UNLIMITED
 SET LONG 999999999    
 SET PAGESIZE 80
 
-SELECT line FROM listener_log_xml WHERE rownum <=6
+SELECT line FROM listener_log_xml WHERE rownum <= 6
 /
 
 SELECT * FROM listener_log_xml WHERE line LIKE '%PORT%' AND rownum <= 12
