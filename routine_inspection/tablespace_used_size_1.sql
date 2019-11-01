@@ -2,6 +2,9 @@ REM
 REM     Script:        tablespace_used_size_1.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Oct 30, 2019
+REM     Updated:       Nov 01, 2019
+REM                    Replacing "SUM(bytes_cached)/1024/1024 AS used" with "SUM(bytes_used)/1024/1024 AS used"
+REM                    on table "v$temp_extent_pool".
 REM
 REM     Purpose:  
 REM       This SQL script usually uses to check the used size of tablespace on Oracle Database.
@@ -29,7 +32,8 @@ WITH a AS (SELECT tablespace_name
   --       GROUP BY tablespace_name
   --      ),
      d AS (SELECT tablespace_name
-                  , SUM(bytes_cached)/1024/1024 AS used
+--                , SUM(bytes_cached)/1024/1024 AS used
+                  , SUM(bytes_used)/1024/1024 AS used
            FROM v$temp_extent_pool
            GROUP BY tablespace_name
           )
