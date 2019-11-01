@@ -2,6 +2,9 @@ REM
 REM     Script:        tablespace_per_used_size_and_rollup.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Oct 30, 2019
+REM     Updated:       Nov 01, 2019
+REM                    Replacing "SUM(bytes_cached)/1024/1024 AS used" with "SUM(bytes_used)/1024/1024 AS used"
+REM                    on table "v$temp_extent_pool".
 REM
 REM     Purpose:  
 REM       This SQL script usually uses to check the used size of per tablespace (and all) using "rollup" clause on Oracle Database.
@@ -18,7 +21,8 @@ WITH tu AS (SELECT tablespace_name
             FROM dba_segments
             UNION ALL
             SELECT tablespace_name
-                   , bytes_cached AS bytes
+--                 , bytes_cached AS bytes
+                   , bytes_used AS bytes
             FROM v$temp_extent_pool
            )
 SELECT tu.tablespace_name AS ts_name
