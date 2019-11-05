@@ -1,5 +1,5 @@
 REM
-REM     Script:        non-temp_tablespace_compare_total_size.sql
+REM     Script:        tablespace_non-temp_compare_total_size.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 05, 2019
 REM
