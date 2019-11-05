@@ -5,7 +5,7 @@ REM     Dated:         Nov 05, 2019
 REM
 REM     Purpose:  
 REM       This SQL script usually uses to get DDL statement of an object (such as TABLE, INDEX, SEQUENCE,
-REM       VIEW, FUNCTION and PROCEDURE) on Oracle Database.
+REM       VIEW, FUNCTION and PROCEDURE) using some substitution variables on Oracle Database.
 REM
 
 SET LONG     1000000000
