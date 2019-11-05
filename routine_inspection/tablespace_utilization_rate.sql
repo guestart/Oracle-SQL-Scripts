@@ -10,8 +10,8 @@ REM     Purpose:
 REM       This SQL script usually uses to check the utilization rate of all of the tablespace on Oracle Database.
 REM
 
-set linesize    10000
-set pagesize    10000
+SET LINESIZE 10000
+SET PAGESIZE 10000
 
 COLUMN ts_name  FORMAT a25
 COLUMN total_mb FORMAT 999,999,999.99
