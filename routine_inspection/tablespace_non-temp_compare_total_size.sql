@@ -4,7 +4,8 @@ REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 05, 2019
 REM
 REM     Purpose:  
-REM       This SQL script usually uses to compare the difference for total size of all of the non-temp tablespaces on Oracle Database.
+REM       This SQL script usually uses to compare the difference about total size (using more than one INLINE VIEW) of
+REM       all of the non-temp tablespaces on Oracle Database.
 REM
 
 SET LINESIZE 1000
