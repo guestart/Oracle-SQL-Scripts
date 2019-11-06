@@ -3,14 +3,16 @@ REM     Script:        get_ddl_of_object_using_substitution_variables.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 05, 2019
 REM     Updated:       Nov 06, 2019
-REM       (1) Adding "SET VERIFY OFF" to avoid showing like this prompt message
-REM           "old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual"
+REM       (1) Adding "SET VERIFY OFF" to avoid showing like this prompt messages
+REM           "old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
+REM            new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('sm$ts_free'), UPPER('sys')) FROM dual"
 REM           when I finish inputting the 3 substitution variables;
-REM       (2) Meantime removing all of like this prompt messages 
-REM           "old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual"
+REM       (2) Meantime replacing all of like this prompt messages 
+REM           "old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
+REM            new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('sm$ts_free'), UPPER('sys')) FROM dual"
 REM            on my demo which I give at the end of this SQL script.
 REM
-REM     Purpose:  
+REM     Purpose:
 REM       This SQL script usually uses to get DDL statement of an object (such as TABLE, INDEX, SEQUENCE,
 REM       VIEW, FUNCTION and PROCEDURE) using some substitution variables on Oracle Database.
 REM
@@ -34,10 +36,6 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 -- Enter value for object_type: view
 -- Enter value for object_name: sm$ts_avail
 -- Enter value for owner_name: sys
-
-DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TABLESPACES'),UPPER('SYS'))
---------------------------------------------------------------------------------
-
 -- 
 -- DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('SM$TS_AVAIL'),UPPER('SYS'))
 -- --------------------------------------------------------------------------------
@@ -46,14 +44,11 @@ DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TABLESPACES'),UPPER('SYS'))
 --   select tablespace_name, sum(bytes) bytes from dba_data_files
 --     group by tablespace_name
 -- 
--- 
 -- SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
 -- /
 -- Enter value for object_type: view
 -- Enter value for object_name: sm$ts_used
 -- Enter value for owner_name: sys
--- old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
--- new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('sm$ts_used'), UPPER('sys')) FROM dual
 -- 
 -- DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('SM$TS_USED'),UPPER('SYS'))
 -- --------------------------------------------------------------------------------
@@ -62,14 +57,11 @@ DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TABLESPACES'),UPPER('SYS'))
 --   select tablespace_name, sum(bytes) bytes from dba_segments
 --     group by tablespace_name
 -- 
--- 
 -- SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
 -- /
 -- Enter value for object_type: view
 -- Enter value for object_name: sm$ts_free
 -- Enter value for owner_name: sys
--- old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
--- new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('sm$ts_free'), UPPER('sys')) FROM dual
 -- 
 -- DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('SM$TS_FREE'),UPPER('SYS'))
 -- --------------------------------------------------------------------------------
@@ -78,14 +70,11 @@ DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TABLESPACES'),UPPER('SYS'))
 --   select tablespace_name, sum(bytes) bytes from dba_free_space
 --     group by tablespace_name
 -- 
--- 
 -- SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
 -- /
 -- Enter value for object_type: view
 -- Enter value for object_name: dba_temp_free_space
 -- Enter value for owner_name: sys
--- old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
--- new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('dba_temp_free_space'), UPPER('sys')) FROM dual
 -- 
 -- DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TEMP_FREE_SPACE'),UPPER('SYS'))
 -- --------------------------------------------------------------------------------
@@ -108,14 +97,11 @@ DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_TABLESPACES'),UPPER('SYS'))
 --     WHERE ts$.name = tsh.tablespace_name and
 --           tsh.tablespace_name = ss.tablespace_name (+)
 -- 
--- 
 -- SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
 -- /
 -- Enter value for object_type: view
 -- Enter value for object_name: dba_free_space
 -- Enter value for owner_name: sys
--- old   1: SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
--- new   1: SELECT DBMS_METADATA.get_ddl(UPPER('view'), UPPER('dba_free_space'), UPPER('sys')) FROM dual
 -- 
 -- DBMS_METADATA.GET_DDL(UPPER('VIEW'),UPPER('DBA_FREE_SPACE'),UPPER('SYS'))
 -- --------------------------------------------------------------------------------
