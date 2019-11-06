@@ -8,6 +8,7 @@ REM       This SQL script usually uses to get DDL statement of an object (such a
 REM       VIEW, FUNCTION and PROCEDURE) using some substitution variables on Oracle Database.
 REM
 
+SET VERIFY   OFF
 SET LONG     1000000000
 SET LINESIZE 200
 SET PAGESIZE 200
