@@ -20,7 +20,29 @@ PROMPT =====================
 SELECT DBMS_METADATA.get_ddl(UPPER('&1'), UPPER('&2'), UPPER('&3')) FROM dual
 /
 
--- The following are several demo which here I give.
+-- The following is an incorrect demo which here I give.
+-- 
+-- As you can see amongst 3 arguments you don't use comma to separate them, otherwise it'll show this error "ORA-31600".
+-- 
+-- SQL> @get_ddl_of_object_via_passing_in_arguments.sql view, sm$ts_avail, sys
+-- =====================
+-- running on SYS schema
+-- =====================
+-- ERROR:
+-- ORA-31600: invalid input value VIEW, for parameter OBJECT_TYPE in function GET_DDL
+-- ORA-06512: at "SYS.DBMS_METADATA", line 5805
+-- ORA-06512: at "SYS.DBMS_METADATA", line 8344
+-- ORA-06512: at line 1
+-- 
+-- 
+-- 
+-- no rows selected
+-- 
+-- SQL> 
+
+-- The following are several correct demos which here I give.
+-- 
+-- As you can see amongst 3 arguments you must use blank space to separate them.
 -- 
 -- SQL> @get_ddl_of_object_via_passing_in_arguments.sql view sm$ts_avail sys
 -- =====================
