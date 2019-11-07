@@ -1,5 +1,5 @@
 REM
-REM     Script:        get_ddl_of_object_using_substitution_variable.sql
+REM     Script:        get_ddl_of_object_via_using_substitution_variable.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 05, 2019
 REM     Updated:       Nov 06, 2019
