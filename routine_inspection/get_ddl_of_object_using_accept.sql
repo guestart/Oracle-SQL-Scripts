@@ -25,7 +25,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 /
 
 -- The following are several demo which here I give.
-
+-- 
 -- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
 -- =====================
 -- running on SYS schema
