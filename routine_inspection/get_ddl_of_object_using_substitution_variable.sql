@@ -1,5 +1,5 @@
 REM
-REM     Script:        get_ddl_of_object_using_substitution_variables.sql
+REM     Script:        get_ddl_of_object_using_substitution_variable.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 05, 2019
 REM     Updated:       Nov 06, 2019
@@ -14,7 +14,7 @@ REM            on my demo which I give at the end of this SQL script.
 REM
 REM     Purpose:
 REM       This SQL script usually uses to get DDL statement of an object (such as TABLE, INDEX, SEQUENCE,
-REM       VIEW, FUNCTION and PROCEDURE) using some substitution variables on Oracle Database.
+REM       VIEW, FUNCTION and PROCEDURE) via using substitution variable of SQL*Plus on Oracle Database.
 REM
 
 SET VERIFY   OFF
