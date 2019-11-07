@@ -1,5 +1,5 @@
 REM
-REM     Script:        get_ddl_of_object_using_accept_of_sqlplus.sql
+REM     Script:        get_ddl_of_object_using_accept.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 06, 2019
 REM
