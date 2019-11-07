@@ -1,5 +1,5 @@
 REM
-REM     Script:        get_ddl_of_object_using_accept.sql
+REM     Script:        get_ddl_of_object_via_using_accept.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 06, 2019
 REM
@@ -26,7 +26,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 
 -- The following are several demo which here I give.
 -- 
--- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
+-- SQL> @get_ddl_of_object_via_using_accept.sql
 -- =====================
 -- running on SYS schema
 -- =====================
@@ -42,7 +42,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 --     group by tablespace_name
 -- 
 -- 
--- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
+-- SQL> @get_ddl_of_object_via_using_accept.sql
 -- =====================
 -- running on SYS schema
 -- =====================
@@ -58,7 +58,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 --     group by tablespace_name
 -- 
 -- 
--- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
+-- SQL> @get_ddl_of_object_via_using_accept.sql
 -- =====================
 -- running on SYS schema
 -- =====================
@@ -74,7 +74,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 --     group by tablespace_name
 -- 
 -- 
--- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
+-- SQL> @get_ddl_of_object_via_using_accept.sql
 -- =====================
 -- running on SYS schema
 -- =====================
@@ -104,7 +104,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 --           tsh.tablespace_name = ss.tablespace_name (+)
 -- 
 -- 
--- SQL> @get_ddl_of_object_using_accept_of_sqlplus.sql
+-- SQL> @get_ddl_of_object_via_using_accept.sql
 -- =====================
 -- running on SYS schema
 -- =====================
