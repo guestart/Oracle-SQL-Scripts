@@ -11,7 +11,7 @@ REM             VIEW_NAME                                          VARCHAR2(30)
 REM             VIEW_DEFINITION                                    VARCHAR2(4000)
 REM
 REM     Purpose:
-REM       The 2nd version of SQL script "get_dyn_perf_view_def.sql" - using the parameter accept of SQL*Plus on Oracle Database.
+REM       The 2nd version of SQL script "get_dyn_perf_view_def.sql" - using "accept" of SQL*Plus command on Oracle Database.
 REM
 
 SET VERIFY   OFF
