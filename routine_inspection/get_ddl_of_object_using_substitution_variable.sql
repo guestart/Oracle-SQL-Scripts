@@ -30,7 +30,7 @@ SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER
 /
 
 -- The following are several demo which here I give.
-
+-- 
 -- SELECT DBMS_METADATA.get_ddl(UPPER('&object_type'), UPPER('&object_name'), UPPER('&owner_name')) FROM dual
 -- /
 -- Enter value for object_type: view
