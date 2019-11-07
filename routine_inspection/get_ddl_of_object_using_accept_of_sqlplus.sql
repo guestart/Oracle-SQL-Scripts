@@ -5,7 +5,7 @@ REM     Dated:         Nov 06, 2019
 REM
 REM     Purpose:
 REM       This SQL script usually uses to get DDL statement of an object (such as TABLE, INDEX, SEQUENCE,
-REM       VIEW, FUNCTION and PROCEDURE) using parameter accept of SQL*Plus on Oracle Database.
+REM       VIEW, FUNCTION and PROCEDURE) via using "accept" of SQL*Plus command on Oracle Database.
 REM
 
 SET VERIFY   OFF
