@@ -11,7 +11,7 @@ REM             VIEW_NAME                                          VARCHAR2(30)
 REM             VIEW_DEFINITION                                    VARCHAR2(4000)
 REM
 REM     Purpose:
-REM       The 3rd version of SQL script "get_dyn_perf_view_def.sql" - Calling SQL Script "get_dyn_perf_view_def_3.sql"
+REM       The 3rd version of SQL script "get_dyn_perf_view_def.sql" - calling SQL Script "get_dyn_perf_view_def_3.sql"
 REM       meanwhile passing in argument on Oracle Database.
 REM
 
