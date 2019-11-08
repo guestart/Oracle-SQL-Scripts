@@ -1,5 +1,5 @@
 REM
-REM     Script:        get_ddl_of_object_via_passing_in_arguments_.sql
+REM     Script:        get_ddl_of_object_via_passing_in_arguments.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 07, 2019
 REM
