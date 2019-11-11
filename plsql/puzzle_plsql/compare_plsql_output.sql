@@ -70,6 +70,7 @@ SET serveroutput OFF
 
 -- First creating a named procedure "puzzle_plsql_2" ON SYS schema of Oracle Database 11.2.0.4.0
 -- 
+
 CREATE OR REPLACE PROCEDURE
 puzzle_plsql_2
 IS 
