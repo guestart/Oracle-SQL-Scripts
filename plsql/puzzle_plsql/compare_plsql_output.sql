@@ -14,6 +14,7 @@ REM
 
 -- First creating a named procedure "puzzle_plsql_1" on SYS schema of Oracle Database 11.2.0.4.0
 -- 
+
 CREATE OR REPLACE PROCEDURE
 puzzle_plsql_1
 IS
@@ -50,6 +51,7 @@ END puzzle_plsql_1;
 
 -- Next executing it (SQL> @puzzle_plsql_1.sql) and save output result to a TXT file "puzzle_plsql_1.txt"
 -- 
+
 PROMPT ==================
 PROMPT puzzle_plsql_1.sql
 PROMPT ==================
@@ -90,6 +92,7 @@ END puzzle_plsql_2;
 
 -- Next executing it (SQL> @puzzle_plsql_2.sql) and save output result to a TXT file "puzzle_plsql_2.txt"
 -- 
+
 PROMPT ==================
 PROMPT puzzle_plsql_2.sql
 PROMPT ==================
@@ -105,6 +108,8 @@ SPOOL OFF
 SET termout      ON
 SET feedback     ON
 SET serveroutput OFF
+
+-- Comparing "puzzle_plsql_2.txt" with "puzzle_plsql_1.txt".
 
 HOST SDIFF puzzle_plsql_1.txt puzzle_plsql_2.txt > diff.txt
 
