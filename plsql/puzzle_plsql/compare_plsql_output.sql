@@ -6,7 +6,7 @@ REM
 REM     Purpose:
 REM       This SQL script usually uses to compare the output result of two types of PLSQL code:
 REM         https://livesql.oracle.com/apex/livesql/file/content_I7MK5SLZ8O4DZJPP2EXOFOKIW.html
-RERM      BTW it has been published by Steven Feuerstein (@sfonplsql) as a Twitter quiz on Nov 6, 2019:
+REM       BTW it has been published by Steven Feuerstein (@sfonplsql) as a Twitter quiz on Nov 6, 2019:
 REM         https://twitter.com/sfonplsql/status/1192164495654825984
 REM       and explored in his blog post:
 REM         https://stevenfeuersteinonplsql.blogspot.com/2019/11/plsql-puzzle-what-code-can-be-removed.html
