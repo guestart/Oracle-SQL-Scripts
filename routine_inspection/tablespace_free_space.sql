@@ -18,9 +18,9 @@ REM       (2) MBytes: allocated space of the tablespace, sum of kbytes consumed 
 REM       (3) Used MBytes: space in the tablespace that is used by some segment;
 REM       (4) Free MBytes: space in the tablespace not allocated to any segment;
 REM       (5) %Used: ratio of free to allocated space;
-REM       (6) LargestMBytes: mostly useful with dictionary managed tablespaces, the size of the largest contigously set of blocks available.
-REM                          If this number in a dictionary managed tablespace is smaller than the next extent for some object,
-REM                          that object could fail with "out of space" even if the FREE column says there is lots of free space;
+REM       (6) Largest MBytes: mostly useful with dictionary managed tablespaces, the size of the largest contigously set of blocks available.
+REM                           If this number in a dictionary managed tablespace is smaller than the next extent for some object,
+REM                           that object could fail with "out of space" even if the FREE column says there is lots of free space;
 REM       (7) MaxPoss MBytes: the autoextend max size (note CAN be smaller than the allocated size!!!!
 REM                           you can set the maxsize to be less than the current size of a file);
 REM       (8) %Max Used: how much of the maximum autoextend size has been used so far.
