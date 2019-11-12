@@ -56,23 +56,23 @@ SELECT ( SELECT DECODE(extent_management,'LOCAL','*',' ') ||
 	     , NVL(Mbytes_MAX,Mbytes_alloc) MAX_Size
 	     , DECODE(Mbytes_MAX,0,0,(Mbytes_alloc/Mbytes_MAX)*100) pct_max_used
 FROM ( SELECT SUM(bytes)/1024/1024   Mbytes_free
-			        , MAX(bytes)/1024/1024 Mbytes_largest
-			        , tablespace_name
-	     FROM  sys.dba_free_space
-	     GROUP BY tablespace_name
-	   ) a,
+              , MAX(bytes)/1024/1024 Mbytes_largest
+	      , tablespace_name
+       FROM  sys.dba_free_space
+       GROUP BY tablespace_name
+     ) a,
      ( SELECT SUM(bytes)/1024/1024      Mbytes_alloc
-			        , SUM(MAXbytes)/1024/1024 Mbytes_max
-			        , tablespace_name
-	     FROM sys.dba_data_files
-	     GROUP BY tablespace_name
-	     UNION ALL
+	      , SUM(MAXbytes)/1024/1024 Mbytes_max
+	      , tablespace_name
+       FROM sys.dba_data_files
+       GROUP BY tablespace_name
+       UNION ALL
        SELECT SUM(bytes)/1024/1024      Mbytes_alloc
-			        , SUM(MAXbytes)/1024/1024 Mbytes_max
-			        , tablespace_name
-	     FROM sys.dba_temp_files
-	     GROUP BY tablespace_name
-	   ) b
+	      , SUM(MAXbytes)/1024/1024 Mbytes_max
+	      , tablespace_name
+       FROM sys.dba_temp_files
+       GROUP BY tablespace_name
+     ) b
 WHERE a.tablespace_name (+) = b.tablespace_name
 ORDER BY 1
 /
