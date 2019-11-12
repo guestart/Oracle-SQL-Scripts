@@ -4,7 +4,7 @@ REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 12, 2019
 REM
 REM     Purpose:
-REM       This SQL script usually uses to check the Free space of Tablespaces (including Data and Temp) on Oracle Database.
+REM       This SQL script usually uses to check the free space of tablespaces (including Data and Temp) on Oracle Database.
 REM
 REM     Notice:
 REM       I just slightly formatted Tom Kyte's this SQL on https://asktom.oracle.com/Misc/free.html.
