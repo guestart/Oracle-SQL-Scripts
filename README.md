@@ -117,6 +117,8 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/tablespace_used_size_1.sql">tablespace_used_size_1.sql</a> - The 1st version Checking the used size of tablespace on Oracle Database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/tablespace_used_size_2.sql">tablespace_used_size_2.sql</a> - The 2nd version Checking the used size of tablespace on Oracle Database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/tablespace_utilization_rate.sql">tablespace_utilization_rate.sql</a> - Checking the utilization rate of all of the tablespace on Oracle Database
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/temporary_tablespace_used_size.sql">temporary_tablespace_used_size.sql</a> - Checking the used size of all of TEMPORARY tablespaces on Oracle Database
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/temporary_tablespace_used_size_2.sql">temporary_tablespace_used_size_2.sql</a> - The 2nd version of SQL script "temporary_tablespace_used_size.sql" on Oracle Database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/top_10_segment_on_sysaux_tbs.sql">top_10_segment_on_sysaux_tbs.sql</a> - Showing top 10 segment objects on sysaux tablespace
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/top_10_segment_on_system_tbs.sql">top_10_segment_on_system_tbs.sql</a> - Showing top 10 segment objects on system tablespace
 </pre>
