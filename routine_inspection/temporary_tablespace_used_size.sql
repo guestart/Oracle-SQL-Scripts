@@ -3,7 +3,7 @@ REM     Script:        temporary_tablespace_used_size.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 15, 2019
 REM
-REM     Purpose:  
+REM     Purpose:
 REM       This SQL script usually uses to check the used size of all of TEMPORARY tablespaces on Oracle Database.
 REM
 REM     Last tested:
