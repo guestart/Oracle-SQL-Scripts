@@ -109,5 +109,5 @@ SELECT dtf.tablespace_name AS ts_name
        , ROUND((ttt.used/dtf.total*100), 2) AS "USED(%)"
 FROM dtf, ttt
 WHERE dtf.tablespace_name = ttt.tablespace
-ORDER BY 1
+ORDER BY 5 DESC, 1
 /
