@@ -2,6 +2,8 @@ REM
 REM     Script:        temporary_tablespace_used_size.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 15, 2019
+REM     Updated:       Nov 18, 2019
+REM       Modifying View "tbk" (writing within "WITH ... AS ...") to be neithor "grouping by tablespace" nor "SUM(blocks)".
 REM
 REM     Purpose:
 REM       This SQL script usually uses to check the used size of all of TEMPORARY tablespaces on Oracle Database.
@@ -17,9 +19,10 @@ COLUMN tablespace FORMAT a25
 COLUMN used_mb    FORMAT 999,999,999,999
 
 WITH tbk AS ( SELECT tablespace
-                     , SUM(blocks) AS bn
+--                   , SUM(blocks) AS bn
+                     , blocks
               FROM v$tempseg_usage
-              GROUP BY tablespace
+--            GROUP BY tablespace
               ORDER BY 1
             ),
      tbs AS ( SELECT t.ts#
@@ -36,8 +39,8 @@ WITH tbk AS ( SELECT tablespace
             )
 SELECT tbk.tablespace
        , tbs.block_size
-       , SUM(tbk.bn) AS blocks
-       , (SUM(tbk.bn) * tbs.block_size)/POWER(2,20) AS used_mb
+--     , SUM(tbk.bn) AS blocks
+       , (SUM(tbk.blocks) * tbs.block_size)/POWER(2,20) AS used_mb
 FROM tbk, tn, tbs
 WHERE tbk.tablespace = tn.name
 AND tn.ts# = tbs.ts#
