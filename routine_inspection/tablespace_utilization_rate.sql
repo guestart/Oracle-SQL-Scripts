@@ -35,49 +35,49 @@ WITH ddf AS ( SELECT tablespace_name
                FROM dba_data_files
                GROUP BY tablespace_name
              ),
-    dfs AS ( SELECT tablespace_name        
+     dfs AS ( SELECT tablespace_name        
 --      b AS (SELECT tablespace_name
 --                   , SUM(bytes)/1024/1024 AS free
-                    , SUM(bytes)/POWER(2,20) AS free
-             FROM dba_free_space
-             GROUP BY tablespace_name
-           ),
-    dtf AS ( SELECT tablespace_name
+                     , SUM(bytes)/POWER(2,20) AS free
+              FROM dba_free_space
+              GROUP BY tablespace_name
+            ),
+     dtf AS ( SELECT tablespace_name
 --      c AS (SELECT tablespace_name
 --                   , SUM(bytes)/1024/1024 AS total
-                    , SUM(bytes)/POWER(2,20) AS total
-             FROM dba_temp_files
-             GROUP BY tablespace_name
-           ),
+                     , SUM(bytes)/POWER(2,20) AS total
+              FROM dba_temp_files
+              GROUP BY tablespace_name
+            ),
 --      d AS (SELECT tablespace_name
 --                   , SUM(bytes_cached)/1024/1024 AS used
 --                   , SUM(bytes_used)/1024/1024 AS used
 --            FROM v$temp_extent_pool
 --            GROUP BY tablespace_name
 --           )
-    ts  AS ( SELECT ts#
-                    , name
-             FROM v$tablespace
-           ),
-    tt  AS ( SELECT t.ts#
-                    , t.blocksize
-                    , tf.block_size
-             FROM ts$ t, v$tempfile tf
-             WHERE t.ts# = tf.ts#
-           ),
-    tu  AS ( SELECT tablespace
-                    , blocks
-             FROM v$tempseg_usage
-           ), 
-    ttt AS ( SELECT tu.tablespace
-                    , tt.block_size
-                    , (SUM(tu.blocks) * tt.block_size)/POWER(2,20) AS used
-             FROM ts, tt, tu
-             WHERE ts.ts# = tt.ts#
-             AND tu.tablespace = ts.name
-             GROUP BY tu.tablespace
-                      , tt.block_size
-           )
+     ts  AS ( SELECT ts#
+                     , name
+              FROM v$tablespace
+            ),
+     tt  AS ( SELECT t.ts#
+                     , t.blocksize
+                     , tf.block_size
+              FROM ts$ t, v$tempfile tf
+              WHERE t.ts# = tf.ts#
+            ),
+     tu  AS ( SELECT tablespace
+                     , blocks
+              FROM v$tempseg_usage
+            ), 
+     ttt AS ( SELECT tu.tablespace
+                     , tt.block_size
+                     , (SUM(tu.blocks) * tt.block_size)/POWER(2,20) AS used
+              FROM ts, tt, tu
+              WHERE ts.ts# = tt.ts#
+              AND tu.tablespace = ts.name
+              GROUP BY tu.tablespace
+                       , tt.block_size
+            )
 -- SELECT a.tablespace_name AS ts_name
 --        , a.total AS "TOTAL_MB"
 --        , a.total - b.free AS "USED_MB"
