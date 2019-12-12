@@ -12,11 +12,8 @@ REM
 REM        SQL> SET VERIFY OFF
 REM        SQL> 
 REM        SQL> PROMPT ===========================================================================
-REM        SQL> ===========================================================================
 REM        SQL> PROMPT Creating a test table, according to the value of variable "l_num" you input
-REM        SQL> Creating a test table, according to the value of variable "l_num" you input
 REM        SQL> PROMPT ===========================================================================
-REM        SQL> ===========================================================================
 REM        SQL> 
 REM        SQL> DROP TABLE t PURGE;
 REM        
