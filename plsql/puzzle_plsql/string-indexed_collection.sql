@@ -2,13 +2,15 @@ REM
 REM     Script:        string-indexed_collection.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Dec 12, 2019
+REM     Updated:       Dec 29, 2019
+REM                    separately adding a hyperlink for a Live SQL script of Steven Feuerstein and his blog post.
 REM
 REM     Purpose:
 REM        A quick little #PLSQL puzzle written by Steven Feuerstein (Oracle) on Twitter on Dec 10, 2019.
 REM        and his analytic PL/SQL code has also been uploaded to Live SQL:
-REM           https://livesql.oracle.com/apex/livesql/file/content_JC3YOYT7533XBW5FCGNDQYRQY.html
+REM        ![PL/SQL Puzzle: string-indexed collection](https://livesql.oracle.com/apex/livesql/file/content_JC3YOYT7533XBW5FCGNDQYRQY.html)
 REM        and also having a nice explanation on his blog note:
-REM           https://stevenfeuersteinonplsql.blogspot.com/2019/12/plsql-puzzle-when-implicit-conversions.html
+REM        ![PL/SQL Puzzle: when implicit conversions](https://stevenfeuersteinonplsql.blogspot.com/2019/12/plsql-puzzle-when-implicit-conversions.html)
 REM
 
 -- The initial tweet contents:
