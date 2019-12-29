@@ -8,9 +8,9 @@ REM
 REM     Purpose:
 REM        A quick little #PLSQL puzzle written by Steven Feuerstein (Oracle) on Twitter on Dec 10, 2019.
 REM        and his analytic PL/SQL code has also been uploaded to Live SQL:
-REM        ![PL/SQL Puzzle: string-indexed collection](https://livesql.oracle.com/apex/livesql/file/content_JC3YOYT7533XBW5FCGNDQYRQY.html)
+REM        <a href="https://livesql.oracle.com/apex/livesql/file/content_JC3YOYT7533XBW5FCGNDQYRQY.html">PL/SQL Puzzle: string-indexed collection</a>
 REM        and also having a nice explanation on his blog note:
-REM        ![PL/SQL Puzzle: when implicit conversions](https://stevenfeuersteinonplsql.blogspot.com/2019/12/plsql-puzzle-when-implicit-conversions.html)
+REM        <a href="https://stevenfeuersteinonplsql.blogspot.com/2019/12/plsql-puzzle-when-implicit-conversions.html">PL/SQL Puzzle: when implicit conversions</a>
 REM
 
 -- The initial tweet contents:
