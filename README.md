@@ -1,6 +1,10 @@
 <html>
 <h1> Oracle SQL Scripts </h1>
 <body>
+<h3> DB Design Demo: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/DB_Design_Demo/annual_report_demo.sql">annual_report_demo.sql</a> - Using a simple SQL Demo of DB Design to build my Annual Report
+</pre>
 <h3> Acquiring Pool SQL: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/acquiring_pool_sql/buffer_gets_rank_top_5_sql_on_sqlstats.sql">buffer_gets_rank_top_5_sql_on_sqlstats.sql</a> - Ranking Top 5 SQL for buffer_gets (High CPU) on "v$sqlstats" of Oracle
