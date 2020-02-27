@@ -11,7 +11,7 @@ REM             19.3.0.0
 REM             LiveSQL (19.5.0.0)
 REM
 REM     Purpose:  
-REM       This sql script uses to observe the execution plan of pagination query on Oracle Database
+REM       This sql script uses to observe the execution plan of top-N and pagination query on Oracle Database
 REM       via setting autotrace traceonly.
 REM
 REM       Here I intend to use total three methods to do this pagination query.
