@@ -14,8 +14,8 @@ REM     Purpose:
 REM       This sql script uses to observe the execution plan of top-N and pagination query on Oracle Database
 REM       via setting autotrace traceonly.
 REM
-REM       Here I intend to use total three methods to do this pagination query.
-REM         (1) ROWNUM (traditional);
+REM       Here I intend to use total three methods to check the previous two types of SQL query's execution plan:
+REM         (1) ROWNUM (traditional)
 REM         (2) ROW_NUMBER() (analytic function)
 REM         (3) OFFSET ... FETCH ... (limiting sql rows, which is usable since Oracle 12.1)
 REM
