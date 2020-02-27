@@ -146,7 +146,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/check_sql_multiple_execution_plans.sql">check_sql_multiple_execution_plans.sql</a> - Check SQL multiple execution plans
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/check_sql_multiple_execution_plans_2.sql">check_sql_multiple_execution_plans_2.sql</a> - Check SQL multiple execution plans-2
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/optimize_query_null_value.sql">optimize_query_null_value.sql</a> - Optimize the SQL query of "NULL" value
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_bug.sql">pagination_query_bug.sql</a> - Observing the execution plan of pagination query on Oracle Database via setting autotrace traceonly
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_bug.sql">pagination_query_bug.sql</a> - Observing the execution plan of top-N and pagination query on Oracle Database via setting autotrace traceonly
 </pre>
 <h3> Statistics Info: </h3>
 <pre>
