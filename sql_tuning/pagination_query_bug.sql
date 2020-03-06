@@ -1,7 +1,7 @@
 REM
 REM     Script:        pagination_query_bug.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         Feb 27, 2020                                                  
+REM     Dated:         Feb 27, 2020
 REM
 REM     Last tested:
 REM             11.2.0.4
