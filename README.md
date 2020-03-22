@@ -145,6 +145,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/check_sql_execution_plan_table.sql">check_sql_execution_plan_table.sql</a> - Check the SQL statement's execution plan
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/check_sql_multiple_execution_plans.sql">check_sql_multiple_execution_plans.sql</a> - Check SQL multiple execution plans
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/check_sql_multiple_execution_plans_2.sql">check_sql_multiple_execution_plans_2.sql</a> - Check SQL multiple execution plans-2
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/like_expression.sql">like_expression.sql</a> - Optimize the SQL statement with LIKE expression on Oracle Database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/optimize_query_null_value.sql">optimize_query_null_value.sql</a> - Optimize the SQL query of "NULL" value
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_ascending_index.sql">pagination_query_ascending_index.sql</a> - Observing the execution plan of top-N and pagination query on Oracle Database via calling DBMS_XPLAN.display_cursor()
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_bug.sql">pagination_query_bug.sql</a> - Observing the execution plan of top-N and pagination query on Oracle Database via setting autotrace traceonly
