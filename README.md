@@ -150,6 +150,9 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_ascending_index.sql">pagination_query_ascending_index.sql</a> - Observing the execution plan of top-N and pagination query on Oracle Database via calling DBMS_XPLAN.display_cursor()
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/pagination_query_bug.sql">pagination_query_bug.sql</a> - Observing the execution plan of top-N and pagination query on Oracle Database via setting autotrace traceonly
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/topN_query_descending_index(bug).sql">topN_query_descending_index(bug).sql</a> - Observing the execution plan of top-N (20) query on Oracle Database via calling DBMS_XPLAN.display_cursor()
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/user_index_columns.sql">user_index_columns.sql</a> - Checking the related index columns info by inputting a table name when using SQL*Plus to connect to a user on Oracle Database
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/user_index_expressions.sql">user_index_expressions.sql</a> - Checking the related index expressions on several columns by inputting a table name when using SQL*Plus to connect to a user on Oracle Database
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/sql_tuning/user_indexes.sql">user_indexes.sql</a> - Checking the related indexes info by inputting a table name when using SQL*Plus to connect to a user on Oracle Database
 </pre>
 <h3> Statistics Info: </h3>
 <pre>
