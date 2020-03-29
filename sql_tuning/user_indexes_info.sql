@@ -18,9 +18,9 @@ SET PAGESIZE 150
 
 ALTER SESSION SET nls_date_format = 'YYYY-MM-DD';
 
-COLUMN index_name FORMAT a30
-COLUMN index_type FORMAT a30
-COLUMN visibility FORMAT a10
+COLUMN index_name    FORMAT a30
+COLUMN index_type    FORMAT a30
+COLUMN visibility    FORMAT a10
 COLUMN last_analyzed FORMAT a13
 
 SELECT index_name
