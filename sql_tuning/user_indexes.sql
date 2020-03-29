@@ -1,5 +1,5 @@
 REM
-REM     Script:        user_indexes_info.sql
+REM     Script:        user_indexes.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Mar 29, 2020
 REM
@@ -34,4 +34,6 @@ SELECT index_name
      , last_analyzed   
 FROM   user_indexes
 WHERE  table_name = UPPER('&tabname')
+ORDER BY index_name
+       , clustering_factor
 ;
