@@ -1,5 +1,5 @@
 REM
-REM     Script:        user_indexes_expressions.sql
+REM     Script:        user_index_expressions.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Mar 29, 2020
 REM
@@ -23,4 +23,5 @@ SELECT index_name
      , column_expression
 FROM   user_ind_expressions
 WHERE  table_name = UPPER('&tabname')
+ORDER BY index_name
 ;
