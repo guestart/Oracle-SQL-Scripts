@@ -2,6 +2,9 @@ REM
 REM     Script:        optimize_query_null_value.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Jan 14, 2020
+REM     Updated:       Apr 01, 2020
+REM                    adding "seed()" before inserting data into table "test". Such as "EXEC DBMS_RANDOM.seed(0);", 
+REM                    also adjusting and aligning the format of select column in many of sql statements. 
 REM
 REM     Last tested:
 REM             18.3.0.0
@@ -16,12 +19,13 @@ REM
 SET LINESIZE 300
 SET PAGESIZE 300
 SET SERVEROUTPUT OFF
+
 ALTER SESSION SET statistics_level = all;
 
-PROMPT ====================================================================
-PROMPT  Creating Tablespace, Temporary Tablespace and appropriate User,
-PROMPT  meanwhile granting several role and object privileges to that User
-PROMPT ====================================================================
+PROMPT ==================================================================
+PROMPT Creating Tablespace, Temporary Tablespace and appropriate User,
+PROMPT meanwhile granting several role and object privileges to that User
+PROMPT ==================================================================
 
 CREATE TABLESPACE qwz DATAFILE 'C:\APP\ADMINISTRATOR\VIRTUAL\ORADATA\ORA19C\QWZ01.DBF' SIZE 2g;
 CREATE TEMPORARY TABLESPACE qwz_temp TEMPFILE 'C:\APP\ADMINISTRATOR\VIRTUAL\ORADATA\ORA19C\QWZ_TEMP01.DBF' size 5g;
@@ -34,10 +38,10 @@ GRANT select ON v_$session TO c##qwz;
 GRANT select ON v_$sql_plan_statistics_all TO c##qwz;
 GRANT select ON v_$sql TO c##qwz;
 
-PROMPT =============================================
-PROMPT  Creating table "test", inserting some data, 
-PROMPT  next observing its data distribution.
-PROMPT =============================================
+PROMPT ===========================================
+PROMPT Creating table "test", inserting some data, 
+PROMPT next observing its data distribution.
+PROMPT ===========================================
 
 CREATE TABLE test
 ( id   NUMBER GENERATED ALWAYS AS IDENTITY
@@ -46,14 +50,17 @@ CREATE TABLE test
 , CONSTRAINT test_pk PRIMARY KEY(id)
 );
 
+EXEC DBMS_RANDOM.seed(0);
+
 INSERT /*+APPEND*/ INTO test (flag, pwd)
 SELECT CASE WHEN ROWNUM <= 1e5 - 50 THEN NULL
             WHEN ROWNUM <= 1e5 - 45 THEN 'T'
             ELSE 'F'
        END flag
      , DBMS_RANDOM.string ('p', 6) pwd
-FROM dual
-CONNECT BY level <= 1e5;
+FROM   dual
+CONNECT BY level <= 1e5
+;
 
 COMMIT;
 
@@ -61,14 +68,16 @@ SELECT COUNT(*) FROM test;
 
 COLUMN flag FORMAT a4
 
-SELECT flag, COUNT(*)
-FROM   test
+SELECT   flag
+     ,   COUNT(*)
+FROM     test
 GROUP BY flag
-ORDER BY 1 NULLS FIRST;
+ORDER BY 1 NULLS FIRST
+;
 
-PROMPT ==========================================================
-PROMPT  Creating Single Column Index "test_idx" on column "flag"
-PROMPT ==========================================================
+PROMPT ========================================================
+PROMPT Creating Single Column Index "test_idx" on column "flag"
+PROMPT ========================================================
 
 CREATE INDEX test_idx ON test (flag);
 
@@ -83,9 +92,10 @@ SELECT index_name
      , num_rows
      , leaf_blocks
 --   , constraint_index
-FROM user_indexes
-WHERE table_name = 'TEST'
-ORDER BY 1;
+FROM   user_indexes
+WHERE  table_name = 'TEST'
+ORDER BY 1
+;
 
 SELECT COUNT(*) FROM test WHERE flag IS NULL;
 SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
@@ -93,9 +103,9 @@ SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
 SELECT COUNT(*) FROM test WHERE flag = 'T';
 SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
 
-PROMPT ====================================================================
-PROMPT  Creating Composite Index "test_idx_2" on two columns "flag", "pwd"
-PROMPT ====================================================================
+PROMPT ==================================================================
+PROMPT Creating Composite Index "test_idx_2" on two columns "flag", "pwd"
+PROMPT ==================================================================
 
 CREATE INDEX test_idx_2 ON test (flag, pwd);
 
@@ -110,9 +120,10 @@ SELECT index_name
      , num_rows
      , leaf_blocks
 --   , constraint_index
-FROM user_indexes
-WHERE table_name = 'TEST'
-ORDER BY 1;
+FROM   user_indexes
+WHERE  table_name = 'TEST'
+ORDER BY 1
+;
 
 SELECT pwd FROM test WHERE flag IS NULL;
 SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
@@ -120,9 +131,9 @@ SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
 SELECT pwd FROM test WHERE flag = 'T';
 SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
 
-PROMPT ==============================================================
-PROMPT  Creating Function-Based Index "test_idx_fn" on column "flag"
-PROMPT ==============================================================
+PROMPT ============================================================
+PROMPT Creating Function-Based Index "test_idx_fn" on column "flag"
+PROMPT ============================================================
 
 CREATE INDEX test_idx_fn ON test (NVL(flag, '0'));
 
@@ -137,8 +148,8 @@ SELECT index_name
      , num_rows
      , leaf_blocks
 --   , constraint_index
-FROM user_indexes
-WHERE table_name = 'TEST'
+FROM   user_indexes
+WHERE  table_name = 'TEST'
 ORDER BY 1;
 
 SELECT COUNT(*) FROM test WHERE NVL(flag, '0') = '0';
@@ -161,14 +172,15 @@ COLUMN sys_nc00004$ FORMAT a12
 
 SELECT SYS_NC00004$
      , COUNT(*)
-FROM test
+FROM   test
 GROUP BY SYS_NC00004$
-ORDER BY 1;
+ORDER BY 1
+;
 
-PROMPT ===========================================================
-PROMPT  Creating Virtual Column "virtual_flag" (within INVISIBLE)
-PROMPT  using SQL clause "GENERATED ALWAYS AS (NVL(flag, '0'))"
-PROMPT ===========================================================
+PROMPT =========================================================
+PROMPT Creating Virtual Column "virtual_flag" (within INVISIBLE)
+PROMPT using SQL clause "GENERATED ALWAYS AS (NVL(flag, '0'))"
+PROMPT =========================================================
 
 DROP INDEX test_idx_fn;
 
@@ -189,7 +201,7 @@ COLUMN virtual_flag FORMAT a12
 
 SELECT VIRTUAL_FLAG
      , COUNT(*)
-FROM test
+FROM   test
 GROUP BY VIRTUAL_FLAG
 ORDER BY 1;
 
@@ -202,9 +214,10 @@ SELECT index_name
      , num_rows
      , leaf_blocks
 --   , constraint_index
-FROM user_indexes
-WHERE table_name = 'TEST'
-ORDER BY 1;
+FROM   user_indexes
+WHERE  table_name = 'TEST'
+ORDER BY 1
+;
 
 SELECT COUNT(*) FROM test WHERE virtual_flag = '0';
 SELECT * FROM table (DBMS_XPLAN.display_cursor(NULL, NULL, 'ALLSTATS LAST'));
