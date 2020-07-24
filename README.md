@@ -95,6 +95,7 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/all_prod_user.sql">all_prod_user.sql</a> - Listing all of production users by dba_users (excluding sys related users)
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/break_compute_demo.sql">break_compute_demo.sql</a> - Breaking (SQL*Plus command) tablespace_name and computing (SQL*Plus command) dropped size based on recyclebin object "BIN$..." existing in Oracle Static Data Dictionary View "dba_segments"
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/check_non_default_parameter.sql">check_non_default_parameter.sql</a> - Checking whether there are some non-default parameters on Oracle database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/check_total_size_oracle_db.sql">check_total_size_oracle_db.sql</a> - Checking total sizes of Oracle database
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/connect_machine_via_sql_id.sql">connect_machine_via_sql_id.sql</a> - Checking the machine name connecting to Oracle Database Server via inputting a specific value of SQL_ID
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/routine_inspection/ctl_file_path_in_rman_backupsets.sql">ctl_file_path_in_rman_backupsets.sql</a> - Listing all of control file's locaiton in rman backupsets
