@@ -1,6 +1,10 @@
 <html>
 <h1> Oracle SQL Scripts </h1>
 <body>
+<h3> Bug: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/Bug/invoke_procedure_in_trigger.sql">invoke_procedure_in_trigger.sql</a> - PL/SQL compiler will report the very weird error of PLS-00103 if adding a comment after the call procedure clause in a trigger
+</pre>
 <h3> DB Design Demo: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/DB_Design_Demo/annual_report_demo.sql">annual_report_demo.sql</a> - Using a simple SQL Demo of DB Design to build my Annual Report
