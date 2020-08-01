@@ -13,7 +13,7 @@ REM             19.5.0.0 -- LiveSQL
 REM
 REM     Purpose:
 REM       If adding a comment after the call procedure clause in a trigger, PL/SQL compiler
-REM       will report the very weird error of PLS-00103. So I emailed to Stever Feuerstein,
+REM       will report the very weird error of PLS-00103. So I emailed to Steven Feuerstein,
 REM       he suggests me remove that comment and then it will normally work, which seems to
 REM       be a bug.
 REM
