@@ -24,9 +24,11 @@ REM       (4) The names of all columns in the SELECT statements must be identica
 REM
 REM       (5) None.
 
-PROMPT  =======================================
-PROMPT  Building a demo for verifying Choice 1:
-PROMPT  =======================================
+PROMPT  ==================================================================
+PROMPT             Building a demo for verifying Choice 1:
+PROMPT  ==================================================================
+PROMPT  By reversing the order of the intersected tables alter the result.
+PROMPT  ==================================================================
 
 DROP TABLE t1 PURGE;
 
@@ -70,6 +72,8 @@ b c
 
 PROMPT  =======================================
 PROMPT  Building a demo for verifying Choice 2:
+PROMPT  =======================================
+PROMPT  It ignores the NULL values.
 PROMPT  =======================================
 
 DROP TABLE t1 PURGE;
@@ -175,9 +179,12 @@ A B    C
 a b    null
 a null c
 
-PROMPT  =======================================
-PROMPT  Building a demo for verifying Choice 3:
-PROMPT  =======================================
+PROMPT  =========================================================================
+PROMPT                  Building a demo for verifying Choice 3:
+PROMPT  =========================================================================
+PROMPT  The number of columns and the data types must be identical for all of the
+PROMPT  SELECT statements in the query.
+PROMPT  =========================================================================
 
 -- The number of columns of the SQL query (for the INTERSECTION in two tables) is different. 
 
@@ -280,9 +287,11 @@ A	B
 1	2
 2	3
 
-PROMPT  =======================================
-PROMPT  Building a demo for verifying Choice 4:
-PROMPT  =======================================
+PROMPT  ====================================================================
+PROMPT                Building a demo for verifying Choice 4:
+PROMPT  ====================================================================
+PROMPT  The names of all columns in the SELECT statements must be identical.
+PROMPT  ====================================================================
 
 DROP TABLE t1 PURGE;
 
