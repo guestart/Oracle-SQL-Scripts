@@ -9,6 +9,16 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/DB_Design_Demo/annual_report_demo.sql">annual_report_demo.sql</a> - Using a simple SQL Demo of DB Design to build my Annual Report
 </pre>
+<h3> SCN: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/SCN/database_scn.sql">database_scn.sql</a> - Checking SCN number of oracle database (via joining two number of oracle dynamic performance view v$datafile and v$datafile_header)
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/SCN/datafile_header_scn.sql">datafile_header_scn.sql</a> - Checking SCN number (for both the column "checkpoint_change#" and "resetlogs_change#" via the oracle dynamic performance view v$datafile_header) of the header of data file
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/SCN/datafile_scn.sql">datafile_scn.sql</a> - Checking SCN number (in the column "checkpoint_change#" via the oracle dynamic performance view v$datafile) of current control file
+</pre>
+<h3> SQL Quiz: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/SQL%20Quiz/quiz_intersect.sql">quiz_intersect.sql</a> - Taking a SQL Quiz for Intersect I once noticed on a place where I seem like to not remember it a few days ago
+</pre>
 <h3> Acquiring Pool SQL: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/acquiring_pool_sql/buffer_gets_rank_top_5_sql_on_sqlstats.sql">buffer_gets_rank_top_5_sql_on_sqlstats.sql</a> - Ranking Top 5 SQL for buffer_gets (High CPU) on "v$sqlstats" of Oracle
