@@ -1,7 +1,7 @@
 REM
-REM     Script:        quiz_intersect_set.sql
+REM     Script:        quiz_intersect.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         Dec 30, 2020
+REM     Dated:         Dec 31, 2020
 REM
 REM     Last tested:
 REM             18.3.0.0
@@ -55,20 +55,24 @@ INTERSECT
 SELECT * FROM t2
 ;
 
-A B
-- -
-a b
-b c
+-- on 18.3 and LiveSQL:
+
+-- A B
+-- - -
+-- a b
+-- b c
 
 SELECT * FROM t2
 INTERSECT
 SELECT * FROM t1
 ;
 
-A B
-- -
-a b
-b c
+-- on 18.3 and LiveSQL:
+
+-- A B
+-- - -
+-- a b
+-- b c
 
 PROMPT  =======================================
 PROMPT  Building a demo for verifying Choice 2:
@@ -101,17 +105,19 @@ INTERSECT
 SELECT * FROM t2
 ;
 
-A B C
-- - -
-a b
-a   c
+-- on 18.3:
 
--- LiveSQL:
+-- A B C
+-- - - -
+-- a b
+-- a   c
 
-A B C
-- - -
-a b -
-a - c
+-- on LiveSQL:
+
+-- A B C
+-- - - -
+-- a b -
+-- a - c
 
 SELECT
            CASE WHEN a IS NULL THEN 'null'
@@ -140,17 +146,19 @@ FROM
            t2
 ;
 
-A    B    C
----- ---- ----
-a    b    null
-a    null c
+-- on 18.3:
 
--- LiveSQL:
+-- A    B    C
+-- ---- ---- ----
+-- a    b    null
+-- a    null c
 
-A B    C
-- ---- ----
-a b    null
-a null c
+-- on LiveSQL:
+
+-- A B    C
+-- - ---- ----
+-- a b    null
+-- a null c
 
 SELECT
            NVL(a, 'null') a,
@@ -167,17 +175,19 @@ FROM
            t2
 ;
 
-A    B    C
----- ---- ----
-a    b    null
-a    null c
+-- on 18.3:
 
--- LiveSQL:
+-- A    B    C
+-- ---- ---- ----
+-- a    b    null
+-- a    null c
 
-A B    C
-- ---- ----
-a b    null
-a null c
+-- on LiveSQL:
+
+-- A B    C
+-- - ---- ----
+-- a b    null
+-- a null c
 
 PROMPT  =========================================================================
 PROMPT                  Building a demo for verifying Choice 3:
@@ -216,7 +226,10 @@ SELECT     a
 FROM       t2
 ;
 
-ORA-01789: query block has incorrect number of result columns
+-- on 18.3 and LiveSQL:
+
+-- ORA-01789: query block has incorrect number of result columns
+
 
 -- The data type of columns of the SQL query (for the INTERSECTION in two tables) is different.
 
@@ -245,7 +258,9 @@ INTERSECT
 SELECT * FROM t2
 ;
 
-ORA-01790: expression must have same datatype as corresponding expression
+-- on 18.3 and LiveSQL:
+
+-- ORA-01790: expression must have same datatype as corresponding expression
 
 DROP TABLE t1 PURGE;
 
@@ -259,7 +274,7 @@ COMMIT;
 
 DROP TABLE t2 PURGE;
 
--- showing an error of ORA-00907: missing right parenthesis when using the data type INTEGER(1).
+-- showing an error of ORA-00907: missing right parenthesis when creating the table t2 using the data type INTEGER(1).
 -- CREATE TABLE t2(a INTEGER(1), b INTEGER(1));
 
 CREATE TABLE t2(a INTEGER, b INTEGER);
@@ -275,17 +290,19 @@ INTERSECT
 SELECT * FROM t2
 ;
 
-         A          B
----------- ----------
-         1          2
-         2          3
+-- on 18.3:
 
--- LiveSQL:
+--          A          B
+-- ---------- ----------
+--          1          2
+--          2          3
 
-A	B
-- -
-1	2
-2	3
+-- on LiveSQL:
+
+-- A B
+-- - -
+-- 1 2
+-- 2 3
 
 PROMPT  ====================================================================
 PROMPT                Building a demo for verifying Choice 4:
@@ -318,31 +335,35 @@ INTERSECT
 SELECT b FROM t2
 ;
 
-         A
-----------
-         1
-         3
+-- on 18.3:
 
--- LiveSQL:
+--          A
+-- ----------
+--          1
+--          3
 
-A
--
-1
-3
+-- on LiveSQL:
+
+-- A
+-- -
+-- 1
+-- 3
 
 SELECT b FROM t2
 INTERSECT
 SELECT a FROM t1
 ;
 
-         B
-----------
-         1
-         3
+-- on 18.3:
 
--- LiveSQL:
+--          B
+-- ----------
+--          1
+--          3
 
-B
--
-1
-3
+-- on LiveSQL:
+
+-- B
+-- -
+-- 1
+-- 3
