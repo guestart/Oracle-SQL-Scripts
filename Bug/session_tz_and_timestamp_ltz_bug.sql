@@ -13,6 +13,14 @@ REM       I finished testing the Chris Saxon's LiveSQL script - https://livesql.
 REM       and found that there has two number of bug(s):
 REM         1. after altering the sessiontimezone, its value has not been changed;
 REM         2. the value of column 'local_ts' in table 't' is not always correct by altering the value of sessiontimezone.
+REM
+REM       By the way Mentzel Ludith pointed out ot me on LinkedIn that it is NOT a bug on LiveSQL. If I run all of my STATEMENTS
+REM       in a single session, it won't produce the case like me (get the same result with Chris) because LiveSQL is a WEB
+REM       environment with shared sessions.
+REM
+REM       Hence, it's NOT bug!!! But it is very easy to misunderstand running those statements one by one
+REM       particularly finished reading someone's shared script.
+REM
 
 SELECT dbtimezone, sessiontimezone FROM DUAL;
 
