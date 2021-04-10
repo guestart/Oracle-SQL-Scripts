@@ -14,6 +14,7 @@ REM       tables for finding out the different entries.
 REM       By the way I have downloaded two log files from here:
 REM       https://github.com/guestart/A-demo-with-secure-copying-RMAN-EXP-DP-backup-files-to-another-server/tree/main/tmp_log_files
 REM       and saved them to the directory "/tmp" of my oracle 20c test database server.
+REM
 
 ALTER USER c##qwz IDENTIFIED BY "DB20ctest!@#";
 
