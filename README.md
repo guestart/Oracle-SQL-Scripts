@@ -41,6 +41,11 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_new.sql">ash_event_count_topN_new.sql</a> - The improved version of "ash_event_count_topN.sql"
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_2.sql">ash_event_count_topN_2.sql</a> - The improved version of "ash_event_count_topN_new.sql"
 </pre>
+<h3> Capacity Planning: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_table_growth.sql">checking_table_growth.sql</a> - Checking the growth of table
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_tablespace_growth.sql">checking_tablespace_growth.sql</a> - Checking the growth of tablespace
+</pre>
 <h3> Dig IP via oracle function: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/dig_ip_via_function/dig_ip_via_function.sql">dig_ip_via_function.sql</a> - Digging all of IP Addresses connecting to Oracle DB Server via pre-created function "resolveHost"
