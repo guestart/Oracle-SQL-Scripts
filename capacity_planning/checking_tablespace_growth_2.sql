@@ -13,7 +13,7 @@ REM       (1) adding the functionality with checking the internval and retention
 REM       (2) adding the functionality with checking the *MIN* and *MAX* end_interval_time in history snapshot of Oracle Database;
 REM       (3) adding the functionality with listing all of the tablespace names existing in Oracle Database;
 REM       (4) adding the interactive prompt message that makes you pause notably after running one SQL query,
-REM           you need to press Enter key to runn the next SQL query.
+REM           you need to press Enter key to run the next SQL query.
 REM
 
 SET LINESIZE 300
@@ -70,10 +70,11 @@ SELECT LOWER(LISTAGG(tablespace_name, ', ') WITHIN GROUP (ORDER BY tablespace_na
 PAUSE
 
 -- 
--- Checking the total and used size of tablespace existing in the AWR repository base on snap time,
--- At this moment you should input the time with "hour:minute" (you're able to retrieve something
--- from the prior 2 number of SQL query about Oracle Static Performance View "dba_hist_snapshot"
--- and "dba_hist_wr_control") after running subsequent SQL statement.
+-- Checking the total and used size of tablespace (what you input according to the preceding lists)
+-- existing in the AWR repository base on snap time, at this moment you should input the time with
+-- "hour:minute" (you're able to retrieve something from the prior 2 number of SQL query about
+-- Oracle Static Performance View "dba_hist_snapshot" and "dba_hist_wr_control"), of course, not
+-- including double quotation marks after running subsequent SQL statement.
 -- 
 
 COLUMN tablespace_name    FORMAT a35
