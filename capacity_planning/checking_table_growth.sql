@@ -27,8 +27,8 @@ SELECT MIN(end_interval_time), MAX(end_interval_time) FROM dba_hist_snapshot;
 
 COLUMN table_name         FORMAT a35
 COLUMN snap_date_and_time FORMAT a25
-COLUMN allocated_total_mb FORMAT 999,999,999.9999
 COLUMN used_total_mb      FORMAT 999,999,999.9999
+COLUMN used_delta_mb      FORMAT 999,999,999.9999
 
 SELECT dhsso.object_name AS table_name,
        TO_CHAR(dhs.end_interval_time, 'yyyy-mm-dd hh24:mi:ss') AS snap_date_and_time,
