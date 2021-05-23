@@ -13,35 +13,38 @@ REM
 SET LINESIZE 300
 SET PAGESIZE 300
 
+ALTER SESSION SET nls_timestamp_format = 'yyyy-mm-dd hh24:mi:ss';
+
 COLUMN snap_interval FORMAT a20
 COLUMN retention     FORMAT a20
 
 SELECT * FROM dba_hist_wr_control;
 
-COLUMN MIN(BEGIN_INTERVAL_TIME) FORMAT a30
-COLUMN MAX(END_INTERVAL_TIME)   FORMAT a30
+COLUMN MIN(end_interval_time) FORMAT a30
+COLUMN MAX(end_interval_time) FORMAT a30
 
-SELECT MIN(begin_interval_time), MAX(end_interval_time) FROM dba_hist_snapshot;
+SELECT MIN(end_interval_time), MAX(end_interval_time) FROM dba_hist_snapshot;
 
-COLUMN table_name          FORMAT a35
-COLUMN snap_date           FORMAT a25
-COLUMN allocated_total_mb  FORMAT 999,999,999.9999
-COLUMN used_total_mb       FORMAT 999,999,999.9999
+COLUMN table_name         FORMAT a35
+COLUMN snap_date_and_time FORMAT a25
+COLUMN allocated_total_mb FORMAT 999,999,999.9999
+COLUMN used_total_mb      FORMAT 999,999,999.9999
 
-ALTER SESSION SET nls_date_format = 'YYYY-mm-dd hh24:mi:ss';
-
-SELECT TO_CHAR(dhs.end_interval_time, 'yyyy-mm-dd hh24:mi:ss') AS snap_date,
-       dhsso.object_name AS table_name,
-       dhss.space_allocated_total / POWER(2, 20) AS allocated_total_mb,
-       dhss.space_used_total / POWER(2, 20) AS used_total_mb
-  FROM DBA_HIST_SEG_STAT dhss,
-       DBA_HIST_SEG_STAT_OBJ dhsso,
-       DBA_HIST_SNAPSHOT dhs
+SELECT dhsso.object_name AS table_name,
+       TO_CHAR(dhs.end_interval_time, 'yyyy-mm-dd hh24:mi:ss') AS snap_date_and_time,
+       dhss.space_used_total / POWER(2, 20) AS used_total_mb,
+       dhss.space_used_delta / POWER(2, 20) AS used_delta_mb
+  FROM dba_hist_seg_stat dhss,
+       dba_hist_seg_stat_obj dhsso,
+       dba_hist_snapshot dhs
  WHERE dhss.snap_id = dhs.snap_id
    AND dhss.dbid= dhs.dbid
+   AND dhss.instance_number = dhs.instance_number
    AND dhss.ts#= dhsso.ts#
    AND dhss.obj#=dhsso.obj#
+   AND dhss.dataobj# = dhsso.dataobj#
    AND dhsso.owner = UPPER('&owner_name')
-   AND dhsso.object_type = 'TABLE'
+   AND dhsso.object_type LIKE 'TABLE%'
    AND dhsso.object_name = UPPER('&table_name')
+ ORDER BY table_name, snap_date_and_time
 ;
