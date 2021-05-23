@@ -44,6 +44,7 @@
 <h3> Capacity Planning: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_table_growth.sql">checking_table_growth.sql</a> - Checking the growth of table
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_table_growth_2.sql">checking_table_growth_2.sql</a> - The 2nd version of checking the growth of table
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_tablespace_growth.sql">checking_tablespace_growth.sql</a> - Checking the growth of tablespace
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_tablespace_growth_2.sql">checking_tablespace_growth_2.sql</a> - The 2nd version of checking the growth of tablespace
 </pre>
