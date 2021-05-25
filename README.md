@@ -48,6 +48,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_table_used_size.sql">checking_table_used_size.sql</a> - Focusing on checking the used size and other situations (such as, num_rows, blocks, avg_row_len and so on) of table
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_tablespace_growth.sql">checking_tablespace_growth.sql</a> - Checking the growth of tablespace
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/checking_tablespace_growth_2.sql">checking_tablespace_growth_2.sql</a> - The 2nd version of checking the growth of tablespace
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/capacity_planning/monitor_big_table_size.sql">monitor_big_table_size.sql</a> - Monitoring the used size of big tables by using VIEW, PROCEDURE, SCHEDULER in the schema 'monitor'
 </pre>
 <h3> Dig IP via oracle function: </h3>
 <pre>
