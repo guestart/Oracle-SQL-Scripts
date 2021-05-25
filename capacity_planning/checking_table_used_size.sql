@@ -18,37 +18,43 @@ SET PAGESIZE 300
 
 SET TIMING ON
 
-COLUMN table_name FORMAT a35
+COLUMN owner      FORMAT a30
+COLUMN table_name FORMAT a30
 
 WITH 
-   ds AS (SELECT segment_name
+   ds AS (SELECT owner
+               , segment_name
                , SUM(bytes)/POWER(2, 20) AS used_mb
             FROM dba_segments
            WHERE owner = UPPER('&&owner_name')
-             AND segment_type = 'TABLE'
-           GROUP BY segment_name
+             AND segment_type = 'TABLE'     
+           GROUP BY owner
+                  , segment_name
           HAVING SUM(bytes)/POWER(2, 20) > 1024
            ORDER BY segment_name
          ),
-   dt AS (SELECT table_name
+   dt AS (SELECT owner
+               , table_name
                , num_rows
                , blocks
-               , empty_blocks
-               , avg_space
+            -- , empty_blocks
+            -- , avg_space
                , avg_row_len
             FROM dba_tables
            WHERE owner = UPPER('&owner_name')
            ORDER BY table_name
          )
-SELECT dt.table_name
+SELECT dt.owner
+     , dt.table_name
      , ds.used_mb
      , dt.num_rows
      , dt.blocks
-     , dt.empty_blocks
-     , dt.avg_space
+  -- , dt.empty_blocks
+  -- , dt.avg_space
      , dt.avg_row_len
   FROM ds, dt
- WHERE ds.segment_name = dt.table_name
+ WHERE ds.owner = dt.owner
+   AND ds.segment_name = dt.table_name
  ORDER BY ds.used_mb DESC
         , dt.num_rows DESC
         , dt.table_name
