@@ -27,6 +27,7 @@ WITH
            WHERE owner = UPPER('&&owner_name')
              AND segment_type = 'TABLE'
            GROUP BY segment_name
+          HAVING SUM(bytes)/POWER(2, 20) > 1024
            ORDER BY segment_name
          ),
    dt AS (SELECT table_name
@@ -48,7 +49,6 @@ SELECT dt.table_name
      , dt.avg_row_len
   FROM ds, dt
  WHERE ds.segment_name = dt.table_name
-   AND ds.used_mb > 1024
  ORDER BY ds.used_mb DESC
         , dt.num_rows DESC
         , dt.table_name
