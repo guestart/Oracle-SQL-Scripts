@@ -200,7 +200,7 @@ BEGIN
      job_type          => 'STORED_PROCEDURE',
      job_action        => 'MONITOR.INSERT_BIG_TABLE',
      start_date        => to_date('2021-05-25 19:30:00', 'yyyy-mm-dd hh24:mi:ss'),
-     repeat_interval   => 'FREQ=DAILY; INTERVAL=2;',
+     repeat_interval   => 'FREQ=DAILY;',
   -- end_date          => to_date('2021-07-25 19:30:00', 'yyyy-mm-dd hh24:mi:ss'),
      auto_drop         => false,
      enabled           => true,
@@ -259,7 +259,7 @@ SELECT job_name
      , status
 FROM user_scheduler_job_log
 ORDER BY log_date
-/
+;
 
 SET LINESIZE 150
 SET PAGESIZE 300
