@@ -20,9 +20,9 @@ CREATE TABLE odptg_21c (
 SET SERVEROUTPUT ON
 
 DECLARE
-  get_time     number;
-  get_cpu_time number;
-  insert_count number := 50000;
+  get_time     NUMBER;
+  get_cpu_time NUMBER;
+  insert_count NUMBER := 50000;
 BEGIN
   get_time := DBMS_UTILITY.GET_TIME();
   get_cpu_time := DBMS_UTILITY.GET_CPU_TIME();
