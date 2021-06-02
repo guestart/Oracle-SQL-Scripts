@@ -8,8 +8,9 @@ REM             LiveSQL (19.8.0.0)
 REM             21.0.0.0 (my opc test environment)
 REM
 REM     Purpose:
-REM         This SQL script focuses on comparing spending time (and cpu time) when
-REM         using 3 number of different approaches to insert some data into a table.
+REM         This SQL script focuses on comparing comsuing time (and cpu time) by
+REM         using 3 different identity column in 3 different tables to insert some
+REM         dummy data into those tables.
 REM
 
 -- 
