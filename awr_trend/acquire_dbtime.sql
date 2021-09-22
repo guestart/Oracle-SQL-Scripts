@@ -56,6 +56,7 @@ dhstm AS (
                 , stat_name
                 , value
            FROM dba_hist_sys_time_model
+           WHERE stat_name = 'DB time'
          ),
 all_awr_dbtime AS (
                     SELECT dhsp.instance_number
@@ -72,7 +73,7 @@ all_awr_dbtime AS (
                     WHERE dhsp.snap_id = dhstm.snap_id
                     AND   dhsp.instance_number = dhstm.instance_number
                     AND   dhsp.dbid = dhstm.dbid
-                    AND   dhstm.stat_name = 'DB time'
+                 -- AND   dhstm.stat_name = 'DB time'
                     ORDER BY dhsp.snap_id
                   )
 SELECT *
