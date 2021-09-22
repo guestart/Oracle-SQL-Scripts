@@ -27,8 +27,8 @@ REM       able to (inner) join the view DBA_HIST_SNAPSHOT and DBA_HIST_SYS_TIME_
 REM       and end_time of a snap_id.
 REM
 REM     Reference:
-REM             https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-SYS_TIME_MODEL.html#GUID-DC16AB84-4978-497B-8AFB-C3C23D83FC3C
-REM             http://blog.itpub.net/28602568/viewspace-1467897/
+REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-SYS_TIME_MODEL.html#GUID-DC16AB84-4978-497B-8AFB-C3C23D83FC3C
+REM       http://blog.itpub.net/28602568/viewspace-1467897/
 REM
 
 SET LINESIZE 200
@@ -38,7 +38,7 @@ COLUMN begin_time FORMAT a19
 COLUMN end_time   FORMAT a19
 COLUMN stat_name  FORMAT a10
 
-ALTER SESSION SET NLS_DATE_FORMAT='yyyy-mm-dd hh24:mi:ss';
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
 WITH
 dhsp AS (
