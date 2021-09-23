@@ -10,7 +10,7 @@ REM             21.3.0.0
 REM
 REM     Purpose:
 REM       We can acquire "Transactions Per Second" (abbr TPS) from the AWR report that locates between 
-REM       the begin snapshot and end one, if we wanna look at the "TPS" all of the AWR reports it's 
+REM       the begin snapshot and end one, if we wanna look at the "TPS" from all of the AWR reports it's 
 REM       unnecessary to generate one by one. Hence it's the reason why I wrote this SQL Script.
 REM
 REM       You know, there saves the value of "user commits" and "user rollbacks" in each of snap_id of 
