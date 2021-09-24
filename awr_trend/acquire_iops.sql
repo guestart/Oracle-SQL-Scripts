@@ -23,8 +23,6 @@ REM
 REM       Load profile      -> Instance Activity Stats
 REM       Read IO requests  -> physical read IO requests
 REM       Write IO requests -> physical write IO requests
-REM       Read IO (MB)      -> physical read bytes
-REM       Write IO (MB)     -> physical write bytes
 REM
 REM       physical read IO requests:
 REM       Number of read requests for application activity (mainly buffer cache and direct load operation) which read one or more database blocks per request.
