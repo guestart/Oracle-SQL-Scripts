@@ -43,6 +43,7 @@
 </pre>
 <h3> AWR Trend: </h3>
 <pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR Report
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime.sql">acquire_dbtime.sql</a> - Acquiring DB time from the historical AWR Report
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO Mbps from the historical AWR Report
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR Report
