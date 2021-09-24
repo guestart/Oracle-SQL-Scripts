@@ -29,7 +29,7 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM  -- Purpose:
-REM  --   Typically there saves the value of "physical read total bytes" and "physical write total bytes" in each
+REM  --   Typically there saves the value of "physical read bytes" and "physical write bytes" in each
 REM  --   of snap_id of the view "DBA_HIST_SYSSTAT" (adding them can get the value of "IO Mbytes") but
 REM  --   which is from the oracle instance starts up to that snap_id, here we have to use the analytic
 REM  --   function "LAG () OVER()" to get the prior value of prior snap_id then current vlaue of current
