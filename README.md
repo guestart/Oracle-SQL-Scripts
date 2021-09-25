@@ -43,12 +43,13 @@
 </pre>
 <h3> AWR Trend: </h3>
 <pre>
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR Report
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime.sql">acquire_dbtime.sql</a> - Acquiring DB time from the historical AWR Report
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO Mbps from the historical AWR Report
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR Report
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps.sql">acquire_tps.sql</a> - Acquiring TPS from the historical AWR Report
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps_2.sql">acquire_tps_2.sql</a> - The 2nd version of acquiring TPS from the historical AWR Report
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas_2.sql">acquire_aas_2.sql</a> - The 2nd version of acquiring Average Active Sessions (AAS) from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime.sql">acquire_dbtime.sql</a> - Acquiring DB time from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO Mbps from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps.sql">acquire_tps.sql</a> - Acquiring TPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps_2.sql">acquire_tps_2.sql</a> - The 2nd version of acquiring TPS from the historical AWR reports
 </pre>
 <h3> Capacity Planning: </h3>
 <pre>
