@@ -18,8 +18,8 @@ REM
 REM       You can find out metric_name "DB Time Per Second" and metric_unit "CentiSeconds" in the view "v$metric",
 REM       but oracle adjusts the corresponding metric_name to become "Database Time Per Sec" in the view
 REM       "DBA_HIST_SYSMETRIC_SUMMARY". Hence we can get "Average Active Sessions" (abbr AAS) from the view
-REM       "DBA_HIST_SYSMETRIC_SUMMARY", on the other hand we can also get "interval minutes" - column "num_interval"
-REM       from ""DBA_HIST_SYSMETRIC_SUMMARY", so "DB Time" equals "AAS" multiplies "num_interval".
+REM       "DBA_HIST_SYSMETRIC_SUMMARY", on the other hand we can also get "interval minutes" with column "num_interval"
+REM       from "DBA_HIST_SYSMETRIC_SUMMARY", so "DB Time" equals "AAS" multiplies "num_interval".
 REM
 REM       Next we use the analytic function "LAG () OVER()" to get the prior snap_id from current snap_id for more
 REM       clearly showing "AAS" between these two snap_id.
@@ -46,7 +46,7 @@ AS (
                  , end_time
               -- , metric_unit
                  , num_interval
-                 , ROUND(average / 1e2, 2) aas -- metric_unit is "CentiSeconds Per Second" so average should divide by 1e2.
+                 , ROUND(average/1e2, 2) aas -- metric_unit is "CentiSeconds Per Second" so average should divide by 1e2.
             FROM dba_hist_sysmetric_summary
          -- WHERE metric_name = 'DB Time Per Second' -- not "DB Time Per Second", should the following metric_name "Database Time Per Sec".
             WHERE metric_name = 'Database Time Per Sec'
