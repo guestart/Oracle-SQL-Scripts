@@ -3,6 +3,10 @@ REM     Script:        acquire_tps_2.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Sep 23, 2021
 REM
+REM     Updated:       Sep 26, 2021
+REM                    Replacing the old WHERE clause "metric_unit = 'Transactions Per Second'" with
+REM                    the new one, such as, "metric_name = 'User Transaction Per Sec'".
+REM
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -25,6 +29,7 @@ SET LINESIZE 200
 SET PAGESIZE 200
 
 COLUMN metric_unit FORMAT a25
+COLUMN metric_name FORMAT a25
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -38,7 +43,8 @@ FROM (
          -- , num_interval
             , ROUND(average, 2) tps
        FROM dba_hist_sysmetric_summary
-       WHERE metric_unit = 'Transactions Per Second'
+    -- WHERE metric_unit = 'Transactions Per Second'
+       WHERE metric_name = 'User Transaction Per Sec'
        ORDER BY snap_id
      )
 WHERE first_snap_id <> 0
