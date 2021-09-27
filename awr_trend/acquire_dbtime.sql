@@ -27,7 +27,7 @@ REM       able to (inner) join the view DBA_HIST_SNAPSHOT and DBA_HIST_SYS_TIME_
 REM       and end_time of a snap_id.
 REM
 REM     Reference:
-REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-SYS_TIME_MODEL.html#GUID-DC16AB84-4978-497B-8AFB-C3C23D83FC3C
+REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYS_TIME_MODEL.html#GUID-263D0396-7C98-4C26-9993-DCC42EA9E87E
 REM       http://blog.itpub.net/28602568/viewspace-1467897/
 REM
 
