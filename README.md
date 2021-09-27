@@ -45,6 +45,8 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas_2.sql">acquire_aas_2.sql</a> - The 2nd version of acquiring Average Active Sessions (AAS) from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load.sql">acquire_cpu_load.sql</a> - Acquiring CPU Load from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load_2.sql">acquire_cpu_load_2.sql</a> - The 2nd version of acquiring CPU Load from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime.sql">acquire_dbtime.sql</a> - Acquiring DB time from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime_2.sql">acquire_dbtime_2.sql</a> - The 2nd version of acquiring DB time from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO MBPS from the historical AWR reports
