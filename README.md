@@ -51,6 +51,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps_2.sql">acquire_io_mbps_2.sql</a> - The 2nd version of acquiring IO MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops_2.sql">acquire_iops_2.sql</a> - The 2nd version of acquiring IOPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_network_mbps.sql">acquire_network_mbps.sql</a> - Acquiring Network MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps.sql">acquire_tps.sql</a> - Acquiring TPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps_2.sql">acquire_tps_2.sql</a> - The 2nd version of acquiring TPS from the historical AWR reports
 </pre>
