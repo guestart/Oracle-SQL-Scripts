@@ -9,7 +9,6 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM
 REM       We can get "LPS" from the metric_name "Logons Per Sec" of the view "DBA_HIST_SYSMETRIC_HISTORY"
 REM       or "DBA_HIST_SYSMETRIC_SUMMARY".
 REM
