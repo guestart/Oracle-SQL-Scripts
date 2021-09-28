@@ -39,7 +39,7 @@ AS (
                  , MAX(end_time) end_time
               -- , intsize
               -- , metric_name
-                 , SUM((value/POWER(2, 20))*(intsize/1e2)) total_network_mbps
+                 , SUM((value/POWER(2, 20))*(intsize/1e2)) network_mb_size
                  , (MAX(end_time)-MIN(begin_time))*24*36e2 interval_secs
             FROM dba_hist_sysmetric_history
             WHERE metric_name = 'Network Traffic Volume Per Sec'
@@ -54,7 +54,7 @@ SELECT first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(total_network_mbps/interval_secs, 2) network_mbps
+     , ROUND(network_mb_size/interval_secs, 2) network_mbps
 FROM dhsh
 ;
 
