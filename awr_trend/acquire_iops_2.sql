@@ -32,7 +32,7 @@ AS (
                  , MAX(end_time) end_time
               -- , intsize
               -- , metric_name
-                 , SUM(value*(intsize/1e2)) total_iops
+                 , SUM(value*(intsize/1e2)) io_requests
                  , (MAX(end_time)-MIN(begin_time))*24*36e2 interval_secs
             FROM dba_hist_sysmetric_history
             WHERE metric_name = 'I/O Requests per Second'
@@ -47,7 +47,7 @@ SELECT first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(total_iops/interval_secs, 2) iops
+     , ROUND(io_requests/interval_secs, 2) iops
 FROM dhsh
 ;
 
