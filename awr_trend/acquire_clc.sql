@@ -22,8 +22,8 @@ REM
 SET LINESIZE 200
 SET PAGESIZE 200
 
-COLUMN metric_name FORMAT a25
-COLUMN metric_unit FORMAT a25
+COLUMN metric_name FORMAT a20
+COLUMN metric_unit FORMAT a20
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -33,7 +33,7 @@ FROM (
             , snap_id second_snap_id
             , begin_time
             , end_time
-         -- , metric_name
+            , metric_name
          -- , metric_unit
             , ROUND(average, 2) clc
        FROM dba_hist_sysmetric_summary
