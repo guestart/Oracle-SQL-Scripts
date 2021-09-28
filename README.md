@@ -48,6 +48,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_clc.sql">acquire_clc.sql</a> - Acquiring Current Logons Count from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load.sql">acquire_cpu_load.sql</a> - Acquiring CPU Load from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load_2.sql">acquire_cpu_load_2.sql</a> - The 2nd version of acquiring CPU Load from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_usage.sql">acquire_cpu_usage.sql</a> - Acquiring CPU Usage from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime.sql">acquire_dbtime.sql</a> - Acquiring DB time from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_dbtime_2.sql">acquire_dbtime_2.sql</a> - The 2nd version of acquiring DB time from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO MBPS from the historical AWR reports
@@ -56,6 +57,8 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops_2.sql">acquire_iops_2.sql</a> - The 2nd version of acquiring IOPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps.sql">acquire_lps.sql</a> - Acquiring Logons Per Second from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_network_mbps.sql">acquire_network_mbps.sql</a> - Acquiring Network MBPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_redo_gen_mbps.sql">acquire_redo_gen_mbps.sql</a> - Acquiring Redo Generated MBPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_rwps.sql">acquire_rwps.sql</a> - Acquiring Redo Writes Per Second from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps.sql">acquire_tps.sql</a> - Acquiring TPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps_2.sql">acquire_tps_2.sql</a> - The 2nd version of acquiring TPS from the historical AWR reports
 </pre>
