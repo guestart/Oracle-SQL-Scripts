@@ -24,8 +24,8 @@ REM
 SET LINESIZE 200
 SET PAGESIZE 200
 
-COLUMN metric_name FORMAT a25
-COLUMN metric_unit FORMAT a25
+COLUMN metric_name FORMAT a15
+COLUMN metric_unit FORMAT a15
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -38,7 +38,7 @@ AS (
                  , MIN(begin_time) begin_time
                  , MAX(end_time) end_time
               -- , intsize
-              -- , metric_name
+                 , metric_name
                  , SUM(value*(intsize/1e2)) logon_numbers
                  , (MAX(end_time)-MIN(begin_time))*24*36e2 interval_secs
             FROM dba_hist_sysmetric_history
@@ -46,6 +46,7 @@ AS (
             GROUP BY dbid
                    , instance_number
                    , snap_id
+                   , metric_name
             ORDER BY snap_id
           )
      WHERE first_snap_id <> 0
@@ -54,6 +55,7 @@ SELECT first_snap_id
      , second_snap_id
      , begin_time
      , end_time
+     , metric_name
      , ROUND(logon_numbers/interval_secs, 2) lps
 FROM dhsh
 ;
@@ -66,7 +68,7 @@ FROM (
             , snap_id second_snap_id
             , begin_time
             , end_time
-         -- , metric_name
+            , metric_name
          -- , metric_unit
             , ROUND(average, 2) lps
        FROM dba_hist_sysmetric_summary
