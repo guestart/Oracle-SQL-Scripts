@@ -32,7 +32,7 @@ AS (
                  , MAX(end_time) end_time
               -- , intsize
               -- , metric_name
-                 , SUM(value*(intsize/1e2)) total_io_mbps
+                 , SUM(value*(intsize/1e2)) io_mb_size
                  , (MAX(end_time)-MIN(begin_time))*24*36e2 interval_secs
             FROM dba_hist_sysmetric_history
             WHERE metric_name = 'I/O Megabytes per Second'
@@ -47,7 +47,7 @@ SELECT first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(total_io_mbps/interval_secs, 2) io_mbps
+     , ROUND(io_mb_size/interval_secs, 2) io_mbps
 FROM dhsh
 ;
 
