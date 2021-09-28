@@ -9,7 +9,6 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM
 REM       We can get "CLC" from the metric_name "Current Logons Count" of the view "DBA_HIST_SYSMETRIC_SUMMARY".
 REM
 REM       Next we use the analytic function "LAG () OVER()" to get the prior snap_id from current snap_id for more
