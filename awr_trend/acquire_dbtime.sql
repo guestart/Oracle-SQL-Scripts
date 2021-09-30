@@ -26,6 +26,18 @@ REM       In addition to the begin_interval_time and end_interval_time are in th
 REM       able to (inner) join the view DBA_HIST_SNAPSHOT and DBA_HIST_SYS_TIME_MODEL in order to get begin_time
 REM       and end_time of a snap_id.
 REM
+REM       SET LINESIZE 80
+REM       DESC acquire_awr_dbtime
+REM        Name                                      Null?    Type
+REM        ----------------------------------------- -------- ----------------------------
+REM        INSTANCE_NUMBER                           NOT NULL NUMBER
+REM        FIRST_SNAP_ID                             NOT NULL NUMBER
+REM        SECOND_SNAP_ID                            NOT NULL NUMBER
+REM        BEGIN_TIME                                NOT NULL DATE
+REM        END_TIME                                  NOT NULL DATE
+REM        STAT_NAME                                 NOT NULL VARCHAR2(10)
+REM        AWR_ DBTIME_MINS                                   NUMBER
+REM
 REM     Reference:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SNAPSHOT.html#GUID-542B6CA6-793B-4D15-AAFD-4D3E6550C0B6
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYS_TIME_MODEL.html#GUID-263D0396-7C98-4C26-9993-DCC42EA9E87E
@@ -33,11 +45,12 @@ REM       http://blog.itpub.net/28602568/viewspace-1467897/
 REM
 
 SET LINESIZE 200
-SET PAGESIZE 300
+SET PAGESIZE 200
 
-COLUMN begin_time FORMAT a19
-COLUMN end_time   FORMAT a19
-COLUMN stat_name  FORMAT a10
+COLUMN begin_time      FORMAT a19
+COLUMN end_time        FORMAT a19
+COLUMN stat_name       FORMAT a10
+COLUMN awr_dbtime_mins FORMAT 999,999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -68,14 +81,15 @@ all_awr_dbtime AS (
                          , CAST(dhsp.begin_interval_time AS DATE) begin_time
                          , CAST(dhsp.end_interval_time AS DATE) end_time
                          , dhstm.stat_name
-                         , ROUND((dhstm.value - LAG(dhstm.value, 1, 0) OVER (PARTITION BY dhstm.dbid, dhstm.instance_number ORDER BY dhstm.snap_id))/1e6/6e1, 2) dbtime_mins
+                         , ROUND((dhstm.value - LAG(dhstm.value, 1, 0) OVER (PARTITION BY dhstm.dbid, dhstm.instance_number ORDER BY dhstm.snap_id))/1e6/6e1, 2) awr_dbtime_mins
                     FROM dhsp
                        , dhstm
                     WHERE dhsp.snap_id = dhstm.snap_id
                     AND   dhsp.instance_number = dhstm.instance_number
                     AND   dhsp.dbid = dhstm.dbid
                  -- AND   dhstm.stat_name = 'DB time'
-                    ORDER BY dhsp.snap_id
+                    ORDER BY dhsp.instance_number
+                           , first_snap_id
                   )
 SELECT *
 FROM all_awr_dbtime
