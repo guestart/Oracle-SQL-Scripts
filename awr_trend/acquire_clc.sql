@@ -40,8 +40,6 @@ COLUMN awr_clc     FORMAT 999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
-CREATE OR REPLACE VIEW acquire_awr_clc
-AS
 SELECT *
 FROM (
        SELECT instance_number
