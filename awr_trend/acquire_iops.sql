@@ -61,7 +61,7 @@ SET PAGESIZE 200
 
 COLUMN metric_name FORMAT a45
 COLUMN metric_unit FORMAT a20
-COLUMN io_mbps FORMAT 999,999,999.99
+COLUMN awr_iops    FORMAT 999,999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
