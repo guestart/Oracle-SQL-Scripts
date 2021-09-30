@@ -19,10 +19,10 @@ REM       DESC acquire_awr_aas
 REM        Name                                      Null?    Type
 REM        ----------------------------------------- -------- ----------------------------
 REM        INSTANCE_NUMBER                           NOT NULL NUMBER
-REM        FIRST_SNAP_ID                                      NUMBER
+REM        FIRST_SNAP_ID                             NOT NULL NUMBER
 REM        SECOND_SNAP_ID                            NOT NULL NUMBER
-REM        BEGIN_TIME                                         DATE
-REM        END_TIME                                           DATE
+REM        BEGIN_TIME                                NOT NULL DATE
+REM        END_TIME                                  NOT NULL DATE
 REM        AWR_AAS                                            NUMBER
 REM
 
