@@ -16,6 +16,17 @@ REM       who equals to "num_cpus".
 REM
 REM       Utimately we can get all of the values with "CPU Load" from the historical AWR reports of oracle database.
 REM
+REM       SET LINESIZE 80
+REM       DESC acquire_awr_cpu_load
+REM        Name                                      Null?    Type
+REM        ----------------------------------------- -------- ----------------------------
+REM        INSTANCE_NUMBER                           NOT NULL NUMBER
+REM        FIRST_SNAP_ID                             NOT NULL NUMBER
+REM        SECOND_SNAP_ID                            NOT NULL NUMBER
+REM        BEGIN_TIME                                NOT NULL DATE
+REM        END_TIME                                  NOT NULL DATE
+REM        AWR_CPU_LOAD                                       VARCHAR2(12)
+REM
 REM     Reference:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SNAPSHOT.html#GUID-542B6CA6-793B-4D15-AAFD-4D3E6550C0B6
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYS_TIME_MODEL.html#GUID-263D0396-7C98-4C26-9993-DCC42EA9E87E
@@ -23,11 +34,11 @@ REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DB
 REM
 
 SET LINESIZE 200
-SET PAGESIZE 300
+SET PAGESIZE 200
 
-COLUMN begin_time FORMAT a19
-COLUMN end_time   FORMAT a19
-COLUMN stat_name  FORMAT a10
+COLUMN begin_time   FORMAT a19
+COLUMN end_time     FORMAT a19
+COLUMN awr_cpu_load FORMAT a12
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -76,13 +87,15 @@ all_awr_dbtime_and_cpus AS (
                              AND   dhstm.snap_id = dhos.snap_id
                              AND   dhstm.instance_number = dhos.instance_number
                              AND   dhstm.dbid = dhos.dbid
-                             ORDER BY dhsp.snap_id
+                             ORDER BY dhsp.instance_number
+                                    , first_snap_id
                            )
-SELECT first_snap_id
+SELECT instance_number
+     , first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(dbtime_mins/(elapsed_mins*num_cpus)*100, 2) || '%' cpu_load
+     , ROUND(dbtime_mins/(elapsed_mins*num_cpus)*100, 2) || '%' awr_cpu_load
 FROM all_awr_dbtime_and_cpus
 WHERE first_snap_id <> 0
 ;
