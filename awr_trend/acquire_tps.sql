@@ -25,17 +25,30 @@ REM       In addition to the begin_interval_time and end_interval_time are in th
 REM       we're able to (inner) join the view DBA_HIST_SNAPSHOT and DBA_HIST_SYSSTAT in order to get 
 REM       begin_time and end_time of a snap_id.
 REM
+REM       SET LINESIZE 80
+REM       DESC acquire_awr_tps
+REM        Name                                      Null?    Type
+REM        ----------------------------------------- -------- ----------------------------
+REM        INSTANCE_NUMBER                           NOT NULL NUMBER
+REM        FIRST_SNAP_ID                             NOT NULL NUMBER
+REM        SECOND_SNAP_ID                            NOT NULL NUMBER
+REM        BEGIN_TIME                                NOT NULL DATE
+REM        END_TIME                                  NOT NULL DATE
+REM        STAT_NAME                                 NOT NULL VARCHAR2(25)
+REM        AWR_TPS                                            NUMBER
+REM
 REM     References:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYSSTAT.html#GUID-C94C6E6D-3FB0-4A81-A350-A1F312CDFEBB
 REM       https://www.modb.pro/db/63660
 REM
 
 SET LINESIZE 200
-SET PAGESIZE 300
+SET PAGESIZE 200
 
 COLUMN begin_time FORMAT a19
 COLUMN end_time   FORMAT a19
-COLUMN stat_name  FORMAT a20
+COLUMN stat_name  FORMAT a25
+COLUMN awr_tps    FORMAT 999,999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -63,25 +76,26 @@ all_awr_tps AS (
                  SELECT dhsp.instance_number
                       , LAG(dhsp.snap_id, 1, 0) OVER (PARTITION BY dhsp.dbid, dhsp.instance_number ORDER BY dhsp.snap_id) first_snap_id
                       , dhsp.snap_id second_snap_id
-                   -- , TO_CHAR(dhsp.begin_interval_time, 'yyyy-mm-dd hh24:mi:ss') begin_time
-                   -- , TO_CHAR(dhsp.end_interval_time, 'yyyy-mm-dd hh24:mi:ss') end_time
                       , CAST(dhsp.begin_interval_time AS DATE) begin_time
                       , CAST(dhsp.end_interval_time AS DATE) end_time
-                      , ROUND((dhst.value - LAG(dhst.value, 1, 0) OVER (PARTITION BY dhst.dbid, dhst.instance_number ORDER BY dhst.snap_id)), 2) transactions
-                      , (CAST(dhsp.end_interval_time AS DATE) - CAST(dhsp.begin_interval_time AS DATE))*24*36e2 interval_seconds
+                      , 'user commits/rollbacks' stat_name
+                      , ROUND((dhst.value-LAG(dhst.value, 1, 0) OVER (PARTITION BY dhst.dbid, dhst.instance_number ORDER BY dhst.snap_id)), 2) transactions
+                      , (CAST(dhsp.end_interval_time AS DATE)-CAST(dhsp.begin_interval_time AS DATE))*24*36e2 interval_secs
                  FROM dhsp
                     , dhst
                  WHERE dhsp.snap_id = dhst.snap_id
                  AND   dhsp.instance_number = dhst.instance_number
                  AND   dhsp.dbid = dhst.dbid
-                 ORDER BY dhsp.snap_id
+                 ORDER BY dhsp.instance_number
+                        , first_snap_id
                )
 SELECT instance_number
      , first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(transactions / interval_seconds, 2) tps
+     , stat_name
+     , ROUND(transactions/interval_secs, 2) awr_tps
 FROM all_awr_tps
 WHERE first_snap_id <> 0
 ;
@@ -112,26 +126,27 @@ all_awr_tps AS (
                  SELECT dhsp.instance_number
                       , LAG(dhsp.snap_id, 1, 0) OVER (PARTITION BY dhsp.dbid, dhsp.instance_number ORDER BY dhsp.snap_id) first_snap_id
                       , dhsp.snap_id second_snap_id
-                   -- , TO_CHAR(dhsp.begin_interval_time, 'yyyy-mm-dd hh24:mi:ss') begin_time
-                   -- , TO_CHAR(dhsp.end_interval_time, 'yyyy-mm-dd hh24:mi:ss') end_time
                       , CAST(dhsp.begin_interval_time AS DATE) begin_time
                       , CAST(dhsp.end_interval_time AS DATE) end_time
-                      , ROUND((dhst.value - LAG(dhst.value, 1, 0) OVER (PARTITION BY dhst.dbid, dhst.instance_number ORDER BY dhst.snap_id)), 2) transactions
-                   -- , (CAST(dhsp.end_interval_time AS DATE) - CAST(dhsp.begin_interval_time AS DATE))*24*36e2 interval_seconds
-                      , EXTRACT(HOUR FROM (dhsp.end_interval_time - dhsp.begin_interval_time))*36e2 + EXTRACT(MINUTE FROM (dhsp.end_interval_time - dhsp.begin_interval_time))*6e1 + EXTRACT(SECOND FROM (dhsp.end_interval_time - dhsp.begin_interval_time)) interval_seconds
+                      , 'user commits/rollbacks' stat_name
+                      , ROUND((dhst.value-LAG(dhst.value, 1, 0) OVER (PARTITION BY dhst.dbid, dhst.instance_number ORDER BY dhst.snap_id)), 2) transactions
+                   -- , (CAST(dhsp.end_interval_time AS DATE)-CAST(dhsp.begin_interval_time AS DATE))*24*36e2 interval_seconds
+                      , EXTRACT(HOUR FROM (dhsp.end_interval_time - dhsp.begin_interval_time))*36e2 + EXTRACT(MINUTE FROM (dhsp.end_interval_time - dhsp.begin_interval_time))*6e1 + EXTRACT(SECOND FROM (dhsp.end_interval_time - dhsp.begin_interval_time)) interval_secs
                  FROM dhsp
                     , dhst
                  WHERE dhsp.snap_id = dhst.snap_id
                  AND   dhsp.instance_number = dhst.instance_number
                  AND   dhsp.dbid = dhst.dbid
-                 ORDER BY dhsp.snap_id
+                 ORDER BY dhsp.instance_number
+                        , first_snap_id
                )
 SELECT instance_number
      , first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(transactions / interval_seconds, 2) tps
+     , stat_name
+     , ROUND(transactions/interval_secs, 2) awr_tps
 FROM all_awr_tps
 WHERE first_snap_id <> 0
 ;
