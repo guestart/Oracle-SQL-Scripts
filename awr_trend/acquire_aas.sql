@@ -27,7 +27,7 @@ REM        AWR_AAS                                            NUMBER
 REM
 
 SET LINESIZE 200
-SET PAGESIZE 300
+SET PAGESIZE 200
 
 COLUMN begin_time FORMAT a19
 COLUMN end_time   FORMAT a19
@@ -67,7 +67,8 @@ all_awr_aas AS (
                  WHERE dhsp.snap_id = dhstm.snap_id
                  AND   dhsp.instance_number = dhstm.instance_number
                  AND   dhsp.dbid = dhstm.dbid
-                 ORDER BY dhsp.snap_id
+                 ORDER BY dhsp.instance_number
+                        , first_snap_id
                )
 SELECT instance_number
      , first_snap_id
