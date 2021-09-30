@@ -16,17 +16,28 @@ REM       and we can also get the number of cpus from the view "DBA_HIST_OSSTAT"
 REM
 REM       Utimately we can get all of the values with "CPU Load" from the historical AWR reports of oracle database.
 REM
+REM       SET LINESIZE 80
+REM       DESC acquire_awr_cpu_load_2
+REM        Name                                      Null?    Type
+REM        ----------------------------------------- -------- ----------------------------
+REM        INSTANCE_NUMBER                           NOT NULL NUMBER
+REM        FIRST_SNAP_ID                             NOT NULL NUMBER
+REM        SECOND_SNAP_ID                            NOT NULL NUMBER
+REM        BEGIN_TIME                                NOT NULL DATE
+REM        END_TIME                                  NOT NULL DATE
+REM        AWR_CPU_LOAD                                       VARCHAR2(12)
+REM
 REM     Reference:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYSMETRIC_SUMMARY.html#GUID-E6377E5F-1FFF-4563-850F-C361B9D85048
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_OSSTAT.html#GUID-C94C3F25-ADE2-4E4C-B942-C0D14D9441D8
 REM
 
 SET LINESIZE 200
-SET PAGESIZE 300
+SET PAGESIZE 200
 
-COLUMN begin_time FORMAT a19
-COLUMN end_time   FORMAT a19
-COLUMN stat_name  FORMAT a10
+COLUMN begin_time   FORMAT a19
+COLUMN end_time     FORMAT a19
+COLUMN awr_cpu_load FORMAT a12
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -54,16 +65,19 @@ dhos AS (
         )
 SELECT *
 FROM (
-       SELECT LAG(aas.snap_id, 1, 0) OVER(PARTITION BY aas.dbid, aas.instance_number ORDER BY aas.snap_id) first_snap_id
+       SELECT aas.instance_number
+            , LAG(aas.snap_id, 1, 0) OVER(PARTITION BY aas.dbid, aas.instance_number ORDER BY aas.snap_id) first_snap_id
             , aas.snap_id second_snap_id
             , aas.begin_time
             , aas.end_time
-            , ROUND(aas.average_active_sessions/dhos.value*100, 2) || '%' cpu_load
+            , ROUND(aas.average_active_sessions/dhos.value*100, 2) || '%' awr_cpu_load
        FROM aas
           , dhos
        WHERE aas.snap_id = dhos.snap_id
        AND   aas.instance_number = dhos.instance_number
        AND   aas.dbid = dhos.dbid
+       ORDER BY aas.instance_number
+              , first_snap_id
      )
 WHERE first_snap_id <> 0
 ;
