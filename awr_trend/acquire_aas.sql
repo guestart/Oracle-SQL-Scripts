@@ -14,13 +14,24 @@ REM       (https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/
 REM       we can also get "interval seconds" between the current snap_id and the prior snap_id,
 REM       so aas (average active sessions) equals "DB time" divided by "interval seconds".
 REM
+REM       SET LINESIZE 80
+REM       DESC acquire_awr_aas
+REM        Name                                      Null?    Type
+REM        ----------------------------------------- -------- ----------------------------
+REM        INSTANCE_NUMBER                           NOT NULL NUMBER
+REM        FIRST_SNAP_ID                                      NUMBER
+REM        SECOND_SNAP_ID                            NOT NULL NUMBER
+REM        BEGIN_TIME                                         DATE
+REM        END_TIME                                           DATE
+REM        AWR_AAS                                            NUMBER
+REM
 
 SET LINESIZE 200
 SET PAGESIZE 300
 
 COLUMN begin_time FORMAT a19
 COLUMN end_time   FORMAT a19
-COLUMN stat_name  FORMAT a10
+COLUMN awr_aas    FORMAT 999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
@@ -58,11 +69,12 @@ all_awr_aas AS (
                  AND   dhsp.dbid = dhstm.dbid
                  ORDER BY dhsp.snap_id
                )
-SELECT first_snap_id
+SELECT instance_number
+     , first_snap_id
      , second_snap_id
      , begin_time
      , end_time
-     , ROUND(dbtime_secs / interval_secs, 2) aas
+     , ROUND(dbtime_secs/interval_secs, 2) awr_aas
 FROM all_awr_aas
 WHERE first_snap_id <> 0
 ;
