@@ -23,6 +23,7 @@ SET PAGESIZE 200
 
 COLUMN metric_name FORMAT a25
 COLUMN metric_unit FORMAT a25
+COLUMN recent_aas  FORMAT 999,999,999.99
 
 ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
 
