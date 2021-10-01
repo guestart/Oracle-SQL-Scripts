@@ -35,3 +35,15 @@ FROM v$sysmetric_history
 WHERE metric_name = 'Database CPU Time Ratio'
 ORDER BY begin_time
 ;
+
+or
+
+SELECT begin_time
+     , end_time
+     , metric_name
+     , metric_unit
+     , ROUND(average, 2) || '%' recent_dctr
+FROM v$sysmetric_summary
+WHERE metric_name = 'Database CPU Time Ratio'
+ORDER BY begin_time
+;
