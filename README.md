@@ -133,6 +133,23 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/rgy_refresh_mview_uts.sql">rgy_refresh_mview_uts.sql</a> Regularly refreshing MView "u_tables" created by procedure "brgs_role_syn_tab_3" from the SQL script "brgs_role_syn_tab_3.sql"
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/plsql/switch_redo_log_for_recycle.sql">switch_redo_log_for_recycle.sql</a> - Switching all of online redo log for a recycle on oracle database
 </pre>
+<h3> Recent Metrics: </h3>
+<pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_aas.sql">acquire_recent_aas.sql</a> - Acquiring the recent Average Active Sessions (AAS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_clc.sql">acquire_recent_clc.sql</a> - Acquiring the recent Current Logons Count (CLC) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_cpu_load.sql">acquire_recent_cpu_load.sql</a> - Acquiring the recent CPU Load from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_cpu_usage.sql">acquire_recent_cpu_usage.sql</a> - Acquiring the recent CPU Usage from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_dbcpu_time_ratio.sql">acquire_recent_dbcpu_time_ratio.sql</a> - Acquiring the recent Database CPU Time Ratio from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_dbtime.sql">acquire_recent_dbtime.sql</a> - Acquiring the recent Database Time from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_dbwait_time_ratio.sql">acquire_recent_dbwait_time_ratio.sql</a> - Acquiring the recent Database Wait Time Ratio from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_io_mbps.sql">acquire_recent_io_mbps.sql</a> - Acquiring the recent IO MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_iops.sql">acquire_recent_iops.sql</a> - Acquiring the recent IO(Requests)PS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_lps.sql">acquire_recent_lps.sql</a> - Acquiring the recent Logons Per Second (LPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_network_mbps.sql">acquire_recent_network_mbps.sql</a> - Acquiring the recent Network MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_redo_gen_mbps.sql">acquire_recent_redo_gen_mbps.sql</a> - Acquiring the recent Redo Generated MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_rwps.sql">acquire_recent_rwps.sql</a> - Acquiring the recent Redo Writes Per Second (RWPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_tps.sql">acquire_recent_tps.sql</a> - Acquiring the recent Transactions Per Second (TPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+</pre>
 <h3> Revoke: </h3>
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/revoke/brs_role_syn.sql">brs_role_syn.sql</a> - Revoke new role (prod) from new user (qwz) to whom if (once) being granted on schema 'SYS'
