@@ -3,6 +3,9 @@ REM     Script:        acquire_recent_dbtime.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Oct 01, 2021
 REM
+REM     Updated:       Oct 05, 2021
+REM                    Adding another 2 number of SQL queries with the similar metric_name "Average Active Sessions" but the same intention.
+REM
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -45,5 +48,29 @@ SELECT begin_time
      , ROUND(average/1e2*num_interval, 2) recent_dbtime
 FROM v$sysmetric_summary
 WHERE metric_name = 'Database Time Per Sec'
+ORDER BY begin_time
+;
+
+---------------------------------------------------------------------------------------------
+
+SELECT begin_time
+     , end_time
+     , metric_name
+     , metric_unit
+     , ROUND(value*((end_time-begin_time)*24*6e1), 2) recent_dbtime
+FROM v$sysmetric_history
+WHERE metric_name = 'Average Active Sessions'
+ORDER BY begin_time
+;
+
+or
+
+SELECT begin_time
+     , end_time
+     , metric_name
+     , metric_unit
+     , ROUND(average*num_interval, 2) recent_dbtime
+FROM v$sysmetric_summary
+WHERE metric_name = 'Average Active Sessions'
 ORDER BY begin_time
 ;
