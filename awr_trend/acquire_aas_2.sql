@@ -3,6 +3,9 @@ REM     Script:        acquire_aas_2.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Sep 25, 2021
 REM
+REM     Updated:       Oct 05, 2021
+REM                    Adding the another SQL query with the similar metric_name "Average Active Sessions" but the same intention.          
+REM
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -56,11 +59,31 @@ FROM (
             , begin_time
             , end_time
             , metric_name
-            , metric_unit 
+            , metric_unit
             , ROUND(average/1e2, 2) awr_aas -- metric_unit is "CentiSeconds Per Second" so average should divide by 1e2.
        FROM dba_hist_sysmetric_summary
     -- WHERE metric_name = 'DB Time Per Second' -- not "DB Time Per Second", should the following metric_name "Database Time Per Sec".
        WHERE metric_name = 'Database Time Per Sec'
+       ORDER BY instance_number
+              , first_snap_id
+     )
+WHERE first_snap_id <> 0
+;
+
+or
+
+SELECT *
+FROM (
+       SELECT instance_number
+            , LAG(snap_id, 1, 0) OVER(PARTITION BY dbid, instance_number ORDER BY snap_id) first_snap_id
+            , snap_id second_snap_id
+            , begin_time
+            , end_time
+            , metric_name
+            , metric_unit
+            , ROUND(average, 2) awr_aas
+       FROM dba_hist_sysmetric_summary
+       WHERE metric_name = 'Average Active Sessions'
        ORDER BY instance_number
               , first_snap_id
      )
