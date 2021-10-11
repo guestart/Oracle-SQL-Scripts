@@ -73,6 +73,8 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_ssrt.sql">acquire_ssrt.sql</a> - Acquiring SQL Service Response Time from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps.sql">acquire_tps.sql</a> - Acquiring TPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_tps_2.sql">acquire_tps_2.sql</a> - The 2nd version of acquiring TPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_ucps.sql">acquire_ucps.sql</a> - Acquiring User Calls Per Sec from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_ucpt.sql">acquire_ucpt.sql</a> - Acquiring User Calls Per Txn from the historical AWR reports
 </pre>
 <h3> Capacity Planning: </h3>
 <pre>
