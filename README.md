@@ -46,6 +46,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas_2.sql">acquire_aas_2.sql</a> - The 2nd version of acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_clc.sql">acquire_clc.sql</a> - Acquiring Current Logons Count from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cocc.sql">acquire_cocc.sql</a> - Acquiring Current Open Cursors Count from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_col.sql">acquire_col.sql</a> - Acquiring Current OS Load from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load.sql">acquire_cpu_load.sql</a> - Acquiring CPU Load from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cpu_load_2.sql">acquire_cpu_load_2.sql</a> - The 2nd version of acquiring CPU Load from the historical AWR reports
@@ -151,6 +152,7 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_aas.sql">acquire_recent_aas.sql</a> - Acquiring the recent Average Active Sessions (AAS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_clc.sql">acquire_recent_clc.sql</a> - Acquiring the recent Current Logons Count (CLC) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_cocc.sql">acquire_recent_cocc.sql</a> - Acquiring the recent Current Open Cursors Count (COCC) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_col.sql">acquire_recent_col.sql</a> - Acquiring the recent Current OS Load (COL) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_cpu_load.sql">acquire_recent_cpu_load.sql</a> - Acquiring the recent CPU Load from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_cpu_usage.sql">acquire_recent_cpu_usage.sql</a> - Acquiring the recent CPU Usage from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
