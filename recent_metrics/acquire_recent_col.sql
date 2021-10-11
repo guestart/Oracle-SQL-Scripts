@@ -9,7 +9,7 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM       In general we can get metric_name "Current OS Loadn" and metric_unit "Number Of Processes"
+REM       In general we can get metric_name "Current OS Load" and metric_unit "Number Of Processes"
 REM       from the oracle dynamic performance view "v$sysmetric_history" and "v$sysmetric_summary".
 REM
 REM       There saves the "Current OS Load" with each interval one minute during the period of recent
