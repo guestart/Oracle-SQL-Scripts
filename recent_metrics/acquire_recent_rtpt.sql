@@ -9,7 +9,7 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM       In general we can get metric_name "Response Time Per Txn" and metric_unit "Reads Per Second"
+REM       In general we can get metric_name "Response Time Per Txn" and metric_unit "CentiSeconds Per Txn"
 REM       from the oracle dynamic performance view "v$sysmetric_history" and "v$sysmetric_summary".
 REM
 REM       There saves the "Response Time Per Txn" with each interval one minute during the period of recent
