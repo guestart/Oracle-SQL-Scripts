@@ -166,10 +166,17 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_io_mbps.sql">acquire_recent_io_mbps.sql</a> - Acquiring the recent IO MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_iops.sql">acquire_recent_iops.sql</a> - Acquiring the recent IO(Requests)PS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_lps.sql">acquire_recent_lps.sql</a> - Acquiring the recent Logons Per Second (LPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_lrps.sql">acquire_recent_lrps.sql</a> - Acquiring the recent Logical Reads Per Sec (LRPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_network_mbps.sql">acquire_recent_network_mbps.sql</a> - Acquiring the recent Network MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_prps.sql">acquire_recent_prps.sql</a> - Acquiring the recent Physical Reads Per Sec from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_redo_gen_mbps.sql">acquire_recent_redo_gen_mbps.sql</a> - Acquiring the recent Redo Generated MBPS from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_rtpt.sql">acquire_recent_rtpt.sql</a> - Acquiring the recent Response Time Per Txn from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_rwps.sql">acquire_recent_rwps.sql</a> - Acquiring the recent Redo Writes Per Second (RWPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_session_count.sql">acquire_recent_session_count.sql</a> - Acquiring the recent Session Count from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_ssrt.sql">acquire_recent_ssrt.sql</a> - Acquiring the recent SQL Service Response Time from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_tps.sql">acquire_recent_tps.sql</a> - Acquiring the recent Transactions Per Second (TPS) from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_ucps.sql">acquire_recent_ucps.sql</a> - Acquiring the recent User Calls Per Sec from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/recent_metrics/acquire_recent_ucpt.sql">acquire_recent_ucpt.sql</a> - Acquiring the recent User Calls Per Txn from the Oracle DPV v$sysmetric_history and v$sysmetric_summary
 </pre>
 <h3> Revoke: </h3>
 <pre>
