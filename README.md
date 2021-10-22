@@ -64,7 +64,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops_2.sql">acquire_iops_2.sql</a> - The 2nd version of acquiring IOPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps.sql">acquire_lps.sql</a> - Acquiring Logons Per Sec from the historical AWR reports
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps_union_tps.sql">acquire_lps_union_tps.sql</a> - visualizing the oracle performance metrics "LPS" and "TPS" in the past and real time by the custom report of SQL Developer
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps_union_tps.sql">acquire_lps_union_tps.sql</a> - Visualizing the oracle performance metrics "LPS" and "TPS" in the past and real time by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lrps.sql">acquire_lrps.sql</a> - Acquiring Logical Reads Per Sec from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_network_mbps.sql">acquire_network_mbps.sql</a> - Acquiring Network MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_prps.sql">acquire_prps.sql</a> - Acquiring Physical Reads Per Sec from the historical AWR reports
