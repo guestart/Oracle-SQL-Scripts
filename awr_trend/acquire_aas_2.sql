@@ -7,6 +7,10 @@ REM     Updated:       Oct 05, 2021
 REM                    Adding the another SQL query with the similar metric_name "Average Active Sessions" but the same intention.
 REM                    Oct 17, 2021
 REM                    Adding the code snippets visualizing the oracle performance metric "AAS" in the past and real time by the custom report of SQL Developer.
+REM                    Oct 24, 2021
+REM                    Adding the code snippets about "Average Active Sessions Custom Time Period (interval by each hour)"
+REM                    and "Average Active Sessions Custom Time Period (interval by each day)" for visualizing the oracle performance metric "AAS" in the past
+REM                    and real time by the custom report of SQL Developer.
 REM
 REM     Last tested:
 REM             11.2.0.4
@@ -178,6 +182,58 @@ FROM v$sysmetric_history
 WHERE metric_name = 'Average Active Sessions'
 AND   group_id = 2                                                -- just retrieve the name with "System Metrics Long Duration" in v$metricgroup
 ORDER BY snap_date_time
+;
+
+-- Average Active Sessions Custom Time Period (interval by each hour).
+
+SET LINESIZE 200
+SET PAGESIZE 200
+
+COLUMN metric_name    FORMAT a25
+COLUMN snap_date_time FORMAT a20
+COLUMN aas            FORMAT 999,999.99
+
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
+SELECT TO_CHAR(end_time, 'yyyy-mm-dd hh24:mi:ss') snap_date_time  -- the group column
+     , metric_name                                                -- the series column
+     , ROUND(average, 2) aas                                      -- the value column
+FROM dba_hist_sysmetric_summary
+WHERE metric_name = 'Average Active Sessions'
+AND   (end_time BETWEEN TO_DATE(:start_date, 'yyyy-mm-dd hh24:mi:ss')
+                AND     TO_DATE(:end_date, 'yyyy-mm-dd hh24:mi:ss')
+      )
+ORDER BY snap_date_time
+;
+
+-- Average Active Sessions Custom Time Period (interval by each day).
+
+SET LINESIZE 200
+SET PAGESIZE 200
+
+COLUMN metric_name FORMAT a25
+COLUMN snap_date   FORMAT a12
+COLUMN aas         FORMAT 999,999.99
+
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
+WITH aas_per_hour AS (
+SELECT TO_CHAR(end_time, 'yyyy-mm-dd') snap_date
+     , metric_name
+     , average
+FROM dba_hist_sysmetric_summary
+WHERE metric_name = 'Average Active Sessions'
+AND   (end_time BETWEEN TO_DATE(:start_date, 'yyyy-mm-dd')
+                AND     TO_DATE(:end_date, 'yyyy-mm-dd')
+      )
+)
+SELECT snap_date                                    -- the group column
+     , metric_name                                  -- the series column
+     , ROUND(SUM(average)/COUNT(snap_date), 2) aas  -- the value column
+FROM aas_per_hour
+GROUP BY snap_date
+       , metric_name
+ORDER BY snap_date
 ;
 
 -- The original code.
