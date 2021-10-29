@@ -8,6 +8,9 @@ REM             11.2.0.4
 REM             19.3.0.0
 REM             21.3.0.0
 REM
+REM     Purpose:
+REM       Visualizing the oracle active sessions per wait class in the view "v$active_session_history" in the last 1 hour by the custom report of SQL Developer.
+REM
 
 -- Active Sessions Per Wait Class excluding BACKGROUND processes in Last 1 Hour:
 
