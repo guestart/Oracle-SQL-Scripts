@@ -37,9 +37,10 @@
 </pre>
 <h3> ASH: </h3>
 <pre>
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/active_sessions_per_wait_class.sql">active_sessions_per_wait_class.sql</a> - Visualizing the oracle active sessions per wait class in the view "v$active_session_history" in the last 1 hour by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN.sql">ash_event_count_topN.sql</a> - View the Top-N event counts from ASH
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_new.sql">ash_event_count_topN_new.sql</a> - The improved version of "ash_event_count_topN.sql"
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_2.sql">ash_event_count_topN_2.sql</a> - The improved version of "ash_event_count_topN_new.sql"
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/ash/ash_event_count_topN_new.sql">ash_event_count_topN_new.sql</a> - The improved version of "ash_event_count_topN.sql"
 </pre>
 <h3> AWR Trend: </h3>
 <pre>
