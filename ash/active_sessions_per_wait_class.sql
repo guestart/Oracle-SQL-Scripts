@@ -29,7 +29,7 @@ REM     Purpose:
 REM       Visualizing the oracle active sessions per wait class in the view "v$active_session_history" in the last 1 hour by the custom report of SQL Developer.
 REM
 
--- Active Sessions (in ASH) Per Wait Class excluding BACKGROUND processes in Last 1 Hour:
+-- Active Sessions (in ASH) Per Wait Class excluding BACKGROUND processes in Last 1 Hour.
 
 SET LINESIZE 200
 SET PAGESIZE 200
@@ -70,7 +70,7 @@ SELECT * FROM ash
 WHERE sample_time >= SYSDATE - INTERVAL '60' MINUTE
 ;
 
--- Active Sessions (in ASH) Per Wait Class including BACKGROUND processes in Last 1 Hour:
+-- Active Sessions (in ASH) Per Wait Class including BACKGROUND processes in Last 1 Hour.
 
 SET LINESIZE 200
 SET PAGESIZE 200
@@ -111,7 +111,7 @@ SELECT * FROM ash
 WHERE sample_time >= SYSDATE - INTERVAL '60' MINUTE
 ;
 
--- Active Sessions (in ASH) Per Wait Class excluding BACKGROUND processes in Last 24 Hours:
+-- Active Sessions (in ASH) Per Wait Class excluding BACKGROUND processes in Last 24 Hours.
 
 SET LINESIZE 200
 SET PAGESIZE 200
@@ -152,7 +152,7 @@ SELECT * FROM ash
 WHERE sample_time >= SYSDATE - INTERVAL '24' HOUR
 ;
 
--- Active Sessions (in ASH) Per Wait Class including BACKGROUND processes in Last 24 Hours:
+-- Active Sessions (in ASH) Per Wait Class including BACKGROUND processes in Last 24 Hours.
 
 SET LINESIZE 200
 SET PAGESIZE 200
