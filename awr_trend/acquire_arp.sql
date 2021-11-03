@@ -38,7 +38,7 @@ REM
 -- Non-Database Host CPU Usage Per Sec = Host CPU Usage Per Sec - CPU Usage Per Sec - Background CPU Usage Per Sec
 -- In other words Non-Database Host CPU = Host CPU - Foreground CPU - Background CPU
 
--- Average Runnable Processes in Last 1 Hour:
+-- Average Runnable Processes in Last 1 Hour.
 
 SET LINESIZE 200
 SET PAGESIZE 300
