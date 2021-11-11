@@ -3,6 +3,11 @@ REM     Script:        acquire_logic_cpus_union_aas.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Oct 27, 2021
 REM
+REM     Updated:       Nov 11, 2021
+REM                    Adding an extra simple SQL query about "Average Active Sessions & Logic CPUs in Real Time" in the section of
+REM                    "Average Active Sessions & Logic CPUs in Real Time" based on the 14th emails from Jonathan Lewis replying to me,
+REM                    here is the initial link from FreeLists.org with Oracle-L - https://www.freelists.org/post/oracle-l/To-estimate-maximum-active-sessions-on-my-oracle-database-is-reasonable-to-the-approach.
+REM
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -328,6 +333,27 @@ FROM aas
 ORDER BY stat_name DESC
        , snap_date_time
 ;
+
+-- Easy question first. Your query is producing an output of Oracle's model of what it calls "average active sessions" over the last hour.
+-- I would have written it differently, (especially since the NUM_CPUS value is going to be the same on every row it appears), something like:
+
+select
+        to_char(met.end_time, 'yyyy-mm-dd hh24:mi:ss') snap_date_time,
+        met.metric_name,
+        round(met.value, 2) aas,
+        oss.num_cpu
+from
+        v$sysmetric_history     met,
+        (
+        select
+                value   num_cpu
+        from    v$osstat
+        where   stat_name = 'NUM_CPUS'
+        )       oss
+where
+        met.metric_name = 'Average Active Sessions'
+and     met.group_id = 2
+/
 
 -- Average Active Sessions & Logic CPUs Custom Time Period (interval by each day).
 
