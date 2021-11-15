@@ -9,7 +9,7 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM       The code snippets are visualizing the oracle performance metrics "PRPS", "PWPS" and "RSPS" in the past and real time by the custom report of SQL Developer
+REM       The code snippets visualizing the oracle performance metrics "PRPS", "PWPS" and "RSPS" in the past and real time by the custom report of SQL Developer
 REM       is based on "RSPS" (https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_redo_gen_mbps.sql).
 REM
 REM     References:
