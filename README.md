@@ -49,6 +49,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas_2.sql">acquire_aas_2.sql</a> - The 2nd version of acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_arp.sql">acquire_arp.sql</a> - Visualizing the oracle some performance metrics about "CPU Time" in the past and real time by the custom report of SQL Developer, we can name them with "ARP" (Average Runnable Processes")
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_assbrl.sql">acquire_assbrl.sql</a> - Visualizing the oracle performance metrics "ASSBRL" (Average Synchronous Single-Block Read Latency) in the past and real time by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_clc.sql">acquire_clc.sql</a> - Acquiring Current Logons Count from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cocc.sql">acquire_cocc.sql</a> - Acquiring Current Open Cursors Count from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_col.sql">acquire_col.sql</a> - Acquiring Current OS Load from the historical AWR reports
@@ -73,6 +74,7 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lrps.sql">acquire_lrps.sql</a> - Acquiring Logical Reads Per Sec from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_network_mbps.sql">acquire_network_mbps.sql</a> - Acquiring Network MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_prps.sql">acquire_prps.sql</a> - Acquiring Physical Reads Per Sec from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_prps_union_pwps_union_rsps.sql">acquire_prps_union_pwps_union_rsps.sql</a> - Visualizing the oracle performance metrics "PRPS", "PWPS" and "RSPS" in the past and real time by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_redo_gen_mbps.sql">acquire_redo_gen_mbps.sql</a> - Acquiring Redo Generated MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_rtpt.sql">acquire_rtpt.sql</a> - Acquiring Response Time Per Txn from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_rwps.sql">acquire_rwps.sql</a> - Acquiring Redo Writes Per Second from the historical AWR reports
