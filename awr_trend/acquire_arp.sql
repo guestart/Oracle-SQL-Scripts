@@ -46,6 +46,14 @@ REM
 -- How to convert (open or import) CSV file to Excel
 -- https://www.ablebits.com/office-addins-blog/convert-csv-excel/
 
+-- Online the conversion about hexadecimal and decimal
+-- https://tool.oschina.net/hexconvert
+
+-- Instance Foreground CPU -> #RGB: #03C790 -> RGB: 03, 199, 144
+-- Instance Background CPU -> #RGB: #66FF99 -> RGB: 102, 255, 153
+-- Non-Database Host CPU   -> #RGB: #9EA09F -> RGB: 158, 160, 159
+-- Load Average            -> #RGB: #666666 -> RGB: 102, 102, 102
+
 -- DESC dba_sys_privs
 --  Name                                                              Null?    Type
 --  ----------------------------------------------------------------- -------- --------------------------------------------
