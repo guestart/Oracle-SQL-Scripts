@@ -48,7 +48,7 @@
 <pre>
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas.sql">acquire_aas.sql</a> - Acquiring Average Active Sessions (AAS) from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_aas_2.sql">acquire_aas_2.sql</a> - The 2nd version of acquiring Average Active Sessions (AAS) from the historical AWR reports
-<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_arp.sql">acquire_arp.sql</a> - Visualizing the oracle some performance metrics about "CPU Time" in the past and real time by the custom report of SQL Developer, we can name them with "ARP" (Average Runnable Processes")
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_arp.sql">acquire_arp.sql</a> - Visualizing the oracle some performance metrics about "CPU Time" and "Load Average" in the past and real time
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_assbrl.sql">acquire_assbrl.sql</a> - Visualizing the oracle performance metrics "ASSBRL" (Average Synchronous Single-Block Read Latency) in the past and real time by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_clc.sql">acquire_clc.sql</a> - Acquiring Current Logons Count from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_cocc.sql">acquire_cocc.sql</a> - Acquiring Current Open Cursors Count from the historical AWR reports
