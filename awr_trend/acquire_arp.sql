@@ -106,7 +106,7 @@ AS
 WITH
 ins_fg_cpu AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi') sample_time
+  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , DECODE(metric_name, 'CPU Usage Per Sec', 'Instance Foreground CPU') metric_name
        , ROUND(value/1e2, 2) value
   FROM v$sysmetric_history
@@ -117,7 +117,7 @@ ins_fg_cpu AS
 ),
 ins_bg_cpu AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi') sample_time
+  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , DECODE(metric_name, 'Background CPU Usage Per Sec', 'Instance Background CPU') metric_name
        , ROUND(value/1e2, 2) value
   FROM v$sysmetric_history
@@ -128,7 +128,7 @@ ins_bg_cpu AS
 ),
 host_cpu AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi') sample_time
+  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , DECODE(metric_name, 'Host CPU Usage Per Sec', 'Host CPU') metric_name
        , ROUND(value/1e2, 2) value
   FROM v$sysmetric_history
@@ -151,7 +151,7 @@ non_db_host_cpu AS
 ),
 load_average AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi') sample_time
+  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , DECODE(metric_name, 'Current OS Load', 'Load Average') metric_name
        , ROUND(value, 2) value
   FROM v$sysmetric_history
