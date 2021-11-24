@@ -1,0 +1,241 @@
+"SAMPLE_TIME","METRIC_NAME","VALUE"
+"11:22:21","Instance Foreground CPU",0.38
+"11:23:22","Instance Foreground CPU",0.35
+"11:24:21","Instance Foreground CPU",0.37
+"11:25:21","Instance Foreground CPU",0.36
+"11:26:21","Instance Foreground CPU",0.34
+"11:27:21","Instance Foreground CPU",0.25
+"11:28:21","Instance Foreground CPU",0.31
+"11:29:22","Instance Foreground CPU",0.26
+"11:30:21","Instance Foreground CPU",0.26
+"11:31:21","Instance Foreground CPU",0.35
+"11:32:22","Instance Foreground CPU",0.33
+"11:33:21","Instance Foreground CPU",0.3
+"11:34:21","Instance Foreground CPU",0.31
+"11:35:22","Instance Foreground CPU",0.4
+"11:36:22","Instance Foreground CPU",0.37
+"11:37:21","Instance Foreground CPU",0.31
+"11:38:22","Instance Foreground CPU",0.28
+"11:39:21","Instance Foreground CPU",0.27
+"11:40:22","Instance Foreground CPU",0.27
+"11:41:21","Instance Foreground CPU",0.29
+"11:42:21","Instance Foreground CPU",0.34
+"11:43:21","Instance Foreground CPU",0.3
+"11:44:22","Instance Foreground CPU",0.26
+"11:45:21","Instance Foreground CPU",0.25
+"11:46:21","Instance Foreground CPU",0.28
+"11:47:21","Instance Foreground CPU",0.28
+"11:48:21","Instance Foreground CPU",0.53
+"11:49:21","Instance Foreground CPU",0.44
+"11:50:21","Instance Foreground CPU",0.34
+"11:51:22","Instance Foreground CPU",0.3
+"11:52:22","Instance Foreground CPU",0.26
+"11:53:21","Instance Foreground CPU",0.26
+"11:54:22","Instance Foreground CPU",0.3
+"11:55:22","Instance Foreground CPU",0.26
+"11:56:21","Instance Foreground CPU",0.27
+"11:57:21","Instance Foreground CPU",0.28
+"11:58:22","Instance Foreground CPU",0.31
+"11:59:22","Instance Foreground CPU",0.36
+"12:00:21","Instance Foreground CPU",0.27
+"12:01:21","Instance Foreground CPU",0.29
+"12:02:22","Instance Foreground CPU",0.32
+"12:03:21","Instance Foreground CPU",0.33
+"12:04:21","Instance Foreground CPU",0.42
+"12:05:22","Instance Foreground CPU",0.57
+"12:06:21","Instance Foreground CPU",0.54
+"12:07:22","Instance Foreground CPU",0.32
+"12:08:22","Instance Foreground CPU",0.31
+"12:09:22","Instance Foreground CPU",0.31
+"12:10:21","Instance Foreground CPU",0.26
+"12:11:22","Instance Foreground CPU",0.34
+"12:12:22","Instance Foreground CPU",0.26
+"12:13:21","Instance Foreground CPU",0.25
+"12:14:21","Instance Foreground CPU",0.26
+"12:15:22","Instance Foreground CPU",0.25
+"12:16:22","Instance Foreground CPU",0.34
+"12:17:21","Instance Foreground CPU",0.32
+"12:18:22","Instance Foreground CPU",0.48
+"12:19:22","Instance Foreground CPU",0.62
+"12:20:22","Instance Foreground CPU",0.49
+"12:21:22","Instance Foreground CPU",0.32
+"11:22:21","Instance Background CPU",0.06
+"11:23:22","Instance Background CPU",0.06
+"11:24:21","Instance Background CPU",0.07
+"11:25:21","Instance Background CPU",0.06
+"11:26:21","Instance Background CPU",0.05
+"11:27:21","Instance Background CPU",0.06
+"11:28:21","Instance Background CPU",0.06
+"11:29:22","Instance Background CPU",0.06
+"11:30:21","Instance Background CPU",0.06
+"11:31:21","Instance Background CPU",0.06
+"11:32:22","Instance Background CPU",0.06
+"11:33:21","Instance Background CPU",0.06
+"11:34:21","Instance Background CPU",0.06
+"11:35:22","Instance Background CPU",0.06
+"11:36:22","Instance Background CPU",0.06
+"11:37:21","Instance Background CPU",0.06
+"11:38:22","Instance Background CPU",0.06
+"11:39:21","Instance Background CPU",0.06
+"11:40:22","Instance Background CPU",0.06
+"11:41:21","Instance Background CPU",0.06
+"11:42:21","Instance Background CPU",0.06
+"11:43:21","Instance Background CPU",0.06
+"11:44:22","Instance Background CPU",0.06
+"11:45:21","Instance Background CPU",0.06
+"11:46:21","Instance Background CPU",0.06
+"11:47:21","Instance Background CPU",0.06
+"11:48:21","Instance Background CPU",0.06
+"11:49:21","Instance Background CPU",0.06
+"11:50:21","Instance Background CPU",0.06
+"11:51:22","Instance Background CPU",0.06
+"11:52:22","Instance Background CPU",0.06
+"11:53:21","Instance Background CPU",0.06
+"11:54:22","Instance Background CPU",0.06
+"11:55:22","Instance Background CPU",0.06
+"11:56:21","Instance Background CPU",0.06
+"11:57:21","Instance Background CPU",0.06
+"11:58:22","Instance Background CPU",0.06
+"11:59:22","Instance Background CPU",0.06
+"12:00:21","Instance Background CPU",0.06
+"12:01:21","Instance Background CPU",0.14
+"12:02:22","Instance Background CPU",0.06
+"12:03:21","Instance Background CPU",0.06
+"12:04:21","Instance Background CPU",0.06
+"12:05:22","Instance Background CPU",0.06
+"12:06:21","Instance Background CPU",0.26
+"12:07:22","Instance Background CPU",0.09
+"12:08:22","Instance Background CPU",0.06
+"12:09:22","Instance Background CPU",0.08
+"12:10:21","Instance Background CPU",0.07
+"12:11:22","Instance Background CPU",0.09
+"12:12:22","Instance Background CPU",0.12
+"12:13:21","Instance Background CPU",0.06
+"12:14:21","Instance Background CPU",0.06
+"12:15:22","Instance Background CPU",0.06
+"12:16:22","Instance Background CPU",0.06
+"12:17:21","Instance Background CPU",0.06
+"12:18:22","Instance Background CPU",0.06
+"12:19:22","Instance Background CPU",0.06
+"12:20:22","Instance Background CPU",0.06
+"12:21:22","Instance Background CPU",0.06
+"11:22:21","Non-Database Host CPU",0.51
+"11:23:22","Non-Database Host CPU",0.66
+"11:24:21","Non-Database Host CPU",0.58
+"11:25:21","Non-Database Host CPU",0.7
+"11:26:21","Non-Database Host CPU",0.46
+"11:27:21","Non-Database Host CPU",0.68
+"11:28:21","Non-Database Host CPU",0.77
+"11:29:22","Non-Database Host CPU",0.52
+"11:30:21","Non-Database Host CPU",0.51
+"11:31:21","Non-Database Host CPU",0.52
+"11:32:22","Non-Database Host CPU",0.72
+"11:33:21","Non-Database Host CPU",0.75
+"11:34:21","Non-Database Host CPU",0.54
+"11:35:22","Non-Database Host CPU",0.67
+"11:36:22","Non-Database Host CPU",0.65
+"11:37:21","Non-Database Host CPU",0.66
+"11:38:22","Non-Database Host CPU",0.69
+"11:39:21","Non-Database Host CPU",0.62
+"11:40:22","Non-Database Host CPU",0.75
+"11:41:21","Non-Database Host CPU",0.51
+"11:42:21","Non-Database Host CPU",0.64
+"11:43:21","Non-Database Host CPU",0.5
+"11:44:22","Non-Database Host CPU",0.57
+"11:45:21","Non-Database Host CPU",0.5
+"11:46:21","Non-Database Host CPU",0.47
+"11:47:21","Non-Database Host CPU",0.79
+"11:48:21","Non-Database Host CPU",0.57
+"11:49:21","Non-Database Host CPU",0.9
+"11:50:21","Non-Database Host CPU",0.44
+"11:51:22","Non-Database Host CPU",0.66
+"11:52:22","Non-Database Host CPU",0.76
+"11:53:21","Non-Database Host CPU",0.6
+"11:54:22","Non-Database Host CPU",0.68
+"11:55:22","Non-Database Host CPU",0.82
+"11:56:21","Non-Database Host CPU",0.44
+"11:57:21","Non-Database Host CPU",0.55
+"11:58:22","Non-Database Host CPU",0.48
+"11:59:22","Non-Database Host CPU",0.51
+"12:00:21","Non-Database Host CPU",0.54
+"12:01:21","Non-Database Host CPU",0.65
+"12:02:22","Non-Database Host CPU",1.18
+"12:03:21","Non-Database Host CPU",0.54
+"12:04:21","Non-Database Host CPU",0.72
+"12:05:22","Non-Database Host CPU",0.44
+"12:06:21","Non-Database Host CPU",0.59
+"12:07:22","Non-Database Host CPU",0.49
+"12:08:22","Non-Database Host CPU",0.54
+"12:09:22","Non-Database Host CPU",0.49
+"12:10:21","Non-Database Host CPU",0.44
+"12:11:22","Non-Database Host CPU",0.55
+"12:12:22","Non-Database Host CPU",0.41
+"12:13:21","Non-Database Host CPU",0.48
+"12:14:21","Non-Database Host CPU",0.46
+"12:15:22","Non-Database Host CPU",0.58
+"12:16:22","Non-Database Host CPU",0.45
+"12:17:21","Non-Database Host CPU",0.8
+"12:18:22","Non-Database Host CPU",0.67
+"12:19:22","Non-Database Host CPU",0.5
+"12:20:22","Non-Database Host CPU",0.59
+"12:21:22","Non-Database Host CPU",0.5
+"11:22:21","Load Average",1.2
+"11:23:22","Load Average",0.97
+"11:24:21","Load Average",0.75
+"11:25:21","Load Average",1.21
+"11:26:21","Load Average",0.88
+"11:27:21","Load Average",1.12
+"11:28:21","Load Average",0.99
+"11:29:22","Load Average",0.88
+"11:30:21","Load Average",0.9
+"11:31:21","Load Average",0.5
+"11:32:22","Load Average",1.09
+"11:33:21","Load Average",1.41
+"11:34:21","Load Average",1.09
+"11:35:22","Load Average",1.22
+"11:36:22","Load Average",1.21
+"11:37:21","Load Average",1.12
+"11:38:22","Load Average",0.7
+"11:39:21","Load Average",0.74
+"11:40:22","Load Average",0.56
+"11:41:21","Load Average",0.72
+"11:42:21","Load Average",1.34
+"11:43:21","Load Average",0.7
+"11:44:22","Load Average",0.71
+"11:45:21","Load Average",0.61
+"11:46:21","Load Average",0.76
+"11:47:21","Load Average",0.93
+"11:48:21","Load Average",1.35
+"11:49:21","Load Average",1.03
+"11:50:21","Load Average",0.69
+"11:51:22","Load Average",1.03
+"11:52:22","Load Average",1.14
+"11:53:21","Load Average",0.87
+"11:54:22","Load Average",0.67
+"11:55:22","Load Average",0.62
+"11:56:21","Load Average",1.15
+"11:57:21","Load Average",0.94
+"11:58:22","Load Average",0.94
+"11:59:22","Load Average",0.82
+"12:00:21","Load Average",0.82
+"12:01:21","Load Average",1.21
+"12:02:22","Load Average",1.31
+"12:03:21","Load Average",1.32
+"12:04:21","Load Average",1.06
+"12:05:22","Load Average",0.83
+"12:06:21","Load Average",2.49
+"12:07:22","Load Average",1.32
+"12:08:22","Load Average",0.86
+"12:09:22","Load Average",0.7
+"12:10:21","Load Average",0.74
+"12:11:22","Load Average",1.73
+"12:12:22","Load Average",1.1
+"12:13:21","Load Average",0.68
+"12:14:21","Load Average",0.67
+"12:15:22","Load Average",1.32
+"12:16:22","Load Average",0.95
+"12:17:21","Load Average",1.13
+"12:18:22","Load Average",1.22
+"12:19:22","Load Average",1.12
+"12:20:22","Load Average",0.99
+"12:21:22","Load Average",1.13
