@@ -3,6 +3,8 @@ REM     Script:        acquire_arp_2.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 25, 2021
 REM
+REM     Updated:       Nov 26, 2021
+REM                    Adding the keyword "AS ......" in each 8 sections for "PIVOT" operation.
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -189,10 +191,10 @@ SELECT *
 FROM arp
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -368,10 +370,10 @@ SELECT *
 FROM arp
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -547,10 +549,10 @@ SELECT *
 FROM arp
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -756,10 +758,10 @@ SELECT *
 FROM arp_2
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -935,10 +937,10 @@ SELECT *
 FROM arp
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -1144,10 +1146,10 @@ SELECT *
 FROM arp_2
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -1343,10 +1345,10 @@ SELECT *
 FROM arp
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
@@ -1572,10 +1574,10 @@ SELECT *
 FROM arp_2
 PIVOT ( MAX(value)
         FOR metric_name IN
-        (  'Instance Foreground CPU'
-         , 'Instance Background CPU'
-         , 'Non-Database Host CPU'
-         , 'Load Average'
+        (  'Instance Foreground CPU' AS "Instance Foreground CPU"
+         , 'Instance Background CPU' AS "Instance Background CPU"
+         , 'Non-Database Host CPU'   AS "Non-Database Host CPU"
+         , 'Load Average'            AS "Load Average"
         )
       )
 ORDER BY sample_time
