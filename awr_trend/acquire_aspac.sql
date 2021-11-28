@@ -1,5 +1,5 @@
 REM
-REM     Script:        acquire_aspac_from_emcc_13.5.sql
+REM     Script:        acquire_aspac.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 28, 2021
 REM
@@ -9,7 +9,7 @@ REM             19.3.0.0
 REM             21.3.0.0
 REM
 REM     Purpose:
-REM       Visualizing the oracle performance graph "Active Sessions Per Activity Class" from EMCC 13.5 in last 1 minute and 1 hour
+REM       Visualizing the oracle performance graph "Active Sessions Per Activity Class" (ASPAC) from EMCC 13.5 in last 1 minute and 1 hour
 REM       by the user defined report of SQL Developer.
 REM
 REM     References:
