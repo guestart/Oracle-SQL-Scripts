@@ -20,6 +20,15 @@ REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/V-WAITCLASSMETRIC_HISTORY.html#GUID-854BB495-19FC-4EB4-A81C-4D0EEA13B83C
 REM
 
+-- 
+-- http://gongju.chinaadmin.cn/tupianquse/
+-- 
+-- Each Legend Color from the Graph of "Active Sessions Per Activity Class" of EMCC 13.5.
+-- 
+-- CPU     , #00CF30 -> RGB (0  , 207, 48 )
+-- User I/O, #004CE6 -> RGB (0  , 76 , 230)
+-- Wait    , #FA5F00 -> RGB (250, 95 , 0  )
+
 -- Active Sessions Per Activity Class (CPU, User I/O and Wait) from EMCC 13.5 in Last 1 Minute.
 
 SET LINESIZE 200
