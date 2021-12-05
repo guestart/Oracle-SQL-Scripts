@@ -112,7 +112,7 @@ all_cpu AS
 -- AND   end_time >= SYSDATE - INTERVAL '60' MINUTE
   ORDER BY sample_time
 ),
-aas_and_wait AS
+db_wait AS
 (
   SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
          , MAX(DECODE(metric_name, 'Database Time Per Sec'   , value/1e2)) aas_value
@@ -129,7 +129,7 @@ cpu_used AS
   SELECT sample_time
        , 'CPU Used' metric_name
        , ROUND(aas_value*(1-wait_ratio), 3) active_sessions
-  FROM aas_and_wait
+  FROM db_wait
 ),
 cpu_wait AS
 (
