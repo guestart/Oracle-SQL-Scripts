@@ -6,6 +6,9 @@ REM
 REM     Updated:       Oct 05, 2021
 REM                    Adding the another SQL query with the similar metric_name "Average Active Sessions" but the same intention.
 REM
+REM                    Dec 15, 2021
+REM                    Adding the code snippet visualizing the DB time by AAS*60 in Last 1 Hour.
+REM
 REM     Last tested:
 REM             11.2.0.4
 REM             19.3.0.0
@@ -117,3 +120,32 @@ SELECT instance_number
      , aas*num_interval dbtime_mins
 FROM all_aas
 ;
+
+-- Visualizing the DB Time by AAS*60 in Last 1 Hour.
+
+SET FEEDBACK  off;
+SET SQLFORMAT csv;
+
+SET LINESIZE 200
+SET PAGESIZE 200
+
+COLUMN snap_date_time FORMAT a19
+COLUMN stat_name      FORMAT a10
+COLUMN dbtime         FORMAT 999,999.99
+
+SELECT end_time    snap_date_time
+     , DECODE(metric_name, 'Average Active Sessions', 'AAS') stat_name
+     , ROUND(value, 2)*60 dbtime
+FROM dba_hist_sysmetric_history
+WHERE metric_name = 'Average Active Sessions'
+AND   group_id = 2
+AND   end_time >= SYSDATE - INTERVAL '60' MINUTE
+ORDER BY snap_date_time
+;
+
+-- DESC acquire_awr_dbtime_2
+--  Name                                      Null?    Type
+--  ----------------------------------------- -------- ----------------------------
+--  SNAP_DATE_TIME                            NOT NULL DATE
+--  STAT_NAME                                 NOT NULL VARCHAR2(10)
+--  DBTIME                                    NUMBER
