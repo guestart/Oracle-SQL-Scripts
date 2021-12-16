@@ -35,10 +35,10 @@ REM        ----------------------------------------- -------- ------------------
 REM        INSTANCE_NUMBER                           NOT NULL NUMBER
 REM        FIRST_SNAP_ID                             NOT NULL NUMBER
 REM        SECOND_SNAP_ID                            NOT NULL NUMBER
-REM        BEGIN_TIME                                NOT NULL DATE
-REM        END_TIME                                  NOT NULL DATE
+REM        BEGIN_TIME                                NOT NULL TIMESTAMP
+REM        END_TIME                                  NOT NULL TIMESTAMP
 REM        STAT_NAME                                 NOT NULL VARCHAR2(10)
-REM        AWR_ DBTIME_MINS                                   NUMBER
+REM        AWR_ DBTIME_MINS                                   NUMBER (8, 2)
 REM
 REM     Reference:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SNAPSHOT.html#GUID-542B6CA6-793B-4D15-AAFD-4D3E6550C0B6
