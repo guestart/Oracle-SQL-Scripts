@@ -6,7 +6,7 @@ REM
 REM     Updated:       Oct 05, 2021
 REM                    Adding the another SQL query with the similar metric_name "Average Active Sessions" but the same intention.
 REM
-REM                    Dec 15, 2021
+REM                    Dec 16, 2021
 REM                    Adding the code snippet visualizing the DB time by AAS*60 in Last 1 Hour.
 REM
 REM     Last tested:
@@ -37,11 +37,11 @@ REM        ----------------------------------------- -------- ------------------
 REM        INSTANCE_NUMBER                           NOT NULL NUMBER
 REM        FIRST_SNAP_ID                             NOT NULL NUMBER
 REM        SECOND_SNAP_ID                            NOT NULL NUMBER
-REM        BEGIN_TIME                                NOT NULL DATE
-REM        END_TIME                                  NOT NULL DATE
+REM        BEGIN_TIME                                NOT NULL TIMESTAMP
+REM        END_TIME                                  NOT NULL TIMESTAMP
 REM        METRIC_NAME                               NOT NULL VARCHAR2(25)
 REM        METRIC_UNIT                               NOT NULL VARCHAR2(25)
-REM        DBTIME_MINS                                        NUMBER
+REM        DBTIME_MINS                                        NUMBER (8, 2)
 REM
 REM     References:
 REM       https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/DBA_HIST_SYSMETRIC_SUMMARY.html#GUID-E6377E5F-1FFF-4563-850F-C361B9D85048
@@ -136,7 +136,8 @@ COLUMN dbtime         FORMAT 999,999.99
 SELECT end_time    snap_date_time
      , DECODE(metric_name, 'Average Active Sessions', 'AAS') stat_name
      , ROUND(value, 2)*60 dbtime
-FROM dba_hist_sysmetric_history
+-- FROM dba_hist_sysmetric_history
+FROM v$sysmetric_history
 WHERE metric_name = 'Average Active Sessions'
 AND   group_id = 2
 AND   end_time >= SYSDATE - INTERVAL '60' MINUTE
@@ -146,6 +147,6 @@ ORDER BY snap_date_time
 -- DESC acquire_awr_dbtime_2
 --  Name                                      Null?    Type
 --  ----------------------------------------- -------- ----------------------------
---  SNAP_DATE_TIME                            NOT NULL DATE
+--  SNAP_DATE_TIME                            NOT NULL TIMESTAMP
 --  STAT_NAME                                 NOT NULL VARCHAR2(10)
---  DBTIME                                    NUMBER
+--  DBTIME                                    NUMBER (8, 2)
