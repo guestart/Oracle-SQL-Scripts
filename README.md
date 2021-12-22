@@ -69,8 +69,10 @@
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_ept.sql">acquire_ept.sql</a> - Acquiring Executions Per Txn from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps.sql">acquire_io_mbps.sql</a> - Acquiring IO MBPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps_2.sql">acquire_io_mbps_2.sql</a> - The 2nd version of acquiring IO MBPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_io_mbps_by_function.sql">acquire_io_mbps_by_function.sql</a> - Acquiring IO MBPS by Function from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops.sql">acquire_iops.sql</a> - Acquiring IOPS from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops_2.sql">acquire_iops_2.sql</a> - The 2nd version of acquiring IOPS from the historical AWR reports
+<a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_iops_by_function.sql">acquire_iops_by_function.sql</a> - Acquiring IOPS by Function from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_logic_cpus_union_aas.sql">acquire_logic_cpus_union_aas.sql</a> - Visualizing the oracle performance metrics "NUM_CPUS" and "AAS" in the past and real time by the custom report of SQL Developer
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps.sql">acquire_lps.sql</a> - Acquiring Logons Per Sec from the historical AWR reports
 <a href="https://github.com/guestart/Oracle-SQL-Scripts/blob/master/awr_trend/acquire_lps_union_tps.sql">acquire_lps_union_tps.sql</a> - Visualizing the oracle performance metrics "LPS" and "TPS" in the past and real time by the custom report of SQL Developer
