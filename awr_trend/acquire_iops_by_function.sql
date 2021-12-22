@@ -101,14 +101,14 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN iops          FORMAT 999,999,999.999
 
-WITH ifmh AS
+WITH ifm AS
 (
   SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , function_name
        , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
   FROM v$iofuncmetric
 )
-SELECT * FROM ifmh
+SELECT * FROM ifm
 PIVOT ( MAX(iops)
         FOR function_name IN
         (  'Buffer Cache Reads' AS "Buffer Cache Reads"
