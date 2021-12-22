@@ -101,85 +101,15 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN io_mbps       FORMAT 999,999,999.999
 
-WITH ifmh AS
+WITH ifm AS
 (
   SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
        , function_name
        , ROUND((small_read_mbps+small_write_mbps+large_read_mbps+large_write_mbps), 3) io_mbps
   FROM v$iofuncmetric
 )
-SELECT * FROM ifmh
+SELECT * FROM ifm
 PIVOT ( MAX(io_mbps)
-        FOR function_name IN
-        (  'Buffer Cache Reads' AS "Buffer Cache Reads"
-         , 'Direct Reads'       AS "Direct Reads"
-         , 'Direct Writes'      AS "Direct Writes"
-         , 'DBWR'               AS "DBWR"
-         , 'LGWR'               AS "LGWR"
-         , 'ARCH'               AS "ARCH"
-         , 'RMAN'               AS "RMAN"
-         , 'Recovery'           AS "Recovery"
-         , 'Data Pump'          AS "Data Pump"
-         , 'Streams AQ'         AS "Streams AQ"
-         , 'XDB'                AS "XDB"
-         , 'Others'             AS "Others"
-         , 'Archive Manager'    AS "Archive Manager"
-         , 'Smart Scan'         AS "Smart Scan"
-        )
-      )
-ORDER BY sample_time
-;
-
--- I/O Requests per Second in Last 1 Minute.
--- Horizontal Axis Name: I/O Per Sec
-
-SET LINESIZE 200
-SET PAGESIZE 20
-
-COLUMN sample_time   FORMAT a11
-COLUMN function_name FORMAT a18
-COLUMN iops          FORMAT 999,999,999.999
-
-SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
-     , function_name
-     , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
-FROM v$iofuncmetric
-ORDER BY DECODE (function_name, 'Buffer Cache Reads', 1
-                              , 'Direct Reads'      , 2
-                              , 'Direct Writes'     , 3
-                              , 'DBWR'              , 4
-                              , 'LGWR'              , 5
-                              , 'ARCH'              , 6
-                              , 'RMAN'              , 7
-                              , 'Recovery'          , 8
-                              , 'Data Pump'         , 9
-                              , 'Streams AQ'        , 10
-                              , 'XDB'               , 11
-                              , 'Others'            , 12
-                              , 'Archive Manager'   , 13
-                              , 'Smart Scan'        , 14
-                )
-;
-
--- Converting rows to columns Based on I/O Requests per Second in Last 1 Minute.
--- Horizontal Axis Name: I/O Per Sec
-
-SET LINESIZE 200
-SET PAGESIZE 10
-
-COLUMN sample_time   FORMAT a11
-COLUMN function_name FORMAT a18
-COLUMN iops          FORMAT 999,999,999.999
-
-WITH ifmh AS
-(
-  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
-       , function_name
-       , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
-  FROM v$iofuncmetric
-)
-SELECT * FROM ifmh
-PIVOT ( MAX(iops)
         FOR function_name IN
         (  'Buffer Cache Reads' AS "Buffer Cache Reads"
          , 'Direct Reads'       AS "Direct Reads"
@@ -252,76 +182,6 @@ WITH ifmh AS
 )
 SELECT * FROM ifmh
 PIVOT ( MAX(io_mbps)
-        FOR function_name IN
-        (  'Buffer Cache Reads' AS "Buffer Cache Reads"
-         , 'Direct Reads'       AS "Direct Reads"
-         , 'Direct Writes'      AS "Direct Writes"
-         , 'DBWR'               AS "DBWR"
-         , 'LGWR'               AS "LGWR"
-         , 'ARCH'               AS "ARCH"
-         , 'RMAN'               AS "RMAN"
-         , 'Recovery'           AS "Recovery"
-         , 'Data Pump'          AS "Data Pump"
-         , 'Streams AQ'         AS "Streams AQ"
-         , 'XDB'                AS "XDB"
-         , 'Others'             AS "Others"
-         , 'Archive Manager'    AS "Archive Manager"
-         , 'Smart Scan'         AS "Smart Scan"
-        )
-      )
-ORDER BY sample_time
-;
-
--- I/O Requests per Second in Last 1 Hour (interval by each minute).
--- Horizontal Axis Name: I/O Per Sec
-
-SET LINESIZE 200
-SET PAGESIZE 900
-
-COLUMN sample_time   FORMAT a11
-COLUMN function_name FORMAT a18
-COLUMN iops          FORMAT 999,999,999.999
-
-SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
-     , function_name
-     , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
-FROM v$iofuncmetric_history
-ORDER BY DECODE (function_name, 'Buffer Cache Reads', 1
-                              , 'Direct Reads'      , 2
-                              , 'Direct Writes'     , 3
-                              , 'DBWR'              , 4
-                              , 'LGWR'              , 5
-                              , 'ARCH'              , 6
-                              , 'RMAN'              , 7
-                              , 'Recovery'          , 8
-                              , 'Data Pump'         , 9
-                              , 'Streams AQ'        , 10
-                              , 'XDB'               , 11
-                              , 'Others'            , 12
-                              , 'Archive Manager'   , 13
-                              , 'Smart Scan'        , 14
-                )
-;
-
--- Converting rows to columns Based on I/O Requests per Second in Last 1 Hour (interval by each minute).
--- Horizontal Axis Name: I/O Per Sec
-
-SET LINESIZE 200
-SET PAGESIZE 80
-
-COLUMN sample_time   FORMAT a11
-COLUMN function_name FORMAT a18
-COLUMN iops          FORMAT 999,999,999.999
-
-WITH ifmh AS
-(
-  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
-       , function_name
-       , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
-  FROM v$iofuncmetric_history
-)
-SELECT * FROM ifmh
-PIVOT ( MAX(iops)
         FOR function_name IN
         (  'Buffer Cache Reads' AS "Buffer Cache Reads"
          , 'Direct Reads'       AS "Direct Reads"
