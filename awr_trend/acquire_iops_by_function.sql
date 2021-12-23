@@ -73,7 +73,9 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN iops          FORMAT 999,999,999.999
 
-SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
+SELECT TO_CHAR(end_time, 'yyyy-mm-dd hh24:mi:ss') sample_time
      , function_name
      , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
 FROM v$iofuncmetric
@@ -107,9 +109,11 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN iops          FORMAT 999,999,999.999
 
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
 WITH ifm AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
+  SELECT TO_CHAR(end_time, 'yyyy-mm-dd hh24:mi:ss') sample_time
        , function_name
        , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
   FROM v$iofuncmetric
@@ -151,7 +155,9 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN iops          FORMAT 999,999,999.999
 
-SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
+SELECT TO_CHAR(end_time, 'yyyy-mm-dd hh24:mi:ss') sample_time
      , function_name
      , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
 FROM v$iofuncmetric_history
@@ -185,9 +191,11 @@ COLUMN sample_time   FORMAT a11
 COLUMN function_name FORMAT a18
 COLUMN iops          FORMAT 999,999,999.999
 
+ALTER SESSION SET nls_date_format = 'yyyy-mm-dd hh24:mi:ss';
+
 WITH ifmh AS
 (
-  SELECT TO_CHAR(end_time, 'hh24:mi:ss') sample_time
+  SELECT TO_CHAR(end_time, 'yyyy-mm-dd hh24:mi:ss') sample_time
        , function_name
        , ROUND((small_read_iops+small_write_iops+large_read_iops+large_write_iops), 3) iops
   FROM v$iofuncmetric_history
