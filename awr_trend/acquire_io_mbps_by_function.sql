@@ -63,6 +63,9 @@ REM
 -- I/O Megabytes per Second in Last 1 Minute.
 -- Vertical Axis Name: MB Per Sec
 
+SET FEEDBACK  off;
+SET SQLFORMAT csv;
+
 SET LINESIZE 200
 SET PAGESIZE 20
 
@@ -93,6 +96,9 @@ ORDER BY DECODE (function_name, 'Buffer Cache Reads', 1
 
 -- Converting rows to columns Based on I/O Megabytes per Second in Last 1 Minute.
 -- Vertical Axis Name: MB Per Sec
+
+SET FEEDBACK  off;
+SET SQLFORMAT csv;
 
 SET LINESIZE 200
 SET PAGESIZE 10
@@ -135,6 +141,9 @@ ORDER BY sample_time
 -- I/O Megabytes per Second in Last 1 Hour (interval by each minute).
 -- Vertical Axis Name: MB Per Sec
 
+SET FEEDBACK  off;
+SET SQLFORMAT csv;
+
 SET LINESIZE 200
 SET PAGESIZE 900
 
@@ -165,6 +174,9 @@ ORDER BY DECODE (function_name, 'Buffer Cache Reads', 1
 
 -- Converting rows to columns Based on I/O Megabytes per Second in Last 1 Hour (interval by each minute).
 -- Vertical Axis Name: MB Per Sec
+
+SET FEEDBACK  off;
+SET SQLFORMAT csv;
 
 SET LINESIZE 200
 SET PAGESIZE 80
