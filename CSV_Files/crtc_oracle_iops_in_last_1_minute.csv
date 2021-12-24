@@ -1,0 +1,2 @@
+"SAMPLE_TIME","Buffer Cache Reads","Direct Reads","Direct Writes","DBWR","LGWR","ARCH","RMAN","Recovery","Data Pump","Streams AQ","XDB","Others","Archive Manager","Smart Scan"
+"2021-12-23 13:59:44",0.301,0,0,0.084,6.399,0,0,0,0,0,0,5.664,0,0
