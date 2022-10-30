@@ -2,6 +2,7 @@
 -- Script: disk_reads_rank_top_5_sql_on_sqlstats.sql
 -- Author: Quanwen Zhao
 -- Updated: May 17, 2019
+-- Modified: Oct 30, 2022 (modified v$sql to v$sqlstats)
 -- Ranking Top 5 SQL for disk_reads (High I/O) on v$sqlstats
 -- Number of disk reads for all cursors with this SQL text and plan
 -- Trying not to check v$sql, as you can see Connor's this blog post
@@ -20,7 +21,7 @@ FROM (SELECT sql_id
              , sql_text
              , disk_reads
              , DENSE_RANK() OVER (ORDER BY disk_reads DESC) AS disk_reads_rank
-      FROM v$sql
+      FROM v$sqlstats
       WHERE disk_reads > 100000
      )
 WHERE disk_reads_rank <= 5
