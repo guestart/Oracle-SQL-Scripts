@@ -9,7 +9,7 @@ REM             12.2.0.1
 REM             19.3.0.0
 REM
 REM     Purpose:
-REM       Checking the async io situation duroing the period of rman backup on your oracle database.
+REM       Checking the async io situation during the period of rman backup on your oracle database.
 REM
 
 SELECT device_type device,
