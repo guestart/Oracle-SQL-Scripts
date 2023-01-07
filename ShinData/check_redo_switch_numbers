@@ -1,0 +1,83 @@
+REM
+REM     Script:        check_redo_switch_numbers.sql
+REM     Author:        Quanwen Zhao
+REM     Dated:         Oct 30, 2022
+REM
+REM     Last tested:
+REM             11.2.0.4
+REM             12.2.0.1
+REM             19.3.0.0
+REM
+REM     Purpose:
+REM       Checking the redo switch numbers of oracle database.
+REM
+
+set linesize 400
+set pagesize 999
+
+col h0 format  999
+col h1 format  999
+col h2 format  999
+col h3 format  999
+col h4 format  999
+col h5 format  999
+col h6 format  999
+col h7 format  999
+col h8 format  999
+col h9 format  999
+col h10 format 999
+col h11 format 999
+col h12 format 999
+col h13 format 999
+col h14 format 999
+col h15 format 999
+col h16 format 999
+col h17 format 999
+col h18 format 999
+col h19 format 999
+col h20 format 999
+col h21 format 999
+col h22 format 999
+col h23 format 999
+
+SELECT TRUNC (first_time) "Date",
+       inst_id,
+       TO_CHAR (first_time, 'Dy') "Day",
+       COUNT (1) "Total",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '00', 1, 0)) "h0",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '01', 1, 0)) "h1",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '02', 1, 0)) "h2",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '03', 1, 0)) "h3",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '04', 1, 0)) "h4",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '05', 1, 0)) "h5",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '06', 1, 0)) "h6",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '07', 1, 0)) "h7",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '08', 1, 0)) "h8",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '09', 1, 0)) "h9",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '10', 1, 0)) "h10",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '11', 1, 0)) "h11",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '12', 1, 0)) "h12",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '13', 1, 0)) "h13",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '14', 1, 0)) "h14",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '15', 1, 0)) "h15",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '16', 1, 0)) "h16",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '17', 1, 0)) "h17",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '18', 1, 0)) "h18",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '19', 1, 0)) "h19",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '20', 1, 0)) "h20",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '21', 1, 0)) "h21",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '22', 1, 0)) "h22",
+       SUM (DECODE (TO_CHAR (first_time, 'hh24'), '23', 1, 0)) "h23",
+       ROUND (COUNT (1) / 24, 2) "Avg"
+FROM gv$log_history
+WHERE thread# = inst_id
+AND first_time > sysdate -1
+GROUP BY TRUNC (first_time),
+         inst_id,
+         TO_CHAR (first_time, 'Dy')
+ORDER BY 1,2;
+
+-- Date                inst_id Day    Total h0 h1 h2 h3 h4 h5 h6 h7 h8 h9 h10 h11 h12 h13 h14 h15 h16 h17 h18 h19 h20 h21 h22 h23   Avg
+-- ------------------- ------- ------ ----- -- -- -- -- -- -- -- -- -- -- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -----
+-- 2022-10-25 00:00:00	     1 星期二	  374	 0	0	 0	0	 0	0	 0	0	 0	0	  0	  0	  0	  0	  0	  0	 15	 52	 51	 52	 53	 52	 47	 52 15.58
+-- 2022-10-26 00:00:00	     1 星期三	  859	51 52 53 52 52 53 52 52 51 51	 51	 51	 51	 51	 51	 51	 34	  0	  0	  0	  0	  0	  0	  0 35.79
