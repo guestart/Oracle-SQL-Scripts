@@ -10,6 +10,7 @@ REM             19.3.0.0
 REM
 REM     Purpose:
 REM       Checking which sessions (including all blockers and waiters) caused row lock on oracle database.
+REM       If you run the OS command "netstat -anp | grep 'spid'" you are able to find out the ip address of the connect session.
 REM
 
 select p.spid,
