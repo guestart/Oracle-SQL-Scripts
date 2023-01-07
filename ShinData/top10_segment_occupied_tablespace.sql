@@ -9,7 +9,7 @@ REM             12.2.0.1
 REM             19.3.0.0
 REM
 REM     Purpose:
-REM       Checking top 10 segment names that occupied by a specific tablespace on oracle database.
+REM       Checking top 10 segment names that occupied by a specific tablespace (whose used rate >= 75%) on oracle database.
 REM
 
 SELECT * FROM
