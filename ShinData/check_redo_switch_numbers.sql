@@ -75,4 +75,4 @@ AND first_time > sysdate -1
 GROUP BY TRUNC (first_time),
          inst_id,
          TO_CHAR (first_time, 'Dy')
-ORDER BY 1,2;
+ORDER BY 1, 2;
