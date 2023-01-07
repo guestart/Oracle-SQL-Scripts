@@ -44,13 +44,3 @@ AND a.name IN (SELECT a.tablespace_name
               )
 ORDER BY a.name, b.datetime
 ) WHERE increased_size_mb <> 0;
-
--- TABLESPACE_NAME                DATETIME            USED_SIZE_MB   INCREASED_SIZE_MB
--- ------------------------------ ------------------- ------------   -----------------
--- SYSAUX	                        01-11月-22	        2667.6875	     2667.69
--- SYSAUX	                        02-11月-22	        2673.375	       5.69
--- SYSAUX	                        03-11月-22	        2630.5	         -42.88
--- SYSAUX	                        04-11月-22	        2622.6875	     -7.81
--- SYSAUX	                        05-11月-22	        2628.375	       5.69
--- SYSAUX	                        06-11月-22	        2641.4375	     13.06
--- SYSAUX	                        07-11月-22	        2649.6875	     8.25
