@@ -1,5 +1,5 @@
 REM
-REM     Script:        ash_activity_pct_by_top10sql.sql
+REM     Script:        ash_activity_pct_by_top10sqls.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 02, 2022
 REM
@@ -9,7 +9,7 @@ REM             12.2.0.1
 REM             19.3.0.0
 REM
 REM     Purpose:
-REM       Checking activity percent of top 10 sql by cpu_time, user_io_time and other_wait_time
+REM       Checking activity percent of top 10 sql statements by cpu_time, user_io_time and other_wait_time
 REM       from v$active_session_history in recent 1 hour on oracle database.
 REM
 
