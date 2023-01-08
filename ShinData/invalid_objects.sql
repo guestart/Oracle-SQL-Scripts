@@ -1,7 +1,7 @@
 REM
 REM     Script:        invalid_objects.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         Sep 12, 2022
+REM     Dated:         Sep 13, 2022
 REM
 REM     Last tested:
 REM             11.2.0.4
