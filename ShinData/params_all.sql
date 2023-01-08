@@ -1,5 +1,5 @@
 REM
-REM     Script:        all_params.sql
+REM     Script:        params_all.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Aug 01, 2022
 REM
