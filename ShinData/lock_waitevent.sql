@@ -1,7 +1,7 @@
 REM
 REM     Script:        lock_waitevent.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         Aug 12, 2022
+REM     Dated:         Jun 21, 2022
 REM
 REM     Last tested:
 REM             11.2.0.4
