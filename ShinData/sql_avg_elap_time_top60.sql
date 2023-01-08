@@ -1,5 +1,5 @@
 REM
-REM     Script:        sql_avg_elp_time_top60.sql
+REM     Script:        sql_avg_elap_time_top60.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 04, 2022
 REM
