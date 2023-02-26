@@ -32,23 +32,23 @@ with af as
  group by group_number,
           redundancy
 ),
-aug as
+bug as
 (select af.group_number,
         case af.redundancy
           when 'HIGH'   then af.used_gb/3
           when 'MIRROR' then af.used_gb/2
           when 'UNPROT' then af.used_gb
-        end bak_used_gb
+        end back_used_gb
  from af
 )
 select ad.name as ASM_DISK_NAME,
        ad.total_mb/1024 as TOTAL_GB,
-       aug.bak_used_gb as BAK_USED_GB,
-       round(aug.bak_used_gb/(ad.total_mb/1024), 4)*100 as PERCENT_SPACE_USED
-from v$asm_diskgroup ad, af, aug
+       bug.back_used_gb as BACK_USED_GB,
+       round(bug.back_used_gb/(ad.total_mb/1024), 4)*100 as PERCENT_SPACE_USED
+from v$asm_diskgroup ad, af, bug
 where ad.group_number = af.group_number
-and af.group_number = aug.group_number;
+and af.group_number = bug.group_number;
 
-ASM_DISK_NAME                    TOTAL_GB BAK_USED_GB PERCENT_SPACE_USED
------------------------------- ---------- ----------- ------------------
-DATA                                  130       10.31               7.93
+ASM_DISK_NAME                    TOTAL_GB BACK_USED_GB PERCENT_SPACE_USED
+------------------------------ ---------- ------------ ------------------
+DATA                                  130        10.31               7.93
