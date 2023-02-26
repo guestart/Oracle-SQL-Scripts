@@ -2,6 +2,7 @@ REM
 REM     Script:        asm_arch_size.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Jan 25, 2023
+REM     Updated:       Feb 26, 2023
 REM
 REM     Last tested:
 REM             11.2.0.4
@@ -25,6 +26,7 @@ atg as
 (select ad.name,
         al.arc_used_gb,
         case type
+          when 'EXTERN' then round(ad.total_mb/1024,   2)
           when 'NORMAL' then round(ad.total_mb/1024/2, 2)
           when 'HIGH'   then round(ad.total_mb/1024/3, 2)
         end act_total_gb
@@ -44,16 +46,18 @@ DATA                                 15.85               31.7
 with af as
 (select group_number,
         case redundancy
-          when 'MIRROR' then round(sum(space)/1024/1024/1024, 2)/2
           when 'HIGH'   then round(sum(space)/1024/1024/1024, 2)/3
+          when 'MIRROR' then round(sum(space)/1024/1024/1024, 2)/2
+          when 'UNPROT' then round(sum(space)/1024/1024/1024, 2)
         end act_used_gb,
         round(sum(space)/1024/1024/1024, 2)used_gb
  from v$asm_file
  where type in ('ARCHIVELOG')
  group by group_number,
           case redundancy
-            when 'MIRROR' then round(sum(space)/1024/1024/1024, 2)/2
             when 'HIGH'   then round(sum(space)/1024/1024/1024, 2)/3
+            when 'MIRROR' then round(sum(space)/1024/1024/1024, 2)/2
+            when 'UNPROT' then round(sum(space)/1024/1024/1024, 2)
           end
 )
 select ad.name as ASM_DISK_NAME,
@@ -62,20 +66,20 @@ select ad.name as ASM_DISK_NAME,
 from v$asm_diskgroup ad, af
 where ad.group_number = af.group_number;
 
-when 'MIRROR' then round(sum(space)/1024/1024/1024, 2)/2
+when 'HIGH'   then round(sum(space)/1024/1024/1024, 2)/3
                                      *
-ERROR at line 12:
+ERROR at line 13:
 ORA-00934: group function is not allowed here
 
 
 with af as
 (select group_number,
-        decode(redundancy, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3) act_used_gb,
+        decode(redundancy, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'UNPROT', round(sum(space)/1024/1024/1024, 2)) act_used_gb,
         round(sum(space)/1024/1024/1024, 2) used_gb
  from v$asm_file
  where type in ('ARCHIVELOG')
  group by group_number,
-          decode(redundancy, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3)
+          decode(redundancy, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'UNPROT', round(sum(space)/1024/1024/1024, 2))
 )
 select ad.name as ASM_DISK_NAME,
        af.act_used_gb as ARC_USED_GB,
@@ -83,11 +87,10 @@ select ad.name as ASM_DISK_NAME,
 from v$asm_diskgroup ad, af
 where ad.group_number = af.group_number;
 
-decode(redundancy, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3)
-                                             *
+decode(redundancy, 'HIGH', round(sum(space)/1024/1024/1024, 2)/3, 'MIRROR', round(sum(space)/1024/1024/1024, 2)/2, 'UNPROT', round(sum(space)/1024/1024/1024, 2))
+                                           *
 ERROR at line 8:
 ORA-00934: group function is not allowed here
-
 
 with af as
 (select group_number,
@@ -101,8 +104,9 @@ with af as
 aug as
 (select af.group_number,
         case af.redundancy
-          when 'MIRROR' then af.used_gb/2
           when 'HIGH'   then af.used_gb/3
+          when 'MIRROR' then af.used_gb/2
+          when 'UNPROT' then af.used_gb
         end act_used_gb
  from af
 )
@@ -128,7 +132,7 @@ with af as
 ),
 aug as
 (select af.group_number,
-        decode(af.redundancy, 'MIRROR', af.used_gb/2, 'HIGH', af.used_gb/3) act_used_gb
+        decode(af.redundancy, 'HIGH', af.used_gb/3, 'MIRROR', af.used_gb/2, 'UNPROT', af.used_gb) act_used_gb
  from af
 )
 select ad.name as ASM_DISK_NAME,
