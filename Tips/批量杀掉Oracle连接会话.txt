@@ -1,23 +1,21 @@
-kill -9 `ps -ef|grep LOCAL=NO|awk '{print $2}'`
-
 select  Q'[alter system kill ']' || sid || ', ' || serial# || Q'[' immediate;]' from v$session where sql_id = 'a8fdq2kj0rmz7';
 
--- ÅúÁ¿killÉ±ËÀÄ³Ğ©»á»°sessionµÄPL/SQL
+-- æ‰¹é‡killæ€æ­»æŸäº›ä¼šè¯sessionçš„PL/SQL
 -- https://blog.csdn.net/weixin_30713705/article/details/116384673
 
 declare
-  v_sid v$session.sid%type; --¶¨ÒåÈçÏÂÁ½¸ötypeÀàĞÍ£¬ÓÃÓÚ½ÓÊÕcursor
+  v_sid v$session.sid%type; --å®šä¹‰å¦‚ä¸‹ä¸¤ä¸ªtypeç±»å‹ï¼Œç”¨äºæ¥æ”¶cursor
   v_serial# v$session.serial#%type;
-  cursor cur_session is select sid, serial# from v$session where sql_id = 'a8fdq2kj0rmz7'; --#¶¨Òåcursor
+  cursor cur_session is select sid, serial# from v$session where sql_id = 'a8fdq2kj0rmz7'; --#å®šä¹‰cursor
 begin
-  open cur_session; --´ò¿ªcusor
-  loop --´ò¿ªÓÎ±êÂíÉÏ¿ªÊ¼Ñ­»·£¬ÒòÎªcursorÊÇÒ»ÌõÌõÈ¡Êı¾İµÄ
-    fetch cur_session into v_sid,v_serial#; --°ÑÓÎ±êµÄÊı¾İ·ÅÈëÉÏÃæ¶¨ÒåµÄtype±äÁ¿ÖĞ
-    --¸ù¾İÒÔÉÏµÄtype±äÁ¿¼°ÓÎ±êÉú³ÉÅúÁ¿É±sessionµÄ¶¯Ì¬sql½Å±¾£¬²¢Ö´ĞĞ
+  open cur_session; --æ‰“å¼€cusor
+  loop --æ‰“å¼€æ¸¸æ ‡é©¬ä¸Šå¼€å§‹å¾ªç¯ï¼Œå› ä¸ºcursoræ˜¯ä¸€æ¡æ¡å–æ•°æ®çš„
+    fetch cur_session into v_sid,v_serial#; --æŠŠæ¸¸æ ‡çš„æ•°æ®æ”¾å…¥ä¸Šé¢å®šä¹‰çš„typeå˜é‡ä¸­
+    --æ ¹æ®ä»¥ä¸Šçš„typeå˜é‡åŠæ¸¸æ ‡ç”Ÿæˆæ‰¹é‡æ€sessionçš„åŠ¨æ€sqlè„šæœ¬ï¼Œå¹¶æ‰§è¡Œ
     execute immediate 'alter system kill session '''||v_sid||','||v_serial#||''' immediate';
-    exit when cur_session%notfound; --Òª¼Ó¸öÒì³£´¦Àí£¬²»È»ÓÀÔ¶ÊÇËÀÑ­»·
+    exit when cur_session%notfound; --è¦åŠ ä¸ªå¼‚å¸¸å¤„ç†ï¼Œä¸ç„¶æ°¸è¿œæ˜¯æ­»å¾ªç¯
     dbms_output.put_line('cursor date have been fetched ending');
-  end loop; --loopÒ²ÓĞ³ÉË«Æ¥Åä³öÏÖ
-  close cur_session; --ÓÎ±ê´¦ÀíÍêºó£¬¹Ø±ÕÓÎ±ê
+  end loop; --loopä¹Ÿæœ‰æˆåŒåŒ¹é…å‡ºç°
+  close cur_session; --æ¸¸æ ‡å¤„ç†å®Œåï¼Œå…³é—­æ¸¸æ ‡
 end;
 /
