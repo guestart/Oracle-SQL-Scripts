@@ -1,0 +1,468 @@
+rem ********************************************************************************
+rem program: check_io_setup.sql
+rem purpose: one stop backup setup check
+rem
+rem changes
+rem fgordon 14-Feb-2018 initial version
+rem fgordon 26-Mar-2018 11g changes
+rem fgordon 20-Mar-2019 Outliers, TEMP stats and DIRECT stats
+rem fgordon 21-Mar-2019 io by duplicate sql summary
+rem fgordon 22-Mar-2019 TEMP by duplicate sql summary
+rem fgordon 30-Sep-2019 I/O by disk
+rem fgordon 02-Dec-2019 I/O plan change
+rem fgordon 27-Jan-2020 top sql by plan
+rem ********************************************************************************
+alter session set nls_date_format = 'DD-MON-YYYY HH24:MI:SS';
+alter session set nls_timestamp_format = 'DD-MON-YYYY HH24:MI:SS.FF';
+
+set echo off
+set lines 512
+set pages 999
+set trim on
+set trimspool on
+
+col mb for 999,999,999.00
+col mountpoint for a10 trunc
+col name for a65 trunc
+col value for a50 trunc
+
+break on report
+compute sum of mb on report
+
+spool check_io_setup_@.txt
+select instance_name, host_name, to_char(sysdate)
+from v$instance
+/
+
+SET TERM OFF
+
+Prompt ####################
+Prompt IO Stat
+Prompt ####################
+col read_mb for 999,999,999,999
+col write_mb for 999,999,999,999
+col no_of_waits for 999,999,999,999,999
+col wait_time for 999,999,999,999,999
+select function_name,
+function_id,
+count(1) as ct,
+sum(small_read_megabytes)
++ sum(large_read_megabytes) read_mb,
+sum(small_write_megabytes)
++ sum(large_write_megabytes) write_mb,
+sum(number_of_waits) as no_of_waits,
+sum(wait_time) as wait_time
+--from v$IOSTAT_FUNCTION_DETAIL
+from v$IOSTAT_FUNCTION
+group by function_name, function_id
+order by sum(small_read_megabytes)
++ sum(large_read_megabytes)
++ sum(small_write_megabytes)
++ sum(large_write_megabytes) ,
+function_name
+/
+
+Prompt ####################
+Prompt Big IO Sessions
+Prompt ####################
+col username for a10 trunc
+col machine for a10 trunc
+col program for a20 trunc
+col physical_reads for 999,999,999
+select s.username, s.machine, s.program, i.* from v$sess_io i, v$session s
+where  i.sid = s.sid
+and physical_reads > 5000
+order by physical_reads
+/
+
+Prompt ####################
+Prompt Big IO Queries summary by duplicate sql
+Prompt ####################
+col s_cost for 999,999,999,999
+col cpu_cost for 999,999,999,999
+col PHYS_READ_BYTES for 999,999,999,999
+col PHYS_WRITE_BYTES for 999,999,999,999
+col sql_text for a50 word_wrap
+
+REM select
+REM count(unique s.sql_id) as no_of_queries,
+REM substr(
+REM         regexp_replace(
+REM                 regexp_replace(
+REM                         regexp_replace(sql_text
+REM                         ,q'[C\$.*?\ ]', 'C$#TAB')
+REM                 ,q'[\'.*?\']', '#bind_char')
+REM         ,q'[[0-9]*[0-9]]', '#bind_num')
+REM         , 1, 1000) as sql_text,
+REM max(p.sql_id) as max_sql_id,
+REM sum(p.io_cost) s_cost , sum(USER_IO_WAIT_TIME) as UIO_WAIT,
+REM sum(p.cpu_cost) as cpu_cost,
+REM sum(NVL(p.temp_space,0)) as temp_space
+REM from v$sql_plan p, v$sqlarea s
+REM where p.sql_id = s.sql_id(+)
+REM group by
+REM substr(
+REM         regexp_replace(
+REM                 regexp_replace(
+REM                         regexp_replace(sql_text
+REM                         ,q'[C\$.*?\ ]', 'C$#TAB')
+REM                 ,q'[\'.*?\']', '#bind_char')
+REM         ,q'[[0-9]*[0-9]]', '#bind_num')
+REM         , 1, 1000)
+REM having sum(p.io_cost) > 100000
+REM order by s_cost
+REM /
+
+Prompt ####################
+Prompt Big IO Queries
+Prompt ####################
+col s_cost for 999,999,999,999
+col cpu_cost for 999,999,999,999
+col PHYS_READ_BYTES for 999,999,999,999
+col PHYS_WRITE_BYTES for 999,999,999,999
+col sql_text for a50 word_wrap
+
+
+select p.sql_id, s.sql_text, sum(p.io_cost) s_cost , sum(USER_IO_WAIT_TIME) as UIO_WAIT,
+sum(p.cpu_cost) as cpu_cost,
+sum(NVL(p.temp_space,0)) as temp_space
+from v$sql_plan p, v$sql s
+where p.sql_id = s.sql_id(+)
+and p.child_number = s.child_number(+)
+group by p.sql_id, s.sql_text
+having sum(p.io_cost) > 100000
+order by s_cost
+/
+
+Prompt ####################
+Prompt Big IO Queries by PLAN
+Prompt ####################
+select p.plan_hash_value,
+        max(substr(s.sql_text, 1, 100)) as sql_text,
+        sum(p.io_cost) io_cost ,
+        sum(USER_IO_WAIT_TIME) as UIO_WAIT,
+        max(s.sql_id) as max_sql_id,
+        sum(p.cpu_cost) as cpu_cost,
+        sum(NVL(p.temp_space,0)) as temp_space,
+        count(1) as ct1
+from v$sql_plan p, v$sql s
+where p.sql_id = s.sql_id(+)
+and p.child_number = s.child_number(+)
+group by p.plan_hash_value
+having sum(p.io_cost) > 100000
+order by io_cost
+/
+
+Prompt ####################
+Prompt IO Queries - Plan changes
+Prompt ####################
+
+col io_cost for 999,999,999,999
+col prev_io_cost for 999,999,999,999
+col prev_child_num for 9999
+col prev_timestamp for a30
+col perc_inc for 999.00
+
+break on sql_id SKIP 1
+SELECT sql_id, timestamp, child_number, plan_hash_value, io_cost, prev_timestamp, prev_child_num, prev_io_cost,
+(io_cost/(prev_io_cost+0.00001)) * 100 as perc_inc
+FROM
+(
+SELECT sql_id, timestamp, child_number, plan_hash_value,
+io_cost, 
+LAG(timestamp) OVER (PARTITION BY sql_id ORDER BY timestamp, child_number, plan_hash_value) as prev_timestamp,
+LAG(child_number) OVER (PARTITION BY sql_id ORDER BY timestamp, child_number, plan_hash_value) as prev_child_num,
+LAG(io_cost) OVER (PARTITION BY sql_id ORDER BY timestamp, child_number, plan_hash_value) as prev_io_cost
+FROM
+( 
+select sql_id, timestamp, child_number, plan_hash_value, count(1) as CT, SUM(CPU_COST) as cpu_cost, SUM(io_cost) as io_cost 
+from v$sql_plan
+where plan_hash_value > 0
+group by sql_id, timestamp, child_number, plan_hash_value
+HAVING SUM(io_cost) > 1000
+)
+)
+WHERE io_cost <> prev_io_cost
+order by 1, 2, 3
+/
+
+Prompt ####################
+Prompt TEMP stats - system
+Prompt ####################
+col value for 999,999,999,999
+col name for a65 trunc
+select n.name, s.value
+ from v$statname n, v$sysstat s
+where n.statistic# = s.statistic#
+and
+n.name in (
+'physical reads direct temporary tablespace',
+'physical writes direct temporary tablespace',
+'temp space allocated (bytes)'
+)
+order by 1, 2
+/
+
+Prompt ####################
+Prompt TEMP stats - session
+Prompt ####################
+
+break on name skip 1
+select n.name, s.value, s.sid, p.sql_id, p.prev_sql_id, program, machine
+ from v$statname n, v$sesstat s, v$session p
+where n.statistic# = s.statistic#
+and s.sid = p.sid
+and
+n.name in (
+'physical reads direct temporary tablespace',
+'physical writes direct temporary tablespace',
+'temp space allocated (bytes)'
+)
+and s.value > 0
+order by n.name, s.value, s.sid
+/
+
+Prompt ####################
+Prompt Big TEMP Queries summary by duplicate sql
+Prompt ####################
+col temp_space for 999,999,999,999
+col avg_temp_per_exe for 999,999,999,999
+
+select count(unique s.sql_id) as no_of_queries,
+substr(
+        regexp_replace(
+                regexp_replace(
+                        regexp_replace(sql_text
+                        ,q'[C\$.*?\ ]', 'C$#TAB')
+                ,q'[\'.*?\']', '#bind_char')
+        ,q'[[0-9]*[0-9]]', '#bind_num')
+        , 1, 1000) as sql_text,
+sum(NVL(p.temp_space,0)) as temp_space,
+MAX(p.sql_id) as max_sql_id,
+(sum(NVL(p.temp_space,0)))/count(*) as AVG_TEMP_PER_EXE
+from v$sql_plan p, v$sqlarea s
+where p.sql_id = s.sql_id(+)
+and p.temp_space > 0
+group by substr(
+        regexp_replace(
+                regexp_replace(
+                        regexp_replace(sql_text
+                        ,q'[C\$.*?\ ]', 'C$#TAB')
+                ,q'[\'.*?\']', '#bind_char')
+        ,q'[[0-9]*[0-9]]', '#bind_num')
+        , 1, 1000)
+HAVING sum(NVL(p.temp_space,0)) > 1048576*100
+order by temp_space
+/
+
+
+Prompt ####################
+Prompt Big TEMP Queries
+Prompt ####################
+col temp_space for 999,999,999,999
+select p.sql_id, s.sql_text, sum(NVL(p.temp_space,0)) as temp_space
+from v$sql_plan p, v$sqlarea s
+where p.sql_id = s.sql_id(+)
+and p.temp_space > 0
+group by p.sql_id, s.sql_text
+HAVING sum(NVL(p.temp_space,0)) > 1048576*100
+order by temp_space
+/
+
+Prompt ####################
+Prompt Big IO RMAN
+Prompt ####################
+col filename FOR a110
+col status FOR a20
+col total_mb for 999,999,999,999,999
+
+SELECT a.sid,
+  a.status,
+  open_time,
+  ROUND(total_bytes/1024/1024,2) TOTAL_MB,
+  a.type
+FROM v$backup_async_io a
+WHERE total_bytes > 1048576 * 1000
+AND open_time > TRUNC(SYSDATE) - 7
+ORDER BY total_bytes, open_time
+;
+
+Prompt ####################
+Prompt File Stats
+Prompt ####################
+set lines 256
+set trim on
+set trimspool on
+
+select * from v$filestat
+order by 1
+/
+select * from v$tempstat
+order by 1
+/
+
+Prompt ####################
+Prompt File Stats, percentage
+Prompt ####################
+
+col ts_name for a20 trunc
+col disk_name for a5 trunc head Disk
+col f_name for a60 trunc
+col perc for 999.00
+break on ts_name on report
+compute sum of perc on ts_name
+compute sum of perc on report
+
+
+select ts_name, f_name, file#, score, ratio_to_report(score) over () * 100 as perc
+from
+(
+select s.file#, PHYBLKRD, PHYBLKWRT, (PHYBLKRD * 1) + (PHYBLKWRT * 3) as score, f.name as f_name, t.name as ts_name,
+substr(f.name, 1, instr(f.name, '/', 2) -1) as disk_name
+from v$filestat s, v$datafile f, v$tablespace t
+where s.file#=f.file#
+and f.ts# = t.ts#
+union all
+select s.file#, PHYBLKRD, PHYBLKWRT, (PHYBLKRD * 1) + (PHYBLKWRT * 3) as score, f.name as f_name, t.name as ts_name,
+substr(f.name, 1, instr(f.name, '/', 2) -1) as disk_name
+from v$tempstat s, v$tempfile f, v$tablespace t
+where s.file#=f.file#
+and f.ts# = t.ts#
+)
+order by 1,2, 3
+/
+Prompt ####################
+Prompt File Stats, percentage, by disk
+Prompt ####################
+break on disk_name on report
+compute sum of perc on disk_name
+compute sum of perc on report
+
+select disk_name, f_name, file#, score, ratio_to_report(score) over () * 100 as perc
+from
+(
+select s.file#, PHYBLKRD, PHYBLKWRT, (PHYBLKRD * 1) + (PHYBLKWRT * 3) as score, f.name as f_name, t.name as ts_name,
+substr(f.name, 1, instr(f.name, '/', 2) -1) as disk_name
+from v$filestat s, v$datafile f, v$tablespace t
+where s.file#=f.file#
+and f.ts# = t.ts#
+union all
+select s.file#, PHYBLKRD, PHYBLKWRT, (PHYBLKRD * 1) + (PHYBLKWRT * 3) as score, f.name as f_name, t.name as ts_name,
+substr(f.name, 1, instr(f.name, '/', 2) -1) as disk_name
+from v$tempstat s, v$tempfile f, v$tablespace t
+where s.file#=f.file#
+and f.ts# = t.ts#
+)
+order by 1,2, 3
+/
+
+Prompt ####################
+Prompt File Stats, overcommit space
+Prompt ####################
+
+break on disk_name
+compute sum of mb on disk_name
+compute sum of mb_used on disk_name
+col mb_used for 999,999,999.00
+select
+substr(file_name, 1, instr(file_name, '/', 2) -1) as disk_name,
+file_name, (CASE maxbytes WHEN 0 THEN bytes ELSE maxbytes END) / 1048576  as mb,
+bytes/1048576 as mb_used
+ from dba_data_files
+union all
+select
+substr(file_name, 1, instr(file_name, '/', 2) -1) as disk_name,
+file_name, (CASE maxbytes WHEN 0 THEN bytes ELSE maxbytes END) / 1048576 as mb,
+bytes/1048576 as mb_used
+from dba_temp_files
+order by 1, 2
+/
+
+Prompt ####################
+Prompt Segment Stats
+Prompt ####################
+set lines 256
+
+col owner for a10 trunc
+col object_name for a40 trunc
+col tablespace_name for a20 trunc
+col value for 999,999,999,999
+col statistic_name for a20 trunc
+
+set lines 256
+
+break on statistic_name skip 1
+
+select statistic_name, value, owner, object_name, tablespace_name
+from v$segment_statistics
+where value > 1000000
+and statistic_name NOT IN ('space used', 'space allocated')
+order by statistic_name, value, owner, object_name
+/
+
+
+Prompt ####################
+Prompt I/O Outliers > 5 seconds
+Prompt ####################
+col file_name for a65 trunc
+col wait_event for a10 trunc
+col secs for 999,999,999.00
+
+select function_name, file_name, io_size, wait_event,
+io_latency / 1000 as secs
+from V$IO_OUTLIER
+where io_latency > 5 * 1000
+order by 1, 2
+/
+
+Prompt ####################
+Prompt Kernel I/O Outliers > 5 seconds
+Prompt ####################
+select process_name, device_name, io_size,
+total_latency / 1000 as secs
+from V$KERNEL_IO_OUTLIER
+where total_latency > 5 * 1000
+order by 1, 2
+/
+
+Prompt ####################
+Prompt LGWR I/O Outliers > 1 seconds
+Prompt ####################
+select function_name, file_name, io_size, wait_event,
+io_latency / 1000 as secs
+from V$LGWRIO_OUTLIER
+where io_latency > 1 * 1000
+order by 1, 2
+/
+
+Prompt ####################
+Prompt DIRECT i/o
+Prompt ####################
+clear breaks
+
+select n.name, s.value
+from v$statname n, v$sysstat s
+where n.statistic# = s.statistic#
+and upper(n.name) like '%DIRECT%'
+and s.value > 0
+order by n.name, s.value
+/
+
+break on name skip 1
+compute sum of value on name
+
+select n.name, s.value, s.sid, p.sql_id, p.prev_sql_id, program, machine
+ from v$statname n, v$sesstat s, v$session p
+where n.statistic# = s.statistic#
+and s.sid = p.sid
+and upper(n.name) like '%DIRECT%'
+and s.value > 0
+order by n.name, s.value, s.sid
+/
+
+SET TERM ON
+
+spool
+spool off
+rem exit
+
