@@ -1,0 +1,36 @@
+ASM清理磁盘头信息
+-- https://blog.51cto.com/u_14035463/5584145
+
+set linesize 200
+col path for a50
+select name,path,state,mount_status,header_status from v$asm_disk;
+
+[root@ensrac01 ~]# su - grid
+Last login: Sun Feb  5 09:34:35 CST 2023
+[grid@ensrac01 ~]$ sqlplus / as sysasm
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Feb 5 09:39:27 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> set linesize 200
+SQL> col path for a50
+SQL> select name,path,state,mount_status,header_status from v$asm_disk;
+
+NAME                           PATH                                               STATE    MOUNT_S HEADER_STATU
+------------------------------ -------------------------------------------------- -------- ------- ------------
+                               /dev/oracleudev/asmdisk2                           NORMAL   CLOSED  MEMBER  <<== 该ASM磁盘头的信息应该为 CANDIDATE, 需要清查磁盘头信息
+GRID_0000                      /dev/oracleudev/asmdisk1                           NORMAL   CACHED  MEMBER
+
+dd if=/dev/zero of=/dev/sdb bs=4096 count=1
+
+[root@ensrac01 ~]# dd if=/dev/zero of=/dev/sdb bs=4096 count=1
+1+0 records in
+1+0 records out
+4096 bytes (4.1 kB) copied, 0.0418219 s, 97.9 kB/s
