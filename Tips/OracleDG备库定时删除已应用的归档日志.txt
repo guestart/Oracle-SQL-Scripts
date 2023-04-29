@@ -1,0 +1,30 @@
+tbm-oracle1stby:/home/oracle/script$pwd
+/home/oracle/script
+tbm-oracle1stby:/home/oracle/script$
+tbm-oracle1stby:/home/oracle/script$cat del_standby_arch.sh
+#!/bin/bash
+source ~/.bash_profile
+table="v\$archived_log"
+dt=$(date +%Y%m%d)
+log="/home/oracle/script/del_standby_arch_${dt}.log"
+$ORACLE_HOME/bin/sqlplus -silent "/ as sysdba" << EOF > ${log}
+set heading off;
+set pagesize 0;
+set term off;
+set feedback off;
+set linesize 32767;
+select 'rm -rf '||name from ${table} where DELETED='NO' and APPLIED='YES';
+exit;
+EOF
+
+sh ${log}
+
+$ORACLE_HOME/bin/rman target / << EOF
+crosscheck archivelog all;
+delete noprompt expired archivelog all;
+exit;
+EOF
+
+-- Oracle用户定期删除备库的归档日志
+crontab -l
+0 2 * * 6 /home/oracle/script/del_standby_arch.sh

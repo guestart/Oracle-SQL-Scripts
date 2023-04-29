@@ -1,0 +1,48 @@
+-- 公司测试环境 192.168.1.227(12cR2):
+
+set linesize 300
+set pagesize 300
+col name for a45
+col value for a20
+col default_value for a20
+select name, value, default_value from v$parameter where name like '\_%' escape '\';
+
+NAME                                          VALUE                DEFAULT_VALUE
+--------------------------------------------- -------------------- --------------------
+_ultrafast_latch_statistics                   TRUE                 TRUE
+_longops_enabled                              TRUE                 FALSE
+_io_statistics                                TRUE                 FALSE
+_object_statistics                            TRUE                 FALSE
+_disable_streams_pool_auto_tuning             FALSE                FALSE
+_gc_statistics                                TRUE                 TRUE
+_gc_cpu_time                                  FALSE                FALSE
+_disable_txn_alert                            0                    0
+_library_cache_advice                         TRUE                 FALSE
+_column_tracking_level                        21                   21
+_smm_advice_enabled                           TRUE                 TRUE
+_rowsource_execution_statistics               FALSE                FALSE
+_rowsource_profiling_statistics               TRUE                 FALSE
+_dml_monitoring_enabled                       TRUE                 TRUE
+_cursor_bind_capture_area_size                400                  400
+_dbop_enabled                                 1                    0
+_sqlmon_threshold                             5                    0
+_olap_row_load_time_precision                 DEFAULT              OFF
+_ash_enable                                   TRUE                 TRUE
+_timemodel_collection                         TRUE                 FALSE
+_threshold_alerts_enable                      1                    1
+_enable_automatic_maintenance                 1                    1
+_bsln_adaptive_thresholds_enabled             TRUE                 TRUE
+
+23 rows selected.
+
+-- 公司测试环境 192.168.1.50(11gR2):
+
+set linesize 300
+set pagesize 300
+col name for a45
+col value for a20
+select name, value from v$parameter where name like '\_%' escape '\';
+
+NAME                                          VALUE
+--------------------------------------------- --------------------
+_gc_policy_time                               14

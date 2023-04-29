@@ -1,0 +1,13 @@
+-- 在RMAN命令窗口执行:
+
+$ rman target /
+RMAN> set dbid=原生产库的dbid号; (在原生产库上查询 select dbid from v$database)
+RMAN> startup nomount;
+RMAN> restore spfile from '/备份集位置/自动备份的控制文件';
+RMAN> shutdown immediate;
+RMAN> startup nomount;
+RMAN> restore controlfile from '/备份集位置/自动备份的控制文件';
+RMAN> alter database mount;
+RMAN> catalog start with '/备份集位置';
+RMAN> restore database;
+RMAN> recover database;

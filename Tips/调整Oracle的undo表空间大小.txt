@@ -1,0 +1,97 @@
+undo表空间的建议值为30G.
+
+调整undo表空间大小(Oracle数据库为RAC, 需要在各自的实例上进行操作):
+
+缩小undo表空间的最佳方法是切换到新的undo表空间并删除旧的undo表空间.
+
+操作步骤是:
+
+(1) 查看Oracle数据库实例当前使用的undo表空间名称:
+
+SQL> show parameter undo_tablespace;
+
+NAME                                 TYPE                     VALUE
+------------------------------------ ----------------------   ---------
+undo_tablespace                      string                   UNDOTBS1
+
+(2) 查看Oracle数据库实例当前使用的undo表空间 UNDOTBS1 所在的数据文件和大小:
+
+SQL> select file_name, bytes/1024/1024/1024 size_gb from dba_data_files where tablespace_name = 'UNDOTBS1';
+
+FILE_NAME                                          SIZE_GB
+---------------------------------------------      -------
++DATA/racdb/datafile/undotbs1.258.1128337899           150
+
+(3) 创建一个更大或更小的新的undo表空间 UNDOTBS1_NEW (ASM磁盘组名称, 需要根据客户的具体名称来替换):
+
+SQL> create undo tablespace UNDOTBS1_NEW datafile '+data' size 30g;
+
+(4) 切换到新的undo表空间 UNDOTBS1_NEW：
+
+SQL> alter system set undo_tablespace=undotbs1_new scope=both;
+
+(5) 查看当前使用的undo表空间:
+
+SQL> show parameter undo_tablespace;
+
+NAME                                 TYPE                     VALUE
+------------------------------------ ----------------------   ------------
+undo_tablespace                      string                   UNDOTBS1_NEW
+
+(6) 查看undo segment的状态，判断old undo tablespace中的segment是否都处于offline状态:
+
+set linesize 200
+col tablespace_name for a15
+col status for a8
+select tablespace_name,
+       status,
+       count(*)
+from dba_rollback_segs
+where tablespace_name in ('UNDOTBS1', 'UNDOTBS1_NEW')
+group by tablespace_name,
+         status;
+
+TABLESPACE_NAME STATUS     COUNT(*)
+--------------- -------- ----------
+UNDOTBS1        OFFLINE          10   <<== 确保表空间UNDOTBS1的状态为OFFLINE.
+UNDOTBS1_NEW    ONLINE           10
+
+set linesize 200
+col tablespace_name for a15
+col status for a8
+select status,
+       segment_name
+from dba_rollback_segs
+where status not in ('OFFLINE')
+and tablespace_name = 'UNDOTBS1';
+
+no rows selected
+
+如果旧的undo表空间UNDOTBS1中的所有undo段都处于OFFLINE状态, 则可以删除该表空间.
+
+set linesize 200
+col tablespace_name for a15
+col status for a8
+select tablespace_name,
+       status,
+       count(*)
+from dba_rollback_segs
+where tablespace_name = 'UNDOTBS1'
+group by tablespace_name,
+         status;
+         
+TABLESPACE_NAME STATUS     COUNT(*)
+--------------- -------- ----------
+UNDOTBS1        OFFLINE          10
+
+(7) 验证然后丢弃：
+
+drop tablespace UNDOTBS1 including contents and datafiles;
+
+(8) 查看Oracle数据库实例当前使用的undo表空间 UNDOTBS1_NEW 所在的数据文件和大小:
+
+select file_name, bytes/1024/1024/1024 size_gb from dba_data_files where tablespace_name = 'UNDOTBS1_NEW';
+
+FILE_NAME                                          SIZE_GB
+------------------------------------------------   -------
++DATA/racdb/datafile/undotbs1_new.311.1132654903        30

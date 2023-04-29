@@ -1,0 +1,1 @@
+netstat -np | grep 1521 | awk -F ' ' '{print $5}' | awk -F ':' '{print $1}' | sort -h | uniq -c

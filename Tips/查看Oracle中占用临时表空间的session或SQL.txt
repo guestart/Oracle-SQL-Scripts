@@ -1,0 +1,64 @@
+占用临时表空间的session或SQL
+
+-- https://www.laoxiong.net/temporary_tablespace_excessive_usage_case.html
+-- https://www.cnblogs.com/halberd-lee/p/14214072.html
+
+中文列名: 实例ID, 会话ID, 会话序列号, 用户名, 表空间名, 操作系统用户, SQL_ID, SQL文本, 表空间类型, 段类型, 容量(MB)
+
+-- 11g及以下:
+
+select * from (
+select k.inst_id "INST_ID",
+       s.sid,
+       k.ktssosno "SERIAL#",
+       s.username "USERNAME",
+       ts.name,
+       s.osuser "OSUSER", 
+       k.ktssosqlid "SQL_ID",
+       substr(ss.sql_text, 1, 1000) "SQL_TEXT",
+       decode(k.ktssocnt, 0, 'PERMANENT', 1, 'TEMPORARY') "CONTENTS",
+       decode(k.ktssosegt, 1, 'SORT', 2, 'HASH', 3, 'DATA', 4, 'INDEX', 5, 'LOB_DATA', 6, 'LOB_INDEX' , 'UNDEFINED') "SEGTYPE",
+       round(k.ktssoblks * p.value / 1024 / 1024, 2) "SIZE_MB"
+from x$ktsso k, v$session s, (select value from v$parameter where name='db_block_size') p, ts$ ts, v$sqlstats ss
+where k.ktssoses = s.saddr
+and k.ktssosno = s.serial#
+and k.ktssotsn = ts.ts#
+and k.ktssosqlid = ss.sql_id
+and s.username is not null
+and not exists (select * from (SELECT username
+                               FROM dba_users
+                               WHERE created < (SELECT created FROM v$database)
+                              ) u
+                where s.username = u.username
+               )
+order by size_mb desc
+) where rownum <= 30;
+
+-- 12c及以上:
+
+select * from (
+select k.inst_id "INST_ID",
+       s.sid,
+       k.ktssosno "SERIAL#",
+       s.username "USERNAME",
+       ts.name,
+       s.osuser "OSUSER", 
+       k.ktssosqlid "SQL_ID",
+       substr(ss.sql_text, 1, 1000) "SQL_TEXT",
+       decode(ts.contents$, 0, 'PERMANENT', 1, 'TEMPORARY') "CONTENTS",
+       decode(k.ktssosegt, 1, 'SORT', 2, 'HASH', 3, 'DATA', 4, 'INDEX', 5, 'LOB_DATA', 6, 'LOB_INDEX' , 'UNDEFINED') "SEGTYPE",
+       round(k.ktssoblks * p.value / 1024 / 1024, 2) "SIZE_MB"
+from x$ktsso k, v$session s, (select value from v$parameter where name='db_block_size') p, ts$ ts, v$sqlstats ss
+where k.ktssoses = s.saddr
+and k.ktssosno = s.serial#
+and k.ktssotsnum = ts.ts#
+and k.ktssosqlid = ss.sql_id
+and s.username is not null
+and not exists (select * from (SELECT username
+                               FROM dba_users
+                               WHERE created < (SELECT created FROM v$database)
+                              ) u
+                where s.username = u.username
+               )
+order by size_mb desc
+) where rownum <= 30;

@@ -1,0 +1,160 @@
+-- 12cR1以前:
+
+begin
+dbms_network_acl_admin.create_acl (
+acl => 'UTL_INADDR.xml',
+description => 'utl_inaddr',
+principal => 'DMPMON',  -- DMP监控用户名为大写
+is_grant => TRUE,
+privilege => 'resolve'
+);
+commit;
+end;
+/
+
+begin
+dbms_network_acl_admin.assign_acl(
+acl => 'UTL_INADDR.xml',
+host => 'yyds01'  -- 主机名
+);
+commit;
+end;
+/
+
+begin
+dbms_network_acl_admin.assign_acl(
+acl => 'UTL_INADDR.xml',
+host => 'yyds02'  -- 主机名
+);
+commit;
+end;
+/
+
+-- 用12cR1之前的方法报错:
+
+begin
+dbms_network_acl_admin.create_acl (
+acl => 'UTL_INADDR.xml',
+description => 'utl_inaddr',
+principal => 'c##dmpmon', 
+is_grant => TRUE,
+privilege => 'resolve'
+);
+commit;
+end;
+/
+
+begin
+*
+ERROR at line 1:
+ORA-46238: Database user or role '"c##dmpmon"' does not exist  <<==
+ORA-06512: at "SYS.DBMS_NETWORK_ACL_ADMIN", line 560
+ORA-06512: at "SYS.XS_ACL", line 65
+ORA-06512: at "SYS.XS_ADMIN_UTIL", line 53
+ORA-06512: at "SYS.XS_ACL_INT", line 126
+ORA-01403: no data found
+ORA-06512: at "SYS.XS_ACL_INT", line 122
+ORA-06512: at "SYS.XS_ACL_INT", line 440
+ORA-06512: at "SYS.XS_ACL", line 55
+ORA-06512: at "SYS.DBMS_NETWORK_ACL_ADMIN", line 541
+ORA-06512: at line 2
+
+-- 12cR1以后, 使用新的方法:
+
+SQL> 
+SQL> conn c##dmpmon
+Enter password: 
+Connected.
+SQL> 
+SQL> select utl_inaddr.get_host_address(host_name) PHYSICAL_IP from gv$instance;
+select utl_inaddr.get_host_address(host_name) PHYSICAL_IP from gv$instance
+       *
+ERROR at line 1:
+ORA-24247: network access denied by access control list (ACL)
+ORA-06512: at "SYS.UTL_INADDR", line 19
+ORA-06512: at "SYS.UTL_INADDR", line 40
+ORA-06512: at line 1
+
+-- 添加 用户c##dmpmon的ACL配置:
+
+SQL> conn / as sysdba
+Connected.
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+    host => 'yyds01',  -- 主机名
+    ace  =>  xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',  -- 用户名
+      principal_type => xs_acl.ptype_db
+     )
+ );
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+    host => 'yyds02',  -- 主机名
+    ace  =>  xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',  -- 用户名
+      principal_type => xs_acl.ptype_db
+     )
+ );
+END;
+/
+
+SQL> 
+SQL> conn c##dmpmon
+Enter password: 
+Connected.
+SQL> 
+SQL> select utl_inaddr.get_host_address(host_name) PHYSICAL_IP from gv$instance;
+
+PHYSICAL_IP
+--------------------------------------------------------------------------------
+192.168.12.181
+192.168.12.182
+
+-- 删除 用户c##dmpmon的ACL配置:
+
+SQL> conn / as sysdba
+Connected.
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.remove_host_ace (
+    host => 'yyds01',
+    ace  => xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',
+      principal_type => xs_acl.ptype_db
+     )
+ ); 
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.remove_host_ace (
+    host => 'yyds02',
+    ace  => xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',
+      principal_type => xs_acl.ptype_db
+     )
+ ); 
+END;
+/
+
+SQL> 
+SQL> conn c##dmpmon
+Enter password: 
+Connected.
+SQL> 
+SQL> select utl_inaddr.get_host_address(host_name) PHYSICAL_IP from gv$instance;
+select utl_inaddr.get_host_address(host_name) PHYSICAL_IP from gv$instance
+       *
+ERROR at line 1:
+ORA-24247: network access denied by access control list (ACL)
+ORA-06512: at "SYS.UTL_INADDR", line 19
+ORA-06512: at "SYS.UTL_INADDR", line 40
+ORA-06512: at line 1

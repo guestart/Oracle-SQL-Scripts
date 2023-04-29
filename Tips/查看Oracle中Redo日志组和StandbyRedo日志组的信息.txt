@@ -1,0 +1,37 @@
+1. 查看redo日志组信息:
+
+set linesize 200
+set pagesize 100
+column member format a95
+select l.thread#,
+     l.group#,
+     listagg(lf.member, ', ') within group (order by lf.member) as member,
+     l.bytes/1024/1024 size_mb,
+     l.members,
+     l.status
+from v$log l, v$logfile lf
+where l.group# = lf.group#
+group by l.thread#,
+        l.group#,
+        l.members,
+        l.bytes,
+        l.status
+order by 1, 2;
+
+2. 查看standby redo日志组信息:
+          
+set linesize 200
+set pagesize 100
+column member format a95
+select l.thread#,
+     l.group#,
+     listagg(lf.member, ', ') within group (order by lf.member) as member,
+     l.bytes/1024/1024 size_mb,
+     l.status
+from v$standby_log l, v$logfile lf
+where l.group# = lf.group#
+group by l.thread#,
+        l.group#,
+        l.bytes,
+        l.status
+order by 1, 2;

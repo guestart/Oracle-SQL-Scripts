@@ -1,0 +1,11 @@
+select input_type,
+       status,
+       to_char(start_time,'yyyy-mm-dd hh24:mi:ss') start_time,
+       to_char(end_time, 'yyyy-mm-dd hh24:mi:ss') end_time,
+       time_taken_display,
+       input_bytes_display,
+       output_bytes_display,
+       input_bytes_per_sec_display,
+       output_bytes_per_sec_display
+from v$rman_backup_job_details
+order by 3 desc;

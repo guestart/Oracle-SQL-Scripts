@@ -1,0 +1,83 @@
+set linesize 200
+set pagesize 400
+
+set serveroutput on
+
+alter session set statistics_level=all;
+
+-- 执行SQL;
+
+SELECT /*qwz*/ M.INST_ID, M.SID, M.SERIAL, M.SCHEMANAME, M.SERVICE_NAME, M.MACHINE, M.PROGRAM, M.SQL_ID, A.SQL_TEXT AS CUR_SQL_TEXT, M.PREV_SQL_ID, B.SQL_TEXT AS PREV_SQL_TEXT, M.XIDUSN, M.XID, TO_TIMESTAMP(TO_CHAR(TO_DATE(M.START_TIME, 'MM/DD/YY HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS START_TIME, M.STATUS, M.XIDSLOT, M.XIDSQN, M.USED_UREC, M.USED_UBLK, M.RSSIZE, M.NOUNDO, M.EXTENTS, M.DIFFCURSTATIME FROM(SELECT S.INST_ID, S.SID SID, S.SERIAL# SERIAL, S.SCHEMANAME, S.SERVICE_NAME, S.MACHINE, SUBSTR(S.PROGRAM, 1, 50) PROGRAM, S.SQL_ID, S.PREV_SQL_ID, S.SQL_HASH_VALUE, S.PREV_HASH_VALUE, T.XIDUSN, T.XID, T.START_TIME, T.STATUS, T.XIDSLOT, T.XIDSQN, T.USED_UREC, T.USED_UBLK, G.RSSIZE RSSIZE, T.NOUNDO NOUNDO, G.EXTENTS EXTENTS, round((SYSDATE - T.START_DATE) * 24 * 60 * 60, 0) AS DIFFCURSTATIME FROM GV$SESSION S, GV$TRANSACTION T, GV$ROLLSTAT G WHERE T.ADDR = S.TADDR AND T.XIDUSN = G.USN AND T.INST_ID = S.INST_ID AND T.INST_ID = G.INST_ID AND (G.RSSIZE > 200 * 1024 * 1024 OR (SYSDATE - T.START_DATE) * 24 * 60 * 60 > 20)) M LEFT JOIN GV$SQLAREA_PLAN_HASH A ON M.SQL_HASH_VALUE = A.HASH_VALUE AND M.INST_ID = A.INST_ID LEFT JOIN GV$SQLAREA_PLAN_HASH B ON M.PREV_HASH_VALUE = B.HASH_VALUE AND M.INST_ID = B.INST_ID;
+
+-- 查看 sql_id;
+
+select sql_id from v$sql where sql_text like '%/*qwz*/%' and sql_text not like '%v$sql%';
+
+SQL_ID
+-------------
+4d8svnv5rvtws
+
+-- 从内存中查看其执行计划:
+
+select * from table(dbms_xplan.display_cursor('4d8svnv5rvtws', null, 'allstats last'));
+
+SQL_ID  4d8svnv5rvtws, child number 0
+-------------------------------------
+SELECT /*qwz*/     m.inst_id,     m.sid,     m.serial,     
+m.schemaname,     m.service_name,     m.machine,     m.program,     
+m.sql_id,     a.sql_text                                                
+                                                            AS 
+cur_sql_text,     m.prev_sql_id,     b.sql_text                         
+                                                                        
+           AS prev_sql_text,     m.xidusn,     m.xid,     
+to_timestamp(to_char(to_date(m.start_time, 'MM/DD/YY HH24:MI:SS'), 
+'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS start_time,     
+m.status,     m.xidslot,     m.xidsqn,     m.used_urec,     
+m.used_ublk,     m.rssize,     m.noundo,     m.extents,     
+m.diffcurstatime FROM     (         SELECT             s.inst_id,       
+      s.sid                                             sid,            
+ s.serial#                                         serial,             
+s.schemaname,             s.service_name,             s.machine,
+ 
+Plan hash value: 3644203314
+ 
+----------------------------------------------------------------------------------------------------------
+| Id  | Operation                   | Name                           | E-Rows |  OMem |  1Mem | Used-Mem |
+----------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT            |                                |        |       |       |          |
+|   1 |  NESTED LOOPS               |                                |      1 |       |       |          |
+|   2 |   NESTED LOOPS OUTER        |                                |      1 |       |       |          |
+|   3 |    NESTED LOOPS OUTER       |                                |      1 |       |       |          |
+|   4 |     NESTED LOOPS            |                                |      1 |       |       |          |
+|*  5 |      HASH JOIN              |                                |      1 |   803K|   803K|  188K (0)|
+|*  6 |       HASH JOIN             |                                |      1 |  1451K|  1451K| 1264K (0)|
+|*  7 |        FIXED TABLE FULL     | X$KTURD                        |      1 |       |       |          |
+|*  8 |        FIXED TABLE FULL     | X$KTCXB                        |      2 |       |       |          |
+|*  9 |       FIXED TABLE FULL      | X$KSUSE                        |      6 |       |       |          |
+|* 10 |      FIXED TABLE FIXED INDEX| X$KSLWT (ind:1)                |      1 |       |       |          |
+|* 11 |     FIXED TABLE FIXED INDEX | X$KGLCURSOR_CHILD_SQLIDPH (ind |     25 |       |       |          |
+|* 12 |    FIXED TABLE FIXED INDEX  | X$KGLCURSOR_CHILD_SQLIDPH (ind |      4 |       |       |          |
+|* 13 |   FIXED TABLE FIXED INDEX   | X$KSLED (ind:2)                |      1 |       |       |          |
+----------------------------------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   5 - access(RAWTOHEX("KTCXBXBA")=DECODE("S"."KSUSETRN",HEXTORAW('00') 
+              ,NULL,RAWTOHEX("S"."KSUSETRN")) AND "INST_ID"="S"."INST_ID")
+   6 - access("KXIDUSN"="KTURDUSN" AND "INST_ID"="INST_ID")
+       filter(("KTURDSIZ">209715200 OR (SYSDATE@!-TO_DATE("KTCXBSTM",'MM/DD/RR 
+              HH24:MI:SS','nls_calendar=''GREGORIAN'''))*24*60*60>20))
+   7 - filter(("KTURDSIZ"<>0 AND BITAND("KTURDFLG",7)<>3))
+   8 - filter((BITAND("KSSPAFLG",1)<>0 AND BITAND("KTCXBFLG",2)<>0))
+   9 - filter((BITAND("S"."KSSPAFLG",1)<>0 AND BITAND("S"."KSUSEFLG",1)<>0))
+  10 - filter("S"."INDX"="W"."KSLWTSID")
+  11 - filter(("S"."INST_ID"="INST_ID" AND "S"."KSUSESQH"="KGLNAHSH"))
+  12 - filter(("S"."INST_ID"="INST_ID" AND "S"."KSUSEPHA"="KGLNAHSH"))
+  13 - filter("W"."KSLWTEVT"="E"."INDX")
+ 
+Note
+-----
+   - Warning: basic plan statistics not available. These are only collected when:
+       * hint 'gather_plan_statistics' is used for the statement or
+       * parameter 'statistics_level' is set to 'ALL', at session or system level

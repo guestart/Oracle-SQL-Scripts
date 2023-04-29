@@ -1,0 +1,117 @@
+Oracle用sqlprompt修改sqlplus的连接提示符
+
+当管理的数据库比较多的时候，在sqlplus里切换就是一件麻烦的事。
+要非常小心，以防出错。可以修改sqlplus 的提示符：SQL> ，把这个改成我们用户和实例名，这样就不容易出错。
+
+-- https://blog.51cto.com/u_15465571/4887531
+
+-- 前面的网址提供的下面的修改方法 显示 [当前连接的用户名@实例名(主机名)]:
+
+set time on
+set termout off
+column propmt_q new_value propmt_q
+select upper(user)||'@'||instance_name||'('||host_name||')' as propmt_q from v$instance;
+set sqlprompt '&propmt_q> '
+
+-- 我根据上面的方法, 更改为 显示 [当前连接的用户名@数据库唯一名/主机名]:
+
+-- 通过视图v$instance和v$parameter关联, 显示 数据库唯一名/主机名:
+
+select p.value || '/' || i.host_name
+from v$instance i, v$parameter p
+where p.name = 'db_unique_name';
+
+-- 我根据上面的方法, 更改为 显示 [当前连接的用户名@数据库唯一名/主机名]:
+
+set time on
+set termout off
+column propmt_q new_value propmt_q
+select upper(user) || '@' || p.value || '/' || i.host_name as propmt_q from v$instance i, v$parameter p where p.name = 'db_unique_name';
+set sqlprompt '&propmt_q> '
+
+-- 举例, 更改 Oracle RAC 19.3 用sqlprompt修改oracle用户和grid用户的sqlplus连接提示符.
+
+[oracle@yyds01 admin]$ vi glogin.sql 
+--
+-- Copyright (c) 1988, 2005, Oracle.  All Rights Reserved.
+--
+-- NAME
+--   glogin.sql
+--
+-- DESCRIPTION
+--   SQL*Plus global login "site profile" file
+--
+--   Add any SQL*Plus commands here that are to be executed when a
+--   user starts SQL*Plus, or uses the SQL*Plus CONNECT command.
+--
+-- USAGE
+--   This script is automatically run
+--
+set time on
+set termout off
+column propmt_q new_value propmt_q
+select upper(user) || '@' || p.value || '/' || i.host_name as propmt_q from v$instance i, v$parameter p where p.name = 'db_unique_name';
+set sqlprompt '&propmt_q> '
+~
+~
+~
+"glogin.sql" 20L, 570C written                                                                                    
+[oracle@yyds01 admin]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Nov 17 14:11:29 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+14:11:30 SYS@yydsdb/yyds01> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+[oracle@yyds01 admin]$ exit
+logout
+[root@yyds01 ~]# su - grid
+Last login: Thu Nov 17 14:07:26 CST 2022
+[grid@yyds01 ~]$ cd $ORACLE_HOME/sqlplus/admin 
+[grid@yyds01 admin]$ vi glogin.sql 
+--
+-- Copyright (c) 1988, 2005, Oracle.  All Rights Reserved.
+--
+-- NAME
+--   glogin.sql
+--
+-- DESCRIPTION
+--   SQL*Plus global login "site profile" file
+--
+--   Add any SQL*Plus commands here that are to be executed when a
+--   user starts SQL*Plus, or uses the SQL*Plus CONNECT command.
+--
+-- USAGE
+--   This script is automatically run
+--
+set time on
+set termout off
+column propmt_q new_value propmt_q
+select upper(user) || '@' || p.value || '/' || i.host_name as propmt_q from v$instance i, v$parameter p where p.name = 'db_unique_name';
+set sqlprompt '&propmt_q> '
+~
+~
+"glogin.sql" 20L, 570C written                                                                                    
+[grid@yyds01 admin]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Nov 17 14:14:27 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+14:14:27 SYS@+ASM/yyds01> exit
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0

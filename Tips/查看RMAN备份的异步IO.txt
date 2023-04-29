@@ -1,0 +1,22 @@
+查看RMAN备份的异步IO:
+
+关注每秒备份、恢复的效率
+查询v$backup_async_io、关注TYPE为AGGREGATE值的effective_bytes_per_second这一列
+在生产环境，基本用的都是异步IO的方式，因此这个视图用的频率特别的多
+
+SELECT device_type device,
+       type,
+       filename,
+       to_char(open_time, 'yyyymmdd hh24:mi:ss') open,
+       to_char(close_time, 'yyyymmdd hh24:mi:ss') close,
+       maxopenfiles,
+       elapsed_time elapse,
+       bytes,
+       io_count,
+       short_waits,
+       long_waits,
+       effective_bytes_per_second e_bytes
+FROM v$backup_async_io 
+WHERE close_time > SYSDATE - 1
+AND type = 'AGGREGATE'
+ORDER BY close_time DESC;

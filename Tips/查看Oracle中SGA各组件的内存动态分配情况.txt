@@ -1,0 +1,36 @@
+col component for a35
+set pagesize 30
+
+SELECT component,
+       current_size/1024/1024/1024 current_size_gb
+FROM v$sga_dynamic_components
+ORDER BY 1;
+
+13:51:47 SYS@yydsdb/yyds01> col component for a35
+13:51:48 SYS@yydsdb/yyds01> set pagesize 30
+13:51:48 SYS@yydsdb/yyds01> SELECT component, current_size/1024/1024/1024 current_size_gb FROM V$SGA_DYNAMIC_COMPONENTS order by 1;
+
+COMPONENT                           CURRENT_SIZE_GB
+----------------------------------- ---------------
+ASM Buffer Cache                                  0
+DEFAULT 16K buffer cache                          0
+DEFAULT 2K buffer cache                           0
+DEFAULT 32K buffer cache                          0
+DEFAULT 4K buffer cache                           0
+DEFAULT 8K buffer cache                           0
+DEFAULT buffer cache                              6  <<==
+Data Transfer Cache                               0
+In Memory RO Extension Area                       0
+In Memory RW Extension Area                       0
+In-Memory Area                                    0
+KEEP buffer cache                                 0
+RECYCLE buffer cache                              0
+Shared IO Pool                                 .125
+java pool                                         0
+large pool                                   .03125
+memoptimize buffer cache                          0
+shared pool                                    3.75  <<==
+streams pool                                  .0625
+unified pga pool                                  0
+
+20 rows selected.

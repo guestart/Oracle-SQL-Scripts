@@ -1,0 +1,12 @@
+-- 查看 redo log 的大小:
+
+select group#, bytes/1024/1024 size_mb from v$log;
+
+-- http://t.zoukankan.com/fengaix6-p-9346243.html
+-- 查看每天的归档日志量
+
+select trunc(completion_time) as ARC_DATE, count(*), round((sum(blocks * block_size) / 1024 / 1024), 2) as ARC_MB
+from v$archived_log
+group by trunc(completion_time)
+order by trunc(completion_time);
+

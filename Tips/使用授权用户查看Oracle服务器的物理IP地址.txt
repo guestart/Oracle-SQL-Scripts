@@ -1,0 +1,59 @@
+-- 授予ACL权限, 需要在目标库的管理员sys用户下执行:
+
+-- 12cR1以前:
+
+begin
+dbms_network_acl_admin.create_acl (
+acl => 'UTL_INADDR.xml',
+description => 'utl_inaddr',
+principal => 'DMPMON',  -- DMP监控用户名为大写
+is_grant => TRUE,
+privilege => 'resolve'
+);
+commit;
+end;
+/
+
+begin
+dbms_network_acl_admin.assign_acl(
+acl => 'UTL_INADDR.xml',
+host => 'yyds01'  -- 主机名
+);
+commit;
+end;
+/
+
+begin
+dbms_network_acl_admin.assign_acl(
+acl => 'UTL_INADDR.xml',
+host => 'yyds02'  -- 主机名
+);
+commit;
+end;
+/
+
+-- 12cR1以后:
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+    host => 'yyds01',  -- 主机名
+    ace  =>  xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',  -- DMP监控用户名
+      principal_type => xs_acl.ptype_db
+     )
+ );
+END;
+/
+
+BEGIN
+  DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
+    host => 'yyds02',  -- 主机名
+    ace  =>  xs$ace_type(
+      privilege_list => xs$name_list('resolve'),
+      principal_name => 'c##dmpmon',  -- DMP监控用户名
+      principal_type => xs_acl.ptype_db
+     )
+ );
+END;
+/

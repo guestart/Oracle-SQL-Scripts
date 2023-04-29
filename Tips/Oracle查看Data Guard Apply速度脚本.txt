@@ -1,0 +1,18 @@
+Oracle查看 Data Guard Apply速度 脚本
+
+set linesize 200
+col start_time format a20
+col type format a16
+col item format a20
+col sofar format 99999
+col units format a7
+
+SELECT start_time,
+       type,
+       item,
+       sofar,
+       units
+FROM v$recovery_progress
+WHERE LOWER(item) LIKE '%apply%'
+AND units = 'KB/sec'
+ORDER BY start_time desc, item;

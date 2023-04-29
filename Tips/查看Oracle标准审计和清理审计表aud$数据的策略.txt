@@ -1,0 +1,403 @@
+一、查看Oracle标准审计:
+
+1. 查看表空间AUDIT_DATA里存放的数据:
+
+SET LINESIZE 300
+COLUMN segment_name FORMAT a35
+COLUMN segment_type FORMAT a20
+COLUMN owner        FORMAT a8
+
+SELECT owner,
+       segment_name,
+       segment_type,
+       bytes/1024/1024 AS size_mb
+FROM dba_segments
+WHERE tablespace_name = 'AUDIT_DATA'
+ORDER BY bytes DESC;
+
+OWNER    SEGMENT_NAME                        SEGMENT_TYPE            SIZE_MB
+-------- ----------------------------------- -------------------- ----------
+SYS      AUD$                                TABLE                253438.625
+SYS      SYS_LOB0000000407C00040$$           LOBSEGMENT                .0625
+SYS      SYS_IL0000000407C00040$$            LOBINDEX                  .0625
+SYS      SYS_IL0000000407C00041$$            LOBINDEX                  .0625
+SYS      SYS_LOB0000000407C00041$$           LOBSEGMENT                .0625
+
+2. 查看审计参数设置:
+
+show parameter audit_trail;
+
+NAME              TYPE           VALUE
+----------------  -----------    -------
+audit_trail       string         DB
+
+3. 查看审计表 aud$的内容:
+
+select userid, count(*)
+from aud$
+group by userid;
+
+USERID                           COUNT(*)
+------------------------------ ----------
+SYSTEM                              94272
+KWYMS                                   1
+                                      195
+10.100.108.212                          1
+KYTEST                                  8
+FORHIEP                          21565193
+BMHRIXASRSXBJ02                      4816
+BPMUSER                          43535281
+KYWMS                           432245859
+KYWWMS                                  1
+MON_USER                            71963
+HGWMS                                   4
+
+12 rows selected.
+
+select username, action_name, count(*)
+from dba_audit_trail
+group by username, action_name;
+
+USERNAME                       ACTION_NAME                    COUNT(*)
+------------------------------ ---------------------------- ----------
+BMHRIXASRSXBJ02                LOGOFF                             1931
+KYTEST                         LOGON                                 8
+                               LOGON                               195
+HGWMS                          LOGOFF                                1
+10.100.108.212                 LOGON                                 1
+FORHIEP                        LOGOFF                         10782826
+KYWMS                          CREATE PUBLIC DATABASE LINK           2
+KYWWMS                         LOGON                                 1
+KYWMS                          LOGON                         216128612
+SYSTEM                         LOGON                             47135
+SYSTEM                         LOGOFF                            47127
+BPMUSER                        LOGON                          21767660
+BPMUSER                        LOGOFF                         21767592
+MON_USER                       LOGOFF BY CLEANUP                     4
+KYWMS                          ALTER DATABASE                        3
+KWYMS                          LOGON                                 1
+BMHRIXASRSXBJ02                LOGOFF BY CLEANUP                   474
+MON_USER                       LOGON                             35997
+MON_USER                       LOGOFF                            35990
+KYWMS                          LOGOFF                        215872455
+FORHIEP                        LOGOFF BY CLEANUP                     6
+KYWMS                          ALTER SYSTEM                      32526
+SYSTEM                         LOGOFF BY CLEANUP                     6
+HGWMS                          LOGON                                 3
+FORHIEP                        LOGON                          10782839
+KYWMS                          LOGOFF BY CLEANUP                224887
+BMHRIXASRSXBJ02                LOGON                              2413
+BPMUSER                        LOGOFF BY CLEANUP                    29
+
+28 rows selected.
+
+二、Oracle清理审计表aud$数据的策略:
+
+1. 查看Oracle数据库的审计数据表aud$是什么时间段的:
+
+select min(ntimestamp#), max(ntimestamp#) from aud$;
+
+MIN(NTIMESTAMP#)                 MAX(NTIMESTAMP#)
+----------------------------     ----------------------------
+08-FEB-20 07.26.02.519334 AM     08-FEB-23 06.38.44.519315 AM
+
+2. 用TRUNCATE手动清理审计数据表aud$
+
+TRUNCATE table aud$;
+
+3. 用DELETE和时间条件手动清理审计数据表aud$
+
+-- 关闭aud$的logging功能, 否则会生成大量的归档日志
+
+ALTER TABLE aud$ NOLOGGING;
+
+DELETE FROM aud$ WHERE ntimestamp# <= SYSDATE - 365;
+
+COMMIT;
+
+4. 用包DBMS_AUDIT_MGMT手动或自动清理审计数据表aud$
+
+(1) 针对旧数据做自动清理，首先要初始化清理策略：
+
+COLUMN parameter_name FORMAT A30
+COLUMN parameter_value FORMAT A20
+COLUMN audit_trail FORMAT A20
+
+SELECT * FROM dba_audit_mgmt_config_params;
+
+PARAMETER_NAME                 PARAMETER_VALUE      AUDIT_TRAIL
+------------------------------ -------------------- --------------------
+DB AUDIT TABLESPACE            AUDIT_DATA           STANDARD AUDIT TRAIL
+DB AUDIT TABLESPACE            AUDIT_DATA           FGA AUDIT TRAIL
+AUDIT FILE MAX SIZE            10000                OS AUDIT TRAIL
+AUDIT FILE MAX SIZE            10000                XML AUDIT TRAIL
+AUDIT FILE MAX AGE             5                    OS AUDIT TRAIL
+AUDIT FILE MAX AGE             5                    XML AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE      10000                STANDARD AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE      10000                FGA AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE       1000                 OS AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE       1000                 XML AUDIT TRAIL
+
+BEGIN
+  DBMS_AUDIT_MGMT.INIT_CLEANUP (
+    AUDIT_TRAIL_TYPE => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+    DEFAULT_CLEANUP_INTERVAL => 30*24 /* hours */
+  );
+END;
+/
+
+AUDIT_TRAIL_TYPE：        指要设置的清理类型，这里是 audit_trail_aud_std，标准的数据库审计跟踪，即 aud$ 表。
+DEFAULT_CLEANUP_INTERVAL：这个值表示每隔多少时间执行清理任务，24 即 24 小时，30*24 即一个月。
+                          默认时间间隔（以小时为单位），在此之后应调用清理过程。最小值为1，最大值为999。
+
+SELECT * FROM dba_audit_mgmt_config_params;
+
+PARAMETER_NAME                 PARAMETER_VALUE      AUDIT_TRAIL
+------------------------------ -------------------- --------------------
+DB AUDIT TABLESPACE            AUDIT_DATA           STANDARD AUDIT TRAIL
+DB AUDIT TABLESPACE            AUDIT_DATA           FGA AUDIT TRAIL
+AUDIT FILE MAX SIZE            10000                OS AUDIT TRAIL
+AUDIT FILE MAX SIZE            10000                XML AUDIT TRAIL
+AUDIT FILE MAX AGE             5                    OS AUDIT TRAIL
+AUDIT FILE MAX AGE             5                    XML AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE      10000                STANDARD AUDIT TRAIL
+DB AUDIT CLEAN BATCH SIZE      10000                FGA AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE       1000                 OS AUDIT TRAIL
+OS FILE CLEAN BATCH SIZE       1000                 XML AUDIT TRAIL
+DEFAULT CLEAN UP INTERVAL      720                  OS AUDIT TRAIL        <<==
+DEFAULT CLEAN UP INTERVAL      720                  STANDARD AUDIT TRAIL  <<==
+DEFAULT CLEAN UP INTERVAL      720                  FGA AUDIT TRAIL       <<==
+DEFAULT CLEAN UP INTERVAL      720                  XML AUDIT TRAIL       <<==
+
+SET SERVEROUTPUT ON
+BEGIN
+  IF DBMS_AUDIT_MGMT.is_cleanup_initialized(DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD) THEN
+    DBMS_OUTPUT.put_line('YES');
+  ELSE
+    DBMS_OUTPUT.put_line('NO');
+  END IF;
+END;
+/
+YES
+
+PL/SQL procedure successfully completed.
+
+BEGIN
+  DBMS_AUDIT_MGMT.DEINIT_CLEANUP (
+    AUDIT_TRAIL_TYPE  => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+  );
+END;
+/
+
+(2) 手动清理
+
+BEGIN
+  DBMS_AUDIT_MGMT.CLEAR_LAST_ARCHIVE_TIMESTAMP (
+    AUDIT_TRAIL_TYPE => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+  );
+END;
+/
+
+BEGIN
+  DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP (
+    AUDIT_TRAIL_TYPE  => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+    LAST_ARCHIVE_TIME => SYSTIMESTAMP - 365
+  );
+END;
+/
+
+-- Verify:
+
+COLUMN audit_trail     FORMAT A20
+COLUMN last_archive_ts FORMAT A40
+
+SELECT * FROM dba_audit_mgmt_last_arch_ts;
+
+SELECT COUNT(*) FROM aud$;
+
+-- https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_AUDIT_MGMT.html#GUID-6C6914E9-94DB-4F3E-9F36-F1130EF2C62A
+
+27.7.2 CLEAN_AUDIT_TRAIL Procedure
+
+This procedure deletes audit trail records.
+
+The CLEAN_AUDIT_TRAIL procedure is usually called after the SET_LAST_ARCHIVE_TIMESTAMP Procedure has been used to set the last archived timestamp for the audit records.
+
+For complete empty the AUD$ table from DBMS package
+
+BEGIN
+  DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL (
+    AUDIT_TRAIL_TYPE => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+    USE_LAST_ARCH_TIMESTAMP => TRUE
+  );
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+SELECT COUNT(*) FROM aud$;
+
+(3) 自动清理
+
+a. 清理任务优化
+
+从数据库的性能考虑，如果表aud$的数据量很大，需要考虑审计清理的性能，
+Oracle 11g 提供了一个很好的解决方法，设置清理批处理时 commit 行数。
+
+BEGIN
+  DBMS_AUDIT_MGMT.SET_AUDIT_TRAIL_PROPERTY (
+    AUDIT_TRAIL_TYPE           => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+    AUDIT_TRAIL_PROPERTY       => DBMS_AUDIT_MGMT.DB_DELETE_BATCH_SIZE, 
+    AUDIT_TRAIL_PROPERTY_VALUE => 50000
+  );
+END;
+/
+
+AUDIT_TRAIL_TYPE           清理类型
+AUDIT_TRAIL_PROPERTY       设置删除批处理
+AUDIT_TRAIL_PROPERTY_VALUE 表示每次 commit 行数 50000。
+
+b. 第一个任务: 自动产生清理时间点，对审计日志符合过期要求（要求自定义）的数据打上时间戳，
+               交由后面的清理JOB完成清理，保留一年的审计日志，每隔1个月打标签。
+   第二个任务: 用CLEAN_AUDIT_TRAIL进行清理。
+
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB (
+    JOB_NAME   => 'JOB_AUD_PURGE',
+    JOB_TYPE   => 'PLSQL_BLOCK',
+    JOB_ACTION => 'BEGIN
+                     DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP (
+                       AUDIT_TRAIL_TYPE  => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+                       LAST_ARCHIVE_TIME => SYSDATE - 365
+                     );
+                     DBMS_AUDIT_MGMT.CLEAN_AUDIT_TRAIL (
+                       AUDIT_TRAIL_TYPE => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+                       USE_LAST_ARCH_TIMESTAMP => TRUE
+                     );
+                   END;', 
+    START_DATE      => SYSDATE,
+    REPEAT_INTERVAL => 'FREQ=MONTHLY;INTERVAL=1',
+    ENABLED         => TRUE, /* running the job */
+    COMMENTS        => 'Create an archive timestamp'
+  );
+END;
+/
+
+-- Select the scheduler job
+
+SELECT last_start_date,
+       last_run_duration,
+       next_run_date,
+       job_action
+FROM dba_scheduler_jobs
+WHERE job_name= 'JOB_AUD_PURGE';
+
+或者 根据时间点自动清理:
+
+BEGIN
+  DBMS_AUDIT_MGMT.CLEAR_LAST_ARCHIVE_TIMESTAMP (
+    AUDIT_TRAIL_TYPE => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD
+  );
+END;
+/
+
+BEGIN
+  DBMS_AUDIT_MGMT.SET_LAST_ARCHIVE_TIMESTAMP (
+    AUDIT_TRAIL_TYPE  => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,
+    LAST_ARCHIVE_TIME => SYSTIMESTAMP - 365
+  );
+END;
+/
+
+-- https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_AUDIT_MGMT.html#GUID-53CCE6BF-9F19-4356-9363-0AE83316DB85
+
+27.7.5 CREATE_PURGE_JOB Procedure
+
+This procedure creates a purge job for periodically deleting the audit trail records.
+
+This procedure carries out the cleanup operation at intervals specified by the user.
+
+It calls the CLEAN_AUDIT_TRAIL Procedure to perform the cleanup operation.
+
+BEGIN
+  DBMS_AUDIT_MGMT.CREATE_PURGE_JOB (
+    AUDIT_TRAIL_TYPE           => DBMS_AUDIT_MGMT.AUDIT_TRAIL_AUD_STD,  
+    AUDIT_TRAIL_PURGE_INTERVAL => 30*24 /* hours */,
+    AUDIT_TRAIL_PURGE_NAME     => 'MONTHLY_AUD_PURGE',
+    USE_LAST_ARCH_TIMESTAMP    => TRUE
+  );
+END;
+/
+
+-- Select the scheduler job
+
+SELECT last_start_date,
+       last_run_duration,
+       next_run_date,
+       job_action
+FROM dba_scheduler_jobs
+WHERE job_name= 'MONTHLY_AUD_PURGE';
+
+(4) 空间回收 (由于清理操作为 delete 操作，而非 truncate，所以要收缩一下表)
+
+ALTER TABLE SYS.AUD$ ENABLE ROW MOVEMENT;
+ALTER TABLE SYS.AUD$ SHRINK SPACE CASCADE;
+ALTER TABLE SYS.AUD$ DISABLE ROW MOVEMENT;
+EXEC dbms_stats.gather_table_stats('SYS','AUD$');
+
+==============================================================================================
+
+-- https://forums.oracle.com/ords/apexds/post/how-to-truncate-purge-aud-table-using-dbms-audit-mgm-2100
+
+-- dbms_system.ksdwrt:向告警日志文件写指定信息
+-- https://blog.csdn.net/congyun1447/article/details/100375806
+
+dbms_system包的ksdwrt过程可以实现向Oracle的告警日志文件中写入指定的信息
+ 
+KSDWRT共有两个输入参数，一个用来指定写出的目的地，一个用来指定消息文本：
+
+PROCEDURE KSDWRT
+
+Argument Name                  Type                    In/Out Default?
+------------------------------ ----------------------- ------ --------
+DEST                           BINARY_INTEGER          IN
+TST                            VARCHAR2                IN
+
+其中目的地参数有三个选项：
+
+1 - Write to trace file.
+2 - Write to alertlog.
+3 - Write to both.
+
+该包中的SET_SQL_TRACE_IN_SESSION和set_ev可以用来启动session的SQL_TRACE
+
+You can use following procedure that purges rows in audit table and keep rows of mentioned days e.g. last 365 days:
+
+create or replace procedure purge_audit_trail(days in number) as
+  purge_date date;
+begin
+  purge_date := trunc(sysdate - days);
+  dbms_system.ksdwrt(2, 'AUDIT: Purging Audit Trail until ' || purge_date || ' started');
+  alter table aud$ nologging;
+  delete from aud$ where ntimestamp# < purge_date;
+  commit;
+  dbms_system.ksdwrt(2, 'AUDIT: Purging Audit Trail until ' || purge_date || ' has completed');
+end;
+/
+
+and run at sql prompt
+
+Execute purge_audit_trail(365);
+
+if you want to keep audit entries but separate from system tablespace then follow these steps:
+
+First enable row movement of aud$ table then change tablespace and then use alter table move command to move aud$ from system to other tablespace. e.g.
+
+alter table sys.aud$ enable row movement;
+
+Begin
+  Dbms_Audit_Mgmt.Set_Audit_Trail_Location(Audit_Trail_Type => Dbms_Audit_Mgmt.Audit_Trail_Aud_Std,  Audit_Trail_Location_Value => 'AUDIT_DATA');
+End;
+/
+
+Alter Table Aud$ Move Tablespace Users Lob(Sqlbind, Sqltext) Store As (TABLESPACE Users);

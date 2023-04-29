@@ -1,0 +1,38 @@
+-- 查看service名,数据库名,实例名,pdb名:
+
+alter session set nls_date_format = 'YYYY-MM-DD HH24:MI:SS';
+
+select name, -- Name describing the workload
+       network_name, -- Network name used to connect to the service
+       creation_date,
+       failover_method,
+       failover_type,
+       failover_delay,
+       goal
+from dba_services
+where name not like '%XDB%'
+and name not like '%SYS%'
+order by name;
+
+select value from v$parameter where name = 'db_unique_name';
+
+select listagg(instance_name, ',') within group(order by instance_name) instance_name
+from gv$instance
+group by version;
+
+select listagg(name, ',') within group(order by name) pdb_name
+from v$pdbs 
+where name not like '%PDB$SEED%'
+group by restricted;
+
+select (select value from v$parameter where name = 'db_unique_name') db_unique_name,
+       (select listagg(instance_name, ',') within group(order by instance_name) instance_name
+        from gv$instance
+        group by version
+       ) instance_name,
+       (select listagg(name, ',') within group(order by name) name
+        from v$pdbs 
+        where name not like '%PDB$SEED%'
+        group by restricted
+       ) pdb_name
+from dual;

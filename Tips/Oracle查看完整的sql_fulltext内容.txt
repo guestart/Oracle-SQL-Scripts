@@ -1,0 +1,9 @@
+set heading off
+set long 2000000000000
+
+select sql_fulltext from v$sq where sql_id = 'xxxxxxxxxxxxx';
+
+»ò
+
+select dbms_lob.substr(sql_fulltext) from v$sql where sql_id = 'xxxxxxxxxxxxx';
+

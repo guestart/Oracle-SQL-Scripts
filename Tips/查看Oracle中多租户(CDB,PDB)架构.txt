@@ -1,0 +1,12 @@
+Oracle版本11g及以下, 都是普通DB.
+
+pdb, cdb判断依据: Oracle版本12c及以上
+
+-- 使用这个SQL进行判断, 太复杂
+select c.con_id from v$containers c,(select distinct con_id from v$mystat) m where c.con_id=m.con_id;
+
+-- 使用这个SQL进行判断, 非常简单
+select sys_context('USERENV', 'CON_ID') from dual;
+
+-- 判断逻辑
+返回的结果0就是普通DB, 1表示是CDB, 大于1就是PDB

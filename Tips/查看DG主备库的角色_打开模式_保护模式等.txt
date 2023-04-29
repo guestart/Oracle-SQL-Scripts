@@ -1,0 +1,9 @@
+-- 查看DG 主库的备库的角色, 打开模式, 保护模式:
+
+set linesize 200
+col open_mode for a20
+col database_role for a18
+col protection_mode for a25
+col switchover_status for a20
+col protection_level for a25
+select inst_id, open_mode, database_role, switchover_status, protection_mode, protection_level from gv$database order by 1;

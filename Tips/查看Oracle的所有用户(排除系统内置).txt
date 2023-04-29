@@ -1,0 +1,52 @@
+-- 10g, 11g版本:
+
+SELECT username
+FROM dba_users
+MINUS
+SELECT username
+FROM dba_users
+WHERE created < (SELECT created FROM v$database)
+ORDER BY username;
+
+或
+
+SELECT username
+FROM dba_users
+WHERE created > (SELECT created FROM v$database)
+ORDER BY username;
+
+-- 12c及以后版本(使用第三种方法, 前两种查出的是所有用户):
+
+-- 如何区分哪些用户是ORACLE系统提供的？
+-- https://zhuanlan.zhihu.com/p/449512111
+
+SELECT username
+FROM dba_users
+MINUS
+SELECT username
+FROM dba_users
+WHERE inherited = 'YES'
+ORDER BY username;
+
+SELECT username
+FROM dba_users
+WHERE inherited = 'NO'
+ORDER BY username;
+
+SELECT username
+FROM dba_users
+WHERE oracle_maintained = 'N'
+ORDER BY username;
+
+14:13:29 SYS@ensracdb/ensrac01> select distinct inherited from dba_users;
+
+INH
+---
+NO
+
+14:04:38 SYS@yydsdb/yyds01> select distinct inherited from dba_users;
+
+INH
+---
+NO
+
