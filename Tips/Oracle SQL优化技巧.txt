@@ -1,0 +1,217 @@
+替换
+
+1. 用EXISTS替换DISTINCT
+
+低效:
+    SELECT DISTINCT DEPT_NO,DEPT_NAME
+    FROM DEPT D,EMP E
+    WHERE D.DEPT_NO = E.DEPT_NO;
+
+高效:
+    SELECT DEPT_NO,DEPT_NAME
+    FROM DEPT D
+    WHERE EXISTS ( SELECT ‘X’
+                   FROM EMP E
+                   WHERE E.DEPT_NO = D.DEPT_NO
+                 );
+
+2. 用UNION ALL替换UNION
+
+当SQL语句需要UNION两个查询结果集合时,这两个结果集合会以UNION-ALL的方式被合并,然后在输出最终结果前进行排序.
+
+举例:
+   低效:
+　　 SELECT ACCT_NUM, BALANCE_AMT
+        FROM DEBIT_TRANSACTIONS
+        WHERE TRAN_DATE = ’15-DEC-95’
+        UNION
+        SELECT ACCT_NUM, BALANCE_AMT
+        FROM DEBIT_TRANSACTIONS
+        WHERE TRAN_DATE = ’31-DEC-95’;
+   高效:
+        SELECT ACCT_NUM, BALANCE_AMT
+        FROM DEBIT_TRANSACTIONS
+        WHERE TRAN_DATE = ’15-DEC-95’
+        UNION ALL
+        SELECT ACCT_NUM, BALANCE_AMT
+        FROM DEBIT_TRANSACTIONS
+        WHERE TRAN_DATE = ’31-DEC-95’;
+
+3. 用WHERE子句替换HAVING子句
+
+避免使用HAVING子句,HAVING 只会在检索出所有记录之后才对结果集进行过滤.
+这个处理需要排序,总计等操作.如果能通过WHERE子句限制记录的数目,那就能减少这方面的开销.
+
+例如:
+     低效:
+     SELECT REGION，AVG(LOG_SIZE)
+     FROM LOCATION
+     GROUP BY REGION
+     HAVING REGION REGION != ‘SYDNEY’
+     AND REGION != ‘PERTH’;
+     高效:
+     SELECT REGION，AVG(LOG_SIZE)
+     FROM LOCATION
+     WHERE REGION REGION != ‘SYDNEY’
+     AND REGION != ‘PERTH’
+     GROUP BY REGION;
+     顺序:
+	WHERE  >  GROUP  >  HAVING
+
+4. 用NOT EXISTS替换NOT IN
+
+在子查询中,NOT IN子句将执行一个内部的排序和合并.
+无论在哪种情况下,NOT IN都是最低效的(因为它对子查询中的表执行了一个全表遍历).
+使用NOT EXISTS 子句可以有效地利用索引.尽可能使用NOT EXISTS来代替NOT IN
+尽管二者都使用了NOT(不能使用索引而降低速度),NOT EXISTS要比NOT IN的查询效率更高.
+
+例如:
+语句1 
+SELECT dname, deptno FROM dept
+WHERE deptno NOT IN (SELECT deptno FROM emp);
+
+语句2 
+SELECT dname, deptno FROM dept
+WHERE NOT EXISTS (SELECT deptno FROM emp WHERE dept.deptno = emp.deptno);
+
+2要比1的执行性能好很多
+
+因为1中对emp进行了full table scan,这是很浪费时间的操作,而且1中没有用到emp的index,因为没有where子句.
+而2中的语句对emp进行的是缩小范围的查询.
+
+5. 使用>=、<=等替换<>
+
+例子：
+select * from employee where salary<>3000; 
+
+对这个查询,可以改写为使用< or >:
+select * from employee where salary<3000 or salary>3000; 
+
+虽然这两种查询的结果一样,但是第二种查询方案会比第一种查询方案更快些.
+第二种查询允许Oracle对salary列使用索引,而第一种查询则不能使用索引.
+
+避免
+
+6. 避免在索引列上使用函数
+
+WHERE子句中,如果索引列是函数的一部分.优化器将不使用索引而使用全表扫描.
+
+举例:
+
+低效:
+SELECT …
+FROM DEPT
+WHERE UPPER(deptname) = ‘SALES’;
+
+高效:
+SELECT …
+FROM DEPT
+WHERE deptname = UPPER(‘sales’);
+
+7. 避免在索引列上使用NOT
+
+通常,我们要避免在索引列上使用NOT,NOT会产生在和在索引列上使用函数相同的影响.当ORACLE遇到”NOT”,他就会停止使用索引转而执行全表扫描.
+
+举例:
+   低效: (这里,不使用索引)
+   SELECT …
+   FROM DEPT
+   WHERE DEPT_CODE NOT = 0;
+   
+   高效: (这里,使用了索引)
+   SELECT …
+   FROM DEPT
+   WHERE DEPT_CODE > 0;
+
+8. 避免出现索引列自动转换
+
+当比较不同数据类型的数据时,ORACLE自动对列进行简单的类型转换.
+
+假设USER_NO是一个字符类型的索引列.
+
+SELECT USER_NO,USER_NAME,ADDRESS
+FROM USER_FILES
+WHERE USER_NO = 109204421;
+
+这个语句被ORACLE转换为:
+SELECT USER_NO,USER_NAME,ADDRESS
+FROM USER_FILES
+WHERE TO_NUMBER(USER_NO) = 109204421;
+
+因为内部发生的类型转换,这个索引将不会被用到!
+
+9. 避免在索引列上使用计算
+
+WHERE子句中,如果索引列包含计算表达式,优化器将不使用索引而使用全表扫描.
+
+低效:
+	SELECT … FROM  DEPT  WHERE SAL*12 > 25000; 
+
+高效:
+	SELECT … FROM DEPT WHERE SAL > 25000/12;
+
+10. 至少要包含组合索引的第一列
+
+如果索引是建立在多个列上,只有在它的第一个列(leading column)被where子句引用时,优化器才会选择使用该索引.
+
+SQL> create table multiindexusage (inda number, indb number, desc varchar2(10));
+Table created.
+SQL> create index multindex on multiindexusage(inda, indb);
+Index created.
+SQL> set autotrace traceonly
+SQL>  select * from  multiindexusage where inda = 1;
+Execution Plan
+----------------------------------------------------------
+   0      SELECT STATEMENT Optimizer=CHOOSE
+   1    0   TABLE ACCESS (BY INDEX ROWID) OF 'MULTIINDEXUSAGE'
+   2    1     INDEX (RANGE SCAN) OF 'MULTINDEX' (NON-UNIQUE)
+SQL> select * from  multiindexusage where indb = 1;
+Execution Plan
+----------------------------------------------------------
+   0      SELECT STATEMENT Optimizer=CHOOSE
+   1    0   TABLE ACCESS (FULL) OF 'MULTIINDEXUSAGE'
+
+很明显,当仅引用索引的第二个列时,优化器使用了全表扫描而忽略了索引.
+
+减少访问表的次数
+
+11. 使用DECODE来减少处理时间
+
+例如:
+   SELECT COUNT(*)，SUM(SAL)
+   FROM　EMP
+   WHERE DEPT_NO = 0020
+   AND ENAME LIKE ‘SMITH%’;
+   SELECT COUNT(*)，SUM(SAL)
+   FROM　EMP
+   WHERE DEPT_NO = 0030
+   AND ENAME LIKE ‘SMITH%’;
+
+可以用DECODE函数高效地得到相同结果:
+
+SELECT COUNT(DECODE(DEPT_NO,0020,’X’,NULL)) D0020_COUNT,
+               COUNT(DECODE(DEPT_NO,0030,’X’,NULL)) D0030_COUNT,
+               SUM(DECODE(DEPT_NO,0020,SAL,NULL)) D0020_SAL,
+               SUM(DECODE(DEPT_NO,0030,SAL,NULL)) D0030_SAL
+FROM EMP WHERE ENAME LIKE ‘SMITH%’;
+
+12. 使用列组减少对表的查询
+
+在含有子查询的SQL语句中,使用列组可能减少对表的查询.
+
+例如:
+     低效:
+          SELECT TAB_NAME
+          FROM TABLES
+          WHERE TAB_NAME = (SELECT TAB_NAME 
+                            FROM TAB_COLUMNS
+                            WHERE VERSION = 604)
+          AND DB_VER= (SELECT DB_VER 
+                       FROM TAB_COLUMNS
+                       WHERE VERSION = 604);
+     高效:
+       SELECT TAB_NAME
+       FROM TABLES
+       WHERE (TAB_NAME, DB_VER) = (SELECT TAB_NAME, DB_VER
+                                   FROM TAB_COLUMNS
+                                   WHERE VERSION = 604);
