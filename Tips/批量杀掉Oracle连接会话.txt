@@ -1,0 +1,23 @@
+kill -9 `ps -ef|grep LOCAL=NO|awk '{print $2}'`
+
+select  Q'[alter system kill ']' || sid || ', ' || serial# || Q'[' immediate;]' from v$session where sql_id = 'a8fdq2kj0rmz7';
+
+-- 批量kill杀死某些会话session的PL/SQL
+-- https://blog.csdn.net/weixin_30713705/article/details/116384673
+
+declare
+  v_sid v$session.sid%type; --定义如下两个type类型，用于接收cursor
+  v_serial# v$session.serial#%type;
+  cursor cur_session is select sid, serial# from v$session where sql_id = 'a8fdq2kj0rmz7'; --#定义cursor
+begin
+  open cur_session; --打开cusor
+  loop --打开游标马上开始循环，因为cursor是一条条取数据的
+    fetch cur_session into v_sid,v_serial#; --把游标的数据放入上面定义的type变量中
+    --根据以上的type变量及游标生成批量杀session的动态sql脚本，并执行
+    execute immediate 'alter system kill session '''||v_sid||','||v_serial#||''' immediate';
+    exit when cur_session%notfound; --要加个异常处理，不然永远是死循环
+    dbms_output.put_line('cursor date have been fetched ending');
+  end loop; --loop也有成双匹配出现
+  close cur_session; --游标处理完后，关闭游标
+end;
+/
