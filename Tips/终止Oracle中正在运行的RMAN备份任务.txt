@@ -1,0 +1,79 @@
+-- Oracle rman 中途停止如何操作
+-- https://www.cnblogs.com/flash100/p/14586823.html
+
+发现还有之前的RMAN进程在运行, 使用 ps -ef | grep beq 查看, 还有残留的4个RMAN进程(22677 22733 22744 22790)在运行,
+手动kill掉.
+
+当rman 执行过程中，有时需要中止：
+
+(1) 查一下有多少rman进程
+
+-- 查看rman 系统进程号SPID
+
+SELECT sid, spid, client_info
+FROM v$process p, v$session s
+WHERE p.addr = s.paddr
+AND client_info LIKE '%rman%';
+
+(2) 在系统里查看
+ps -ef | grep beq
+
+(3) 在系统里杀掉这些进程
+kill -9  49021346
+
+(4) 查看rman进度
+
+-- 查看rman备份进度
+
+SELECT inst_id,
+sid,
+serial#,
+opname,
+ROUND(SOFAR / TOTALWORK * 100, 2) "%_COMPLETE"
+FROM gV$SESSION_LONGOPS
+WHERE OPNAME LIKE 'RMAN%'
+--AND OPNAME NOT LIKE '%aggregate%'
+AND TOTALWORK != 0
+AND SOFAR <> TOTALWORK;
+
+[oracle@xxxx ~]$ ps -ef | grep beq
+oracle   14808 14807  0 14:20 ?        00:00:00 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   22677     1  0 Apr27 ?        00:00:15 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   22733     1  0 Apr27 ?        00:00:12 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   22744     1 59 Apr27 ?        10:53:40 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   22790     1 42 Apr27 ?        07:55:24 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   46805 46512  0 14:27 pts/4    00:00:00 grep beq
+oracle   64362 64341  0 10:22 ?        00:00:16 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64386 64341  0 10:22 ?        00:00:05 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64399 64341 98 10:22 ?        04:00:09 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64446 64341 98 10:22 ?        04:00:09 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64517 64341 98 10:22 ?        04:00:23 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64580 64341 98 10:22 ?        04:00:26 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64645 64341 98 10:22 ?        04:00:07 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64704 64341 98 10:22 ?        04:00:12 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64757 64341 98 10:22 ?        04:00:09 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64804 64341 98 10:22 ?        04:00:11 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+[oracle@xxxx ~]$ ps -ef | grep rman
+oracle   51115 46512  0 14:27 pts/4    00:00:00 grep rman
+oracle   64341 64338  0 10:22 ?        00:00:08 rman le/product/11.2.0/db_1/bin/rman target / log=/backup/log/full_backup_20230428102225.log
+
+[oracle@xxxx ~]$ kill -9 22677
+[oracle@xxxx ~]$ kill -9 22733
+[oracle@xxxx ~]$ kill -9 22744
+[oracle@xxxx ~]$ kill -9 22790
+
+[oracle@xxxx ~]$ 
+[oracle@xxxx ~]$ ps -ef | grep beq
+oracle    2376 46512  0 14:29 pts/4    00:00:00 grep beq
+oracle   14808 14807  0 14:20 ?        00:00:00 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64362 64341  0 10:22 ?        00:00:16 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64386 64341  0 10:22 ?        00:00:05 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64399 64341 98 10:22 ?        04:02:23 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64446 64341 98 10:22 ?        04:02:23 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64517 64341 98 10:22 ?        04:02:38 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64580 64341 98 10:22 ?        04:02:40 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64645 64341 98 10:22 ?        04:02:22 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64704 64341 98 10:22 ?        04:02:26 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64757 64341 98 10:22 ?        04:02:22 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle   64804 64341 98 10:22 ?        04:02:25 oraclexxxx (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+[oracle@xxxx ~]$
