@@ -1,12 +1,12 @@
--- ÊÚÓèACLÈ¨ÏŞ, ĞèÒªÔÚÄ¿±ê¿âµÄ¹ÜÀíÔ±sysÓÃ»§ÏÂÖ´ĞĞ:
+-- æˆäºˆACLæƒé™, éœ€è¦åœ¨ç›®æ ‡åº“çš„ç®¡ç†å‘˜sysç”¨æˆ·ä¸‹æ‰§è¡Œ:
 
--- 12cR1ÒÔÇ°:
+-- 12cR1ä»¥å‰:
 
 begin
 dbms_network_acl_admin.create_acl (
 acl => 'UTL_INADDR.xml',
 description => 'utl_inaddr',
-principal => 'DMPMON',  -- DMP¼à¿ØÓÃ»§ÃûÎª´óĞ´
+principal => 'DMPMON',  -- DMPç›‘æ§ç”¨æˆ·åä¸ºå¤§å†™
 is_grant => TRUE,
 privilege => 'resolve'
 );
@@ -17,7 +17,7 @@ end;
 begin
 dbms_network_acl_admin.assign_acl(
 acl => 'UTL_INADDR.xml',
-host => 'yyds01'  -- Ö÷»úÃû
+host => 'yyds01'  -- ä¸»æœºå
 );
 commit;
 end;
@@ -26,20 +26,20 @@ end;
 begin
 dbms_network_acl_admin.assign_acl(
 acl => 'UTL_INADDR.xml',
-host => 'yyds02'  -- Ö÷»úÃû
+host => 'yyds02'  -- ä¸»æœºå
 );
 commit;
 end;
 /
 
--- 12cR1ÒÔºó:
+-- 12cR1ä»¥å:
 
 BEGIN
   DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
-    host => 'yyds01',  -- Ö÷»úÃû
+    host => 'yyds01',  -- ä¸»æœºå
     ace  =>  xs$ace_type(
       privilege_list => xs$name_list('resolve'),
-      principal_name => 'c##dmpmon',  -- DMP¼à¿ØÓÃ»§Ãû
+      principal_name => 'c##dmpmon',  -- DMPç›‘æ§ç”¨æˆ·å
       principal_type => xs_acl.ptype_db
      )
  );
@@ -48,12 +48,22 @@ END;
 
 BEGIN
   DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
-    host => 'yyds02',  -- Ö÷»úÃû
+    host => 'yyds02',  -- ä¸»æœºå
     ace  =>  xs$ace_type(
       privilege_list => xs$name_list('resolve'),
-      principal_name => 'c##dmpmon',  -- DMP¼à¿ØÓÃ»§Ãû
+      principal_name => 'c##dmpmon',  -- DMPç›‘æ§ç”¨æˆ·å
       principal_type => xs_acl.ptype_db
      )
  );
 END;
 /
+
+-- OracleåŸºç¡€-ACLæƒé™
+-- https://blog.csdn.net/jioujiou520/article/details/114338999
+
+ç›¸å…³æŸ¥è¯¢
+æŸ¥è¯¢ACLæƒé™åˆ†é…
+select * from dba_network_acl_privileges;
+
+æŸ¥è¯¢ACLæƒé™æ˜ç»†
+select * from dba_network_acls;
