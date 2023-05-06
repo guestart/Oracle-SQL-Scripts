@@ -1,10 +1,10 @@
--- 12cR1ÒÔÇ°:
+-- 12cR1ä»¥å‰:
 
 begin
 dbms_network_acl_admin.create_acl (
 acl => 'UTL_INADDR.xml',
 description => 'utl_inaddr',
-principal => 'DMPMON',  -- DMP¼à¿ØÓÃ»§ÃûÎª´óĞ´
+principal => 'DMPMON',  -- DMPç›‘æ§ç”¨æˆ·åä¸ºå¤§å†™
 is_grant => TRUE,
 privilege => 'resolve'
 );
@@ -15,7 +15,7 @@ end;
 begin
 dbms_network_acl_admin.assign_acl(
 acl => 'UTL_INADDR.xml',
-host => 'yyds01'  -- Ö÷»úÃû
+host => 'yyds01'  -- ä¸»æœºå
 );
 commit;
 end;
@@ -24,13 +24,13 @@ end;
 begin
 dbms_network_acl_admin.assign_acl(
 acl => 'UTL_INADDR.xml',
-host => 'yyds02'  -- Ö÷»úÃû
+host => 'yyds02'  -- ä¸»æœºå
 );
 commit;
 end;
 /
 
--- ÓÃ12cR1Ö®Ç°µÄ·½·¨±¨´í:
+-- ç”¨12cR1ä¹‹å‰çš„æ–¹æ³•æŠ¥é”™:
 
 begin
 dbms_network_acl_admin.create_acl (
@@ -59,7 +59,7 @@ ORA-06512: at "SYS.XS_ACL", line 55
 ORA-06512: at "SYS.DBMS_NETWORK_ACL_ADMIN", line 541
 ORA-06512: at line 2
 
--- 12cR1ÒÔºó, Ê¹ÓÃĞÂµÄ·½·¨:
+-- 12cR1ä»¥å, ä½¿ç”¨æ–°çš„æ–¹æ³•:
 
 SQL> 
 SQL> conn c##dmpmon
@@ -75,17 +75,17 @@ ORA-06512: at "SYS.UTL_INADDR", line 19
 ORA-06512: at "SYS.UTL_INADDR", line 40
 ORA-06512: at line 1
 
--- Ìí¼Ó ÓÃ»§c##dmpmonµÄACLÅäÖÃ:
+-- æ·»åŠ  ç”¨æˆ·c##dmpmonçš„ACLé…ç½®:
 
 SQL> conn / as sysdba
 Connected.
 
 BEGIN
   DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
-    host => 'yyds01',  -- Ö÷»úÃû
+    host => 'yyds01',  -- ä¸»æœºå
     ace  =>  xs$ace_type(
       privilege_list => xs$name_list('resolve'),
-      principal_name => 'c##dmpmon',  -- ÓÃ»§Ãû
+      principal_name => 'c##dmpmon',  -- ç”¨æˆ·å
       principal_type => xs_acl.ptype_db
      )
  );
@@ -94,10 +94,10 @@ END;
 
 BEGIN
   DBMS_NETWORK_ACL_ADMIN.APPEND_HOST_ACE(
-    host => 'yyds02',  -- Ö÷»úÃû
+    host => 'yyds02',  -- ä¸»æœºå
     ace  =>  xs$ace_type(
       privilege_list => xs$name_list('resolve'),
-      principal_name => 'c##dmpmon',  -- ÓÃ»§Ãû
+      principal_name => 'c##dmpmon',  -- ç”¨æˆ·å
       principal_type => xs_acl.ptype_db
      )
  );
@@ -116,7 +116,7 @@ PHYSICAL_IP
 192.168.12.181
 192.168.12.182
 
--- É¾³ı ÓÃ»§c##dmpmonµÄACLÅäÖÃ:
+-- åˆ é™¤ ç”¨æˆ·c##dmpmonçš„ACLé…ç½®:
 
 SQL> conn / as sysdba
 Connected.
@@ -158,3 +158,13 @@ ORA-24247: network access denied by access control list (ACL)
 ORA-06512: at "SYS.UTL_INADDR", line 19
 ORA-06512: at "SYS.UTL_INADDR", line 40
 ORA-06512: at line 1
+
+-- OracleåŸºç¡€-ALCæƒé™
+-- https://blog.csdn.net/jioujiou520/article/details/114338999
+
+ç›¸å…³æŸ¥è¯¢
+æŸ¥è¯¢ACLæƒé™åˆ†é…
+select * from dba_network_acl_privileges;
+
+æŸ¥è¯¢ACLæƒé™æ˜ç»†
+select * from dba_network_acls;
