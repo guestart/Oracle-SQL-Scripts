@@ -159,7 +159,7 @@ ORA-06512: at "SYS.UTL_INADDR", line 19
 ORA-06512: at "SYS.UTL_INADDR", line 40
 ORA-06512: at line 1
 
--- Oracle基础-ALC权限
+-- Oracle基础-ACL权限
 -- https://blog.csdn.net/jioujiou520/article/details/114338999
 
 相关查询
