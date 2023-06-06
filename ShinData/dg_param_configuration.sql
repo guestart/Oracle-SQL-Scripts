@@ -14,10 +14,8 @@ REM
 
 set linesize 200
 set pagesize 20
-
-col key   for a25
-col value for a25
-
+col key for a25
+col value for a90
 select inst_id,
        name,
        value
@@ -31,3 +29,22 @@ from gv$parameter
 where name like '%log_archive_dest_%'
 and name not like '%log_archive_dest_state%'
 and value is not null;
+
+-- or
+
+set linesize 200
+set pagesize 20
+col name for a25
+col value for a90
+with dg_par as
+(select name, value from v$parameter where name in ('log_archive_config', 'fal_server', 'fal_client', 'standby_file_management', 'db_file_name_convert', 'log_file_name_convert')),
+ladN as
+(select name, value from v$parameter where (name like 'log_archive_dest__' or name like 'log_archive_dest___') and value is not null),
+ladsN as
+(select name, value from v$parameter where name like 'log_archive_dest_state_%' and substr(name, 24) in (select substr(ladN.name, 18) from ladN))
+select * from dg_par
+union all
+select * from ladN
+union all
+select * from ladsN
+order by 1;
