@@ -65,7 +65,7 @@ and s.sid = l.session_id
 and l.object_id = o.object_id;
 
 91281	1153	45130	SYSTEM	k8s227	sqlplus@k8s227 (TNS V1-V3)	TX_EG
-90091	401	  48708	SYSTEM	k8s227	sqlplus@k8s227 (TNS V1-V3)	TX_EG
+90091	401	48708	SYSTEM	k8s227	sqlplus@k8s227 (TNS V1-V3)	TX_EG
 91376	1169	10379	SYSTEM	k8s227	sqlplus@k8s227 (TNS V1-V3)	TX_EG
 
 当前有3个会话引起了行锁等待, 它们分别是 '1153,45130', '401,48708', '1169,10379'.
@@ -246,7 +246,7 @@ order by first_seen, cnt desc;
 会话 '20,19233' 阻塞了 会话 '791,3173',
 会话 '20,19233' 阻塞了 会话 '15,36283'.
 
-历史(锁链): -- 我和阔涛研究测试过:
+历史(锁链):
 
 with temp as
  (select c.*
