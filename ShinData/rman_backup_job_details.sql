@@ -23,3 +23,22 @@ select input_type,
        output_bytes_per_sec_display
 from v$rman_backup_job_details
 order by 3 desc;
+
+set linesize 400
+set pagesize 300
+col TIME_TAKEN_DISPLAY for a10
+col INPUG_SIZE for a10
+col OUTPUG_SIZE for a10
+col "output/s" for a10
+col status for a10
+col OUT_P for a5
+select start_time,
+       time_taken_display,
+       status,
+       input_type, 
+       output_device_type OUT_P,
+       input_bytes_display INPUG_SIZE,
+       output_bytes_display OUTPUG_SIZE,
+       output_bytes_per_sec_display as "output/s"
+from v$rman_backup_job_details
+order by start_time desc;
