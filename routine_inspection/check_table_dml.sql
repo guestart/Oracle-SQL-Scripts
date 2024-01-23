@@ -1,7 +1,7 @@
 REM
 REM     Script:        check_table_dml.sql
 REM     Author:        Quanwen Zhao
-REM     Dated:         JAN 24, 2024
+REM     Dated:         JAN 23, 2024
 REM
 REM     Last tested:
 REM             11.2.0.4
