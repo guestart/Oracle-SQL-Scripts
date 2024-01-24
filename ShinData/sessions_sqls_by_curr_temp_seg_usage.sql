@@ -1,7 +1,8 @@
 REM
-REM     Script:        sessions_sqls_by_temp_tbs.sql
+REM     Script:        sessions_sqls_by_curr_temp_seg_usage.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Nov 03, 2022
+REM     Updated:       Jan 24, 2024
 REM
 REM     Last tested:
 REM             11.2.0.4
