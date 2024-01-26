@@ -73,9 +73,13 @@ PROMPT =====================
 PROMPT Running on SYS schema
 PROMPT =====================
 
+DECLARE
+  v_grantor_owner dba_users.username%type := upper('&grantor_owner');
+  v_grantee_owner dba_users.username%type := upper('&grantee_owner');
 BEGIN
-  FOR bg IN (select owner, table_name from dba_tables where owner = upper('&grantor_owner')) LOOP
-    EXECUTE IMMEDIATE Q'[grant select on ]' || bg.owner || Q'[.]' || bg.table_name || Q'[ to upper('&grantee_owner')]';
+  FOR bg IN (select owner, table_name from dba_tables where owner = v_grantor_owner)
+  LOOP
+    EXECUTE IMMEDIATE Q'[grant select on ]' || bg.owner || Q'[.]' || bg.table_name || Q'[ to ]' || v_grantee_owner;
   END LOOP; 
 END;
 /
