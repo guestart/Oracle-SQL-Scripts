@@ -3,6 +3,10 @@ REM     Script:        grant_tables_from_one_user_to_another.sql
 REM     Author:        Quanwen Zhao
 REM     Dated:         Jan 26, 2024
 REM
+REM     Last tested:
+REM             11.2.0.4
+REM             19.13.0.0
+REM
 REM     Purpose:
 REM       This sql script uses to grant tables of one user to another on production system.
 REM
