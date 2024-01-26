@@ -44,7 +44,7 @@ select extractValue(rws.object_value, '/ROW/TABLE_NAME') table_name,
        extractValue(rws.object_value, '/ROW/HIGH_VALUE') high_value
 from xml x,
      table(xmlsequence(extract(x.x, '/ROWSET/ROW'))) rws
-ORDER BY extractValue(rws.object_value, '/ROW/HIGH_VALUE');
+order by extractValue(rws.object_value, '/ROW/HIGH_VALUE');
 
 -- I've created what is suitable to my own according to the preceding MoS solution.
 
@@ -74,5 +74,5 @@ select extractValue(rws.object_value, '/ROW/TABLE_NAME') table_name,
        extractValue(rws.object_value, '/ROW/HIGH_VALUE') high_value
 from xml x,
      table(xmlsequence(extract(x.x, '/ROWSET/ROW'))) rws
-ORDER BY extractValue(rws.object_value, '/ROW/TABLE_NAME'),
+order by extractValue(rws.object_value, '/ROW/TABLE_NAME'),
          extractValue(rws.object_value, '/ROW/HIGH_VALUE');
