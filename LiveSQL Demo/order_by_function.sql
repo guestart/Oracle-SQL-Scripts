@@ -12,6 +12,8 @@ REM       "SELECT CEIL ( start_time, 'mm' ) mth, COUNT(*) FROM tournaments GROUP
 REM       I simulated the demo by creating a table product_orders with two columns (id varchar2) and (name varchar2) and then select it
 REM       by "order by to_number(id)".
 REM
+REM       You can also find it on Live SQL sharedable web url - https://livesql.oracle.com/apex/livesql/s/br973xkzlgn1owxuquxlhxrxy
+REM
 
 create table product_orders(id varchar2(10), name varchar2(100));
 
