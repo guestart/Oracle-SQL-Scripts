@@ -1,0 +1,1082 @@
+-- ora21c:
+
+SQL> alter user dbsnmp identified by "Dbsnmp123!";
+
+用户已更改。
+
+SQL> conn dbsnmp/Dbsnmp123!
+已连接。
+SQL> exit
+
+C:\ora21c\owm\ 创建wallet目录
+
+C:\ora21c\network\admin目录下创建 tnsnames.ora 文件, 内容如下:
+
+dbsnmp =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = QuanwenZhao)(PORT = 1522))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ora21c)
+    )
+  )
+
+
+c:\Oracle_Profile_Bat_File>cd c:\ora21c\bin
+c:\ora21c\bin>mkstore.bat -wrl %ORACLE_HOME%\owm\wallet -create
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令: Dbsnmp123! (不回显)
+再次输入口令: Dbsnmp123! (不回显)
+
+C:\ora21c\owm\wallet目录下面生成四个文件
+cwallet.sso
+cwallet.sso.lck
+ewallet.p12
+ewallet.p12.lck
+
+c:\ora21c\bin>mkstore.bat -wrl %ORACLE_HOME%\owm\wallet -createCredential dbsnmp dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+输入 Wallet 口令:
+
+c:\ora21c\bin>
+
+SQL> alter system set WALLET_ROOT="C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET" scope=spfile;
+SQL> shutdown immediate;
+SQL> startup;
+
+set linesize 200
+col wrl_type for a10
+col wrl_parameter for a50
+col status for a20
+select * from v$encryption_wallet;
+
+set linesize 200
+col WRL_PARAMETER for a50
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+
+
+mkstore.bat -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -create -createCredential dbsnmp dbsnmp
+
+
+===============================================================================================================
+
+SQL> alter system set WALLET_ROOT='' scope=spfile;
+SQL> alter system reset tde_configuration;
+SQL> shutdown immediate;
+SQL> startup;
+
+C:\ora21c\network\admin目录下修改 tnsnames.ora 文件, 内容如下:
+
+ora21c =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = QuanwenZhao)(PORT = 1522))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ora21c)
+    )
+  )
+
+c:\ora21c\bin>mkstore.bat -wrl %ORACLE_HOME%\owm\wallet -create -createCredential ora21c dbsnmp
+
+
+
+set linesize 200
+col WRL_PARAMETER for a50
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                      WALLET_TYPE
+---------- -------------------- ---------- -------------------------------------------------- ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET    UNKNOWN
+         2 CLOSED               UNITED                                                        UNKNOWN
+         3 CLOSED               UNITED                                                        UNKNOWN
+
+alter system set WALLET_ROOT='C:\ora21c\owm\wallet\' scope=spfile;
+shutdown immediate;
+startup;
+
+set linesize 200
+col WRL_PARAMETER for a50
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                      WALLET_TYPE
+---------- -------------------- ---------- -------------------------------------------------- ------------
+         1 NOT_AVAILABLE        NONE                                                          UNKNOWN
+         2 NOT_AVAILABLE        UNITED                                                        UNKNOWN
+         3 NOT_AVAILABLE        UNITED                                                        UNKNOWN
+
+alter system set tde_configuration="keystore_configuration=file" scope=both;
+
+
+-- 再次尝试:
+
+
+(1) C:\ora21c\network\admin\sqlnet.ora文件, 修改WALLET_LOCATION内容, 去掉 wallet紧跟后面的\
+
+WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\ora21c\owm\wallet)))
+
+(2) C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C目录下创建 wallet子目录
+
+(3) 
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 NOT_AVAILABLE        NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+         3 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+
+(4) tnsping ora21c
+
+TNS Ping Utility for 64-bit Windows: Version 21.0.0.0.0 - Production on 27-5月 -2024 15:02:42
+
+Copyright (c) 1997, 2021, Oracle.  All rights reserved.
+
+已使用的参数文件:
+C:\app\Administrator\ora21c\homes\OraDB21Home1\network\admin\sqlnet.ora
+
+
+已使用 TNSNAMES 适配器来解析别名
+尝试连接 (DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = QuanwenZhao)(PORT = 1522))) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ora21c)))
+OK (200 毫秒)
+
+
+(5) mkstore.bat -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -create -createCredential ora21c dbsnmp
+
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+
+(6) C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET目录下生成4个文件
+
+cwallet.sso
+cwallet.sso.lck
+ewallet.p12
+ewallet.p12.lck
+
+(7) 
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+(8) 
+
+c:\ora21c\bin>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 15:10:07 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-01017: 用户名/口令无效; 登录被拒绝
+
+
+请输入用户名:
+
+
+(9) 
+mkstore.bat -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -list
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+Oracle 密钥存储条目:
+oracle.security.client.connect_string1
+oracle.security.client.password1
+oracle.security.client.username1
+
+
+(10) 
+alter system set encryption key identified by "Dbsnmp123!";
+*
+第 1 行出现错误:
+ORA-28368: 无法自动创建 wallet
+
+(11) 
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+操作已成功完成。
+
+
+(12) 
+
+c:\ora21c\bin>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 15:10:07 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-01017: 用户名/口令无效; 登录被拒绝
+
+
+请输入用户名:
+
+
+??????????????????????????????????????????????????????????????? 可能 C:\APP\ADMINISTRATOR\ORA21C 没有权限
+
+
+(1) C:\ora21c\network\admin\sqlnet.ora文件, 修改WALLET_LOCATION内容, 更改wallet目录位置
+
+从 C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET 调整为 C:\ora21c\owm\wallet
+
+#WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET)))
+WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\ora21c\owm\wallet)))
+
+(2) C:\ora21c\owm目录下创建 wallet子目录
+
+(3) mkstore.bat -wrl C:\ora21c\owm\wallet -create -createCredential ora21c dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+
+(4) C:\ora21c\owm\wallet目录下生成4个文件
+
+cwallet.sso
+cwallet.sso.lck
+ewallet.p12
+ewallet.p12.lck
+
+(5)还是close
+
+(6) SQL> alter system set wallet_root="C:\ora21c\owm\wallet" scope=spfile;
+
+shutdown immediate;
+startup;
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 NOT_AVAILABLE        NONE                                                                    UNKNOWN
+         2 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+         3 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+
+SQL> show parameter wallet_root;
+
+NAME                                 TYPE                   VALUE
+------------------------------------ ---------------------- ------------------------------
+wallet_root                          string                 C:\ORA21C\OWM\WALLET
+
+
+-- 这篇文章受到启发 http://www.br8dba.com/store-db-credentials-in-oracle-wallet/
+
+# Create password protected Oracle Wallet in secured location using orapki
+
+orapki wallet create -wallet /u01/admin/BSA1EP/wallet -auto_login
+
+
+# Add database login credentials to the wallet using mkstore
+
+mkstore -wrl /u01/admin/BSA1EP/wallet -createCredential BSA1EP test
+
+
+# orapki wallet create -wallet C:\ora21c\owm\wallet -auto_login
+c:\ora21c\bin>orapki wallet create -wallet C:\ora21c\owm\wallet -auto_login
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+PKI-02003: 无法加载 Wallet 于: C:\ora21c\owm\wallet ( detail = oracle.security.crypto.core.CipherException: Invalid padding string (or incorrect password) )
+
+
+--  mkstore.bat -wrl C:\ora21c\owm\wallet -create -createCredential ora21c dbsnmp
+
+mkstore.bat -wrl C:\ora21c\owm\wallet -delete -deleteCredential ora21c
+
+
+
+orapki wallet create -wallet C:\ora21c\owm\wallet -auto_login
+c:\ora21c\bin>orapki wallet create -wallet C:\ora21c\owm\wallet -auto_login
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+操作已成功完成。
+
+
+mkstore -wrl C:\ora21c\owm\wallet -createCredential ora21c dbsnmp
+c:\ora21c\bin>mkstore -wrl C:\ora21c\owm\wallet -createCredential ora21c dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+输入 Wallet 口令:
+
+
+SQL> alter system set wallet_root='' scope=spfile;
+SQL> shutdown immediate;
+SQL> startup;
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+mkstore.bat -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -delete -deleteCredential ora21c
+c:\Oracle_Profile_Bat_File>mkstore.bat -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -delete -deleteCredential ora21c
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+oracle.security.crypto.core.CipherException: Invalid padding string (or incorrect password)
+
+手动删除C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET目录下的4个密钥文件
+
+
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login
+c:\Oracle_Profile_Bat_File>orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+操作已成功完成。
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+
+
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+c:\Oracle_Profile_Bat_File>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+输入 Wallet 口令:
+
+## 连接成功了!!!!!!!!!!!!!!!!!!!  (设置了TNS_ADMIN为非默认位置$ORACLE_HOME/network/admin, 才能连接成功)
+
+c:\Oracle_Profile_Bat_File>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 16:17:50 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+上次成功登录时间: 星期一 5月  27 2024 16:16:57 +08:00
+
+连接到:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL>
+
+## 将数据库重启, 启动过程中不会报 ORA-12578: TNS:wallet open failed而导致实例无法打开.
+
+
+## 将sqlnet.ora和tnsnames.ora文件放回原位置$ORACLE_HOME/network/admin之后, 并取消设置TNS_ADMIN, 再次尝试, 连接失败
+
+c:\Oracle_Profile_Bat_File>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 16:23:53 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-01017: 用户名/口令无效; 登录被拒绝
+
+
+请输入用户名:
+
+
+-- 测试另一种场景:
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET (不带 -auto_login)
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+
+
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -deleteCredential ora21c
+c:\Oracle_Profile_Bat_File>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -deleteCredential ora21c
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+
+
+手动删除C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET目录下的4个密钥文件
+
+
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET (不带 -auto_login)
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+
+
+
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET
+c:\Oracle_Profile_Bat_File>orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+操作已成功完成。
+
+
+C:\app\Administrator\ora21c\admin\ora21c\wallet目录下生成2个文件
+ewallet.p12
+ewallet.p12.lck
+
+
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+c:\Oracle_Profile_Bat_File>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -createCredential ora21c dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+输入 Wallet 口令:
+
+
+C:\app\Administrator\ora21c\admin\ora21c\wallet目录下又生成1个文件 cwallet.sso.lck
+ewallet.p12
+ewallet.p12.lck
+cwallet.sso.lck   <<==
+
+
+
+c:\Oracle_Profile_Bat_File>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 16:43:35 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-12578: TNS: 无法打开 wallet
+
+
+请输入用户名:
+ERROR:
+ORA-01017: 用户名/口令无效; 登录被拒绝
+
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+SQL> alter system set encryption wallet open;
+alter system set encryption wallet open
+                                      *
+第 1 行出现错误:
+ORA-28356: 打开 wallet 的语法无效
+
+
+SQL> alter system set encryption wallet open identified by "Dbsnmp123!";
+alter system set encryption wallet open identified by "Dbsnmp123!"
+*
+第 1 行出现错误:
+ORA-28367: wallet 不存在
+
+
+SQL> alter system set encryption wallet open identified by Dbsnmp123!;
+alter system set encryption wallet open identified by Dbsnmp123!
+                                                               *
+第 1 行出现错误:
+ORA-28364: wallet 操作无效
+
+
+
+SQL> alter system set encryption wallet open identified by 'Dbsnmp123!';
+alter system set encryption wallet open identified by 'Dbsnmp123!'
+                                                      *
+第 1 行出现错误:
+ORA-28357: 必须输入口令才能打开 wallet
+
+
+
+alter system set wallet open identified by "Dbsnmp123!";
+
+alter system set encryption wallet open identified by "Dbsnmp123!";
+
+
+
+
+-- 还是不行
+orapki wallet convert -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login_only
+
+
+SQL> alter user dbsnmp identified by Dbsnmp123;
+
+用户已更改。
+
+
+alter system set encryption wallet open identified by "Dbsnmp123";
+
+
+
+orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login
+c:\Oracle_Profile_Bat_File>orapki wallet create -wallet C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -auto_login
+Oracle PKI Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+操作已成功完成。
+
+
+C:\app\Administrator\ora21c\admin\ora21c\wallet目录下又生成1个文件 cwallet.sso
+ewallet.p12
+ewallet.p12.lck
+cwallet.sso.lck 
+cwallet.sso   <<==
+
+
+c:\Oracle_Profile_Bat_File>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 17:25:52 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+ERROR:
+ORA-01017: 用户名/口令无效; 登录被拒绝    <<== 刚才更改了dbsnmp用户的密码, 现在改回来
+
+
+SQL> alter user dbsnmp identified by "Dbsnmp123!";
+
+用户已更改。
+
+
+-- 可以连接了！！！！！！！！！！！
+
+
+c:\Oracle_Profile_Bat_File>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 17:31:58 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+上次成功登录时间: 星期一 5月  27 2024 17:26:53 +08:00
+
+连接到:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL>
+
+-- 虽然还是下面的错误!!!!!!!!!!
+
+SQL> alter system set encryption wallet open identified by "Dbsnmp123!";
+alter system set encryption wallet open identified by "Dbsnmp123!"
+*
+第 1 行出现错误:
+ORA-28367: wallet 不存在
+
+
+SQL> alter system set wallet close identified by "Dbsnmp123!";
+alter system set wallet close identified by "Dbsnmp123!"
+*
+第 1 行出现错误:
+ORA-28365: Wallet 未打开
+
+
+######### 用mkstore来测试创建 自动登录的wallet #########
+
+
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -delete
+c:\ora21c\bin>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -delete
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+
+
+C:\app\Administrator\ora21c\admin\ora21c\wallet目录下已经删除文件 ewallet.p12
+ewallet.p12      <<==
+ewallet.p12.lck
+cwallet.sso.lck 
+cwallet.sso
+
+
+-- 上面步骤已经删除wallet, 里面的证书也没有了, 这一步可以不用做, 从操作完的提示来看.
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -deleteCredential ora21c
+c:\ora21c\bin>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -deleteCredential ora21c
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET\ewallet.p12 (系统找不到指定的文件。)
+
+
+手动删除C:\app\Administrator\ora21c\admin\ora21c\wallet目录下其他3个密钥文件
+ewallet.p12.lck
+cwallet.sso.lck
+cwallet.sso
+
+
+mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -create -createCredential ora21c dbsnmp
+c:\ora21c\bin>mkstore -wrl C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET -create -createCredential ora21c dbsnmp
+Oracle Secret Store Tool Release 21.0.0.0.0 - Production
+21.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2021, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+命令行中缺少您的密钥/口令
+请输入您的密钥/口令:
+请重新输入您的密钥/口令:
+
+
+C:\app\Administrator\ora21c\admin\ora21c\wallet目录下生成4个密钥文件
+cwallet.sso
+cwallet.sso.lck
+ewallet.p12
+ewallet.p12.lck
+
+
+
+## 可以正常连接 ！！！！！！！！！！！
+
+
+c:\ora21c\bin>sqlplus /@ora21c
+
+SQL*Plus: Release 21.0.0.0.0 - Production on 星期一 5月 27 17:42:19 2024
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+上次成功登录时间: 星期一 5月  27 2024 17:31:58 +08:00
+
+连接到:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL>
+
+
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA21C\ADMIN\ORA21C\WALLET              UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+
+## 将数据库重启, 启动过程中不会报 ORA-12578: TNS:wallet open failed而导致实例无法打开.
+
+
+
+
+
+
+
+-- ora19c:
+
+
+
+SQL> select account_status from dba_users where username = 'DBSNMP';
+
+ACCOUNT_STATUS
+----------------------------------------------------------------
+LOCKED
+
+SQL> alter user dbsnmp account unlock;
+
+用户已更改。
+
+SQL> select account_status from dba_users where username = 'DBSNMP';
+
+ACCOUNT_STATUS
+----------------------------------------------------------------
+OPEN
+
+SQL> alter user dbsnmp identified by "Dbsnmp123!";
+
+用户已更改。
+
+
+mkstore.bat -wrl C:\app\Administrator\ora19c\admin\orcl\wallet -create -createCredential ora19c dbsnmp
+
+
+
+set linesize 200
+col WRL_PARAMETER for a50
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                      WALLET_TYPE
+---------- -------------------- ---------- -------------------------------------------------- ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA19C\ADMIN\ORCL\WALLET\     UNKNOWN
+         2 CLOSED               UNITED                                                        UNKNOWN
+         3 CLOSED               UNITED                                                        UNKNOWN
+
+
+
+C:\ora19c\network\admin\tnsnames.ora文件内容
+
+WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\app\Administrator\ora19c\admin\orcl\wallet\)))
+
+
+c:\ora19c\bin>lsnrctl reload LISTENER_ORCL
+
+LSNRCTL for 64-bit Windows: Version 19.0.0.0.0 - Production on 27-5月 -2024 12:03:29
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+正在连接到 (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=QuanwenZhao)(PORT=1523)))
+TNS-00583: 有效节点检查: 无法对配置参数进行语法分析
+ TNS-12560: TNS: 协议适配器错误   <<==
+ 
+ 
+C:\ora19c\network\admin\tnsnames.ora文件内容, 修改为 去掉 wallet后面的\
+
+WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\app\Administrator\ora19c\admin\orcl\wallet)))
+
+c:\ora19c\bin>lsnrctl reload LISTENER_ORCL
+
+LSNRCTL for 64-bit Windows: Version 19.0.0.0.0 - Production on 27-5月 -2024 12:06:21
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+正在连接到 (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=QuanwenZhao)(PORT=1523)))
+命令执行成功   <<==
+
+alter system set WALLET_ROOT='C:\APP\ADMINISTRATOR\ORA19C\ADMIN\ORCL\WALLET' scope=spfile;
+shutdown immediate;
+startup;
+ORA-32004: obsolete or deprecated parameter(s) specified for RDBMS instance
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                      WALLET_TYPE
+---------- -------------------- ---------- -------------------------------------------------- ------------
+         1 NOT_AVAILABLE        NONE                                                          UNKNOWN
+         2 NOT_AVAILABLE        UNITED                                                        UNKNOWN
+         3 NOT_AVAILABLE        UNITED                                                        UNKNOWN
+
+alter system set WALLET_ROOT="C:\app\Administrator\ora19c\admin\orcl\wallet\" scope=spfile;
+alter system set tde_configuration="keystore_configuration=file" scope=both;
+shutdown immediate;
+startup;
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 NOT_AVAILABLE        NONE       C:\APP\ADMINISTRATOR\ORA19C\ADMIN\ORCL\WALLET\\tde\          UNKNOWN
+         2 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+         3 NOT_AVAILABLE        UNITED                                                                  UNKNOWN
+
+alter system set WALLET_ROOT='' scope=spfile;
+alter system reset tde_configuration;
+shutdown immediate;
+startup nomount;
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA19C\ADMIN\ORCL\WALLET\               UNKNOWN
+
+alter system set encryption wallet open;
+
+alter system set encryption wallet open
+                                      *
+第 1 行出现错误:
+ORA-28356: ?? wallet ?????
+
+alter system set encryption wallet open identified by "Dbsnmp123!";
+
+alter system set encryption wallet open identified by "Dbsnmp123!"
+*
+第 1 行出现错误:
+ORA-28367: wallet ???
+
+-- https://www.idc.net/help/36998/
+ORA-28367: wallet does not exist
+
+Cause: The Oracle wallet has not been created or the wallet location parameters in sqlnet.ora specifies an invalid wallet path.
+
+Action: Verify that the WALLET_LOCATION or the ENCRYPTION_WALLET_LOCATION parameter is correct and that a valid wallet exists in the path specified.
+
+ORA-28367：wallet不存在，
+
+是Oracle数据库服务器在安全连接时可能出现的一条错误信息。
+
+shutdown immediate;
+startup;
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+    CON_ID STATUS               KEYSTORE_M WRL_PARAMETER                                                WALLET_TYPE
+---------- -------------------- ---------- ------------------------------------------------------------ ------------
+         1 CLOSED               NONE       C:\APP\ADMINISTRATOR\ORA19C\ADMIN\ORCL\WALLET\               UNKNOWN
+         2 CLOSED               UNITED                                                                  UNKNOWN
+         3 CLOSED               UNITED                                                                  UNKNOWN
+
+alter system set encryption wallet open identified by "Dbsnmp123!";
+alter system set encryption wallet open identified by "Dbsnmp123!"
+*
+第 1 行出现错误:
+ORA-28367: wallet 不存在
+
+alter system set encryption wallet open;
+
+
+c:\ora19c\bin>mkstore.bat -wrl C:\app\Administrator\ora19c\admin\orcl\wallet -create -modifyCredential ora19c dbsnmp -auto_login
+Oracle Secret Store Tool Release 19.0.0.0.0 - Production
+19.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2019, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+PKI-02001: 以下位置已存在 Wallet: C:\app\Administrator\ora19c\admin\orcl\wallet
+
+
+mkstore.bat -wrl C:\app\Administrator\ora19c\admin\orcl\wallet -deleteCredential ora19c
+Oracle Secret Store Tool Release 19.0.0.0.0 - Production
+19.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2019, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+出现密钥存储错误: oracle.security.pki.OracleSecretStoreException: Credential does not exists
+
+mkstore.bat -wrl C:\app\Administrator\ora19c\admin\orcl\wallet -delete -deleteCredential ora19c
+Oracle Secret Store Tool Release 19.0.0.0.0 - Production
+19.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2019, Oracle 和/或其子公司。保留所有权利。
+
+输入 Wallet 口令:
+C:\app\Administrator\ora19c\admin\orcl\wallet\ewallet.p12 (系统找不到指定的文件。)
+
+
+C:\ora19c\network\admin\tnsnames.ora文件内容
+
+WALLET_LOCATION=(SOURCE=(METHOD=FILE)(METHOD_DATA=(DIRECTORY=C:\app\Administrator\ora19c\admin\orcl\wallet)))
+
+
+mkstore.bat -wrl C:\app\Administrator\ora19c\admin\orcl\wallet -create -createCredential ora19c dbsnmp "Dbsnmp123!" -auto_login
+Oracle Secret Store Tool Release 19.0.0.0.0 - Production
+19.3.0.0.0: 版本 {1}
+版权所有 (c) 2004, 2019, Oracle 和/或其子公司。保留所有权利。
+
+输入口令:
+再次输入口令:
+test invalid
+命令无效: -auto_login
+
+
+
+
+set linesize 200
+col WRL_PARAMETER for a60
+col STATUS for a20
+col KEYSTORE_MODE for a10
+col WALLET_TYPE for a12
+SELECT CON_ID,STATUS,KEYSTORE_MODE,WRL_PARAMETER,WALLET_TYPE FROM v$encryption_wallet;
+
+
+-- administer key management create keystore '/scratch/app/oracle/admin/umtqa/wallet/tde' identified by welcome1;
+
+
+https://docs.oracle.com/en/database/oracle/oracle-database/19/asoag/configuring-transparent-data-encryption.html#GUID-A9C23E31-CF57-477A-9E85-856DD411718D
+
+
+===========================================================================================================================
+
+
+11g的表空间加密依赖于oracle wallet以及wallet中的密钥，要先创建一个“wallet钱包”，这个钱包里面保存着密钥，Oracle就是通过这个密钥对表空间进行加密和解密。既可以手动打开wallet (每次数据库启动以后，需要手动打开wallet)，也可以自动打开wallet (每次数据库启动以后会自动打开)。
+
+默认情况下，每次数据库被关闭，钱包也被关闭。加密表空间与wallet的关系如下
+1.Oracle表空间的加密与解密完全是基于wallet钱包中的密钥进行的。
+2.如果wallet是open状态，可以使用其中的密钥，进行加密与解密。
+3.如果wallet是close状态，此时加密表空间是不可用的，例如查询、修改都不允许
+4.删除表是不需要密钥的，无论wallet是open或close状态，可直接删除。
+查看oracle数据库安装了哪些组件
+SQL>select * from voption; 看一下，当前的数据库是否安装了oracle 高级安全组件，oracle是否安装了相应的加密算法。 adapters
+2、指定钱包存放位置
+select value from v$option
+select comp_name,version,status from DBA_REGISTRY
+mkdir -p $ORACLE_BASE/admin/$ORACLE_SID/wallet
+
+在sqlnet.ora 文件里添加: ENCRYPTION_WALLET_LOCATION 和WALLET_LOCATION参数。
+默认位置是：
+$ORACLE_BASE/admin/$ORACLE_SID/wallet。
+
+–指定ORACLEWALLET的位置，这里使用ORACLE_HOME/network/admin,在sqlnet.ora里添加如下内容：
+WALLET_LOCATION=
+(SOURCE =
+(METHOD = FILE)
+(METHOD_DATA =
+(DIRECTORY =$ORACLE_BASE/admin/$ORACLE_SID/wallet))
+)
+
+先创建自动登录钱夹
+orapki wallet create -wallet $ORACLE_BASE/admin/$ORACLE_SID/wallet -auto_login -pwd Dbsnmp123!
+
+主加密密钥
+sqlplus / as sysdba
+alter system set encryption key identified by Dbsnmp123!;
+
+–添加完之后，重启listener，使参数生效。
+创建wallet的方法分别有如下几种：
+
+–> 手动调用OWM 进行GUI图形界面进行操作
+–> 手工运行mkstore命令创建
+–> alter system set encryption key identified by "xxxxx";
+
+查看一下密钥信息，只有一条MASTER的
+[oracle@tianbaobao wallet]$ mkstore -wrl . -list
+orapki wallet display -wallet .
+
+orapki wallet display -wallet /u01/app/oracle/admin/don12/wallet
+
+数据库启动自动打开钱包 需验证
+orapki wallet create -wallet /u01/app/oracle/admin/dbrac1/wallet -auto_login
+mkstore -wrl /home/ora11g/admin/roger/wallet -create
+
+在wallet里面创建密钥key，创建后自动打开wallet，密码"oracle"不加引号时，后面使用时也不需要加引号
+
+alter system set encryption key identified by oracle;
+alter system set encryption key identified by "oracle";
+
+如果指定的目录中不存在加密钱夹，则系统将创建加密钱夹 ( ewallet.p12)、打开此钱夹并创建/重新创建 TDE 的万能密钥。
+如果指定目录中存在加密钱夹，则系统将打开此钱夹并创建/重新创建 TDE 的万能密钥。
+
+注：只有拥有"alter system"权限的用户才能创建万能密钥或打开钱夹。
+
+万能密钥只能创建一次，除非您想要使用新的加密密钥重新加密数据！！！
+
+创建加密表空间
+创建加密表空间使用ENCRYPTION 选项，通过USING 选项指定加密算法，默认使用AES128算法。注意，storage 选项必须指定ENCRYPT。 使用了表空间加密后就不允许使用NO SALT 选项。
